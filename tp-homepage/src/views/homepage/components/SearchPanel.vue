@@ -10,32 +10,30 @@
           :select-first-on-enter="true"
         >
         </gmap-autocomplete> -->
-        <template>
-          <!-- <vue-google-autocomplete
-            id="map"
-            classname="form-control"
-            placeholder="Start typing"
-            v-on:placechanged="setPlace"
-          >
-          </vue-google-autocomplete> -->
-          
-        </template>
+        <vue-google-autocomplete
+          id="map"
+          class="custom-input"
+          :country="['us', 'ca']"
+          placeholder="Origin city state"
+          v-on:placechanged="setPlace($event, 'origin')"
+        >
+        </vue-google-autocomplete>
       </div>
 
       <span>to</span>
       <div>
-        <!-- <gmap-autocomplete
-          class="vs-inputx vs-input--input normal hasValue"
+        <vue-google-autocomplete
+          id="map1"
+          class="custom-input"
+          :country="['us', 'ca']"
           placeholder="Destination city state"
-          @place_changed="setPlace($event)"
-          :options="googleMapAutoCompleteOptions"
-          :select-first-on-enter="true"
+          v-on:placechanged="setPlace($event, 'destination')"
         >
-        </gmap-autocomplete> -->
+        </vue-google-autocomplete>
       </div>
       <div>
         <flat-pickr
-          class="w-full"
+          class="custom-input"
           placeholder="Origin date"
           v-model="originDate"
           :config="flat_pikr_config"
@@ -43,14 +41,14 @@
       </div>
       <div>
         <flat-pickr
-          class="w-full"
+          class="custom-input"
           placeholder="Destination date"
           v-model="destinationDate"
           :config="flat_pikr_config"
         />
       </div>
       <div>
-        <button class="search-btn">Search</button>
+        <button class="search-btn" @click="submit">Search</button>
       </div>
     </div>
   </div>
@@ -59,7 +57,7 @@
 <script>
 import GoogleMapMixin from '../../../../src/mixings/googleMapMixin'
 import config from '@/config/constants.js'
-import flatpickr from 'flatpickr'
+import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 
@@ -76,58 +74,32 @@ export default {
     }
   },
   components: {
-    flatpickr,
+    flatPickr,
     VueGoogleAutocomplete
   },
   mixins: [GoogleMapMixin],
-  
+  watch: {
+    originDate: {
+      handler(val) {
+        this.$emit('originDate', val)
+      }
+    },
+    destinationDate: {
+      handler(val) {
+        this.$emit('destinationDate', val)
+      }
+    }
+  },
   methods: {
     /*
      * Google Map Autocomplete
      */
-    setPlace(place) {
+    setPlace(place, type) {
       if (!place) return
-
-      let address = place.formatted_address.split(', ').slice(0, -3).join(', ')
-
-      if (!address) {
-        address = place.formatted_address.split(', ')[0]
-      }
-
-      const city = place.address_components
-        .filter((address) => {
-          return address.types.includes('locality')
-        })
-        .map((address) => address.long_name)[0]
-
-      const state = place.address_components
-        .filter((address) => {
-          return address.types.includes('administrative_area_level_1')
-        })
-        .map((address) => address.short_name)[0]
-
-      const zipcode = place.address_components
-        .filter((address) => address.types.includes('postal_code'))
-        .map((address) => address.short_name)[0]
-
-      const latitude = place.geometry.location.lat()
-      const longitude = place.geometry.location.lng()
-
-      //   const refObject = {
-      //     shipper: this.shippers_and_freight_details[index],
-      //     receiver: this.receivers[index],
-      //     leg: this.legs[index],
-      //   }[type];
-
-      //   if (!refObject) return;
-
-      //   this.$set(refObject, "address", address);
-      //   this.$set(refObject, "city", city);
-      //   this.$set(refObject, "state", state);
-      //   this.$set(refObject, "zip_code", zipcode);
-      //   this.$set(refObject, "latitude", latitude);
-      //   this.$set(refObject, "longitude", longitude);
-      //   this.$forceUpdate();
+      this.$emit('address', { place, type })
+    },
+    submit() {
+      this.$emit('search')
     }
   }
 }
@@ -148,5 +120,17 @@ export default {
     border-radius: 5px;
     cursor: pointer;
   }
+}
+
+.custom-input {
+  color: inherit;
+  position: relative;
+  padding: 0.4rem;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  box-shadow: 0 0 0 0 rgb(0 0 0 / 15%);
+  transition: all 0.3s ease;
+  width: 100%;
 }
 </style>

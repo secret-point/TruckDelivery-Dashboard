@@ -1,27 +1,103 @@
 <template>
   <div>
     <truckpedia-header></truckpedia-header>
-    <search-panel></search-panel>
-    <!-- <trucks-list></trucks-list> -->
+    <search-panel
+      @address="address"
+      @originDate="originDate"
+      @destinationDate="destinationDate"
+      @search="searchResult"
+    ></search-panel>
+    <trucks-list></trucks-list>
   </div>
 </template>
 
 <script>
-import TrucksList from "./components/TrucksList.vue";
-import SearchPanel from "./components/SearchPanel.vue";
-import TruckpediaHeader from "./components/Header.vue";
+import TrucksList from './components/TrucksList.vue'
+import SearchPanel from './components/SearchPanel.vue'
+import TruckpediaHeader from './components/Header.vue'
+import axios from 'axios'
+
 export default {
   components: { SearchPanel, TrucksList, TruckpediaHeader },
-  name: "TruckpediaHomapage",
-  mounted(){
-   console.log("enter")
-  }, 
+  name: 'TruckpediaHomepage',
+  // mounted() {
+  //   console.log('enter')
+  //   // this.getSearchResult();
+  // },
+  data() {
+    return {
+      originPlace: {},
+      destinationPlace: null,
+      startDate: null,
+      endDate: null
+    }
+  },
   methods: {
-      // trucks(){
-      //   this.$store.dispatch("truckpedia/getTruckpediaAvailableTrucks").then((data) => {
-      //     console.log(data);
-      //   })
-      // }
+    originDate(date) {
+      this.startDate = date
+    },
+    destinationDate(date) {
+      this.endDate = date
+    },
+    address(address) {
+      if (address.type === 'origin') {
+        this.originPlace = address
+      }
+      if (address.type === 'destination') {
+        this.destinationPlace = address
+      }
+    },
+
+    calculateDistance(lat1, lng1, lat2, lng2) {
+      const radius = 6371 // Earth's radius in km
+      const dLat = this.toRadians(lat2 - lat1)
+      const dLng = this.toRadians(lng2 - lng1)
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.toRadians(lat1)) *
+          Math.cos(this.toRadians(lat2)) *
+          Math.sin(dLng / 2) *
+          Math.sin(dLng / 2)
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+      const distance = radius * c
+      const miles =  distance * 0.621371;
+      return miles.toFixed(2)
+    },
+    toRadians(degree) {
+      return degree * (Math.PI / 180)
+    },
+    searchResult() {
+      const origin = this.originPlace.place
+      const destination = this.destinationPlace.place
+      const distance = this.calculateDistance(
+        origin.latitude,
+        origin.longitude,
+        destination.latitude,
+        destination.longitude
+      )
+      const payload = {
+        origin: {
+          city: origin.route,
+          state: origin.administrative_area_level_1,
+          latitude: origin.latitude,
+          longitude: origin.longitude,
+          startDate: this.startDate,
+          endDate: this.endDate
+        },
+        destination: {
+          city: destination.route,
+          state: destination.administrative_area_level_1,
+          latitude: destination.latitude,
+          longitude: destination.longitude
+        },
+        distance: Number(distance)
+      }
+      axios
+        .post('http://127.0.0.1:8000/api/truckpedia/available-trucks/search', payload)
+        .then((data) => {
+          console.log(data)
+        })
+    }
   }
-};
+}
 </script>

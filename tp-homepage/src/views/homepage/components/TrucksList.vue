@@ -24,11 +24,11 @@
                   <span class="font-medium">{{
                     field[col.column].companyName
                   }}</span>
-                  <star-rating
+                  <!-- <star-rating
                     v-model="rating"
                     :starSize="15"
                     :increment="0.5"
-                  ></star-rating>
+                  ></star-rating> -->
                 </div>
               </div>
               <span
@@ -38,7 +38,7 @@
               >
             </div>
           </td>
-          <td><vs-button color="#1877f1" type="filled">Reserve</vs-button></td>
+          <!-- <td><vs-button color="#1877f1" type="filled">Reserve</vs-button></td> -->
         </tr>
       </table>
     </div>
