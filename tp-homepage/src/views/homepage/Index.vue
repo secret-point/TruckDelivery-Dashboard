@@ -7,7 +7,7 @@
       @destinationDate="destinationDate"
       @search="searchResult"
     ></search-panel>
-    <trucks-list></trucks-list>
+    <trucks-list :availableTrucks="searchData"></trucks-list>
   </div>
 </template>
 
@@ -20,16 +20,13 @@ import axios from 'axios'
 export default {
   components: { SearchPanel, TrucksList, TruckpediaHeader },
   name: 'TruckpediaHomepage',
-  // mounted() {
-  //   console.log('enter')
-  //   // this.getSearchResult();
-  // },
   data() {
     return {
       originPlace: {},
       destinationPlace: null,
       startDate: null,
-      endDate: null
+      endDate: null,
+      searchData: []
     }
   },
   methods: {
@@ -77,7 +74,7 @@ export default {
       )
       const payload = {
         origin: {
-          city: origin.route,
+          city: origin.administrative_area_level_2,
           state: origin.administrative_area_level_1,
           latitude: origin.latitude,
           longitude: origin.longitude,
@@ -85,7 +82,7 @@ export default {
           endDate: this.endDate
         },
         destination: {
-          city: destination.route,
+          city: destination.administrative_area_level_2,
           state: destination.administrative_area_level_1,
           latitude: destination.latitude,
           longitude: destination.longitude
@@ -94,8 +91,8 @@ export default {
       }
       axios
         .post('http://127.0.0.1:8000/api/truckpedia/available-trucks/search', payload)
-        .then((data) => {
-          console.log(data)
+        .then(({data}) => {
+         this.searchData = data.payload; 
         })
     }
   }
