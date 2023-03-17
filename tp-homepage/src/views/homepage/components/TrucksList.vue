@@ -34,7 +34,7 @@
                 }}</span>
               </div>
             </td>
-            <td><v-btn color="#1877f1" > Reserve </v-btn></td>
+            <td><v-btn color="#1877f1" @click="goToReserve"> Reserve </v-btn></td>
           </tr>
         </tbody>
       </table>
@@ -72,6 +72,11 @@ export default {
         ],
         data: []
       }
+    }
+  },
+  methods: {
+    goToReserve(){
+      this.$router.push('reserve')
     }
   }
 }

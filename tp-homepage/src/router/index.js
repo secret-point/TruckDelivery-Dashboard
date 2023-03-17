@@ -37,8 +37,8 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/reserve',
-      name: 'reserve',
+      path: '/reserve-info',
+      name: 'reserve-info',
       component: () => import('../views/reserve/Index.vue')
     }
   ]

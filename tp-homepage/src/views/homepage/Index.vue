@@ -1,6 +1,6 @@
 <template>
   <div>
-    <truckpedia-header></truckpedia-header>
+
     <search-panel
       @address="address"
       @originDate="originDate"

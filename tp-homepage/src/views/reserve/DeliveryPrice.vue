@@ -13,7 +13,7 @@
             <p class="my-2">Estimated Price</p>
             <div class="my-2 d-flex justify-space-between align-center">
               <input type="text" height="48" width="472" placeholder="$" class="mr-5"/>
-              <v-btn variant="flat" color="primary" size="large">Reserve</v-btn>
+              <v-btn variant="flat" color="primary" size="large" @click="goToReserveInfo">Reserve</v-btn>
             </div>
             <p class="my-2">You won’t be charged yet</p>
             <div class="my-5">
@@ -59,6 +59,11 @@ export default {
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
         }
       ]
+    }
+  },
+  methods: {
+    goToReserveInfo(){
+      this.$router.push('reserve-info')
     }
   }
 }
