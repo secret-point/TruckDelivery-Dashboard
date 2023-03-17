@@ -13,6 +13,22 @@ const router = createRouter({
       component: () => import('../views/reserve/Reserve.vue')
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/auth/login/login.vue')
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/auth/register/Register.vue')
+    },
+    {
+      path: '/setup-profile',
+      name: 'setup-profile',
+      component: () => import('../views/auth/profile-setup/ProfileSetupComponent.vue')
+    },
+
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting

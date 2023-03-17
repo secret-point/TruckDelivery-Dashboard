@@ -1,15 +1,16 @@
 <template>
   <div class="truckpedia-header">
-    <div class="d-flex align-center truckpedia-logo">
+    <!-- <div class="d-flex align-center truckpedia-logo">
       <span class="truck-logo">TRUCK</span>
       <span class="pedia-logo">PEDIA</span>
-    </div>
+    </div> -->
+    <img src="@/assets/images/logo.svg">
     <div>
       <ul class="d-flex align-center" style="list-style-type: none">
         <li class="color-primary">How it works</li>
-        <li style="color: #9e9e9e">Login</li>
+        <li style="color: #9e9e9e" @click="goToLogin">Login</li>
         <li>
-          <v-btn color="#1877F2"> <span style="color: #fff">Signup</span> </v-btn>
+          <v-btn color="#1877F2" @click="goToRegister"> <span style="color: #fff">Signup</span> </v-btn>
           <!-- <vs-button color="#1877F2" type="filled">Signup</vs-button> -->
         </li>
       </ul>
@@ -19,7 +20,15 @@
 
 <script>
 export default {
-  name: 'TruckpediaHeader'
+  name: 'TruckpediaHeader', 
+  methods: {
+    goToLogin(){
+      this.$router.push('login')
+    },
+    goToRegister(){
+      this.$router.push('register')
+    }
+  }
 }
 </script>
 
