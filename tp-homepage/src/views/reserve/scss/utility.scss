@@ -1,0 +1,120 @@
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.text-base {
+  font-size: 1rem;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.text-gray-700 {
+  color: rgb(55 65 81);
+}
+
+.mt-10px {
+  margin-top: 10px;
+}
+
+.flex {
+  display: flex;
+}
+
+.gap-10px {
+  gap: 10px;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.m-10px-auto {
+  margin: 10px auto;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.m-5px-auto {
+  margin: 5px auto;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.gap-5px {
+  gap: 5px;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.mt-30px {
+  margin-top: 30px;
+}
+
+.mt-20px {
+  margin-top: 20px;
+}
+
+.max-width-60-percent {
+  max-width: 60%;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.text-gray-400 {
+  color: rgb(156 163 175);
+}
+
+.custom-input {
+  color: inherit;
+  position: relative;
+  padding: 0.4rem;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  box-shadow: 0 0 0 0 rgb(0 0 0 / 15%);
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.mx-10px {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.self-end {
+  align-self: flex-end;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
