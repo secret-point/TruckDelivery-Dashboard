@@ -25,7 +25,7 @@
                     <!-- <star-rating
                       v-model="rating"
                       :starSize="15"
-                      :increment="0.5"
+                      :increment="0.5" 
                     ></star-rating> -->
                   </div>
                 </div>
@@ -34,7 +34,7 @@
                 }}</span>
               </div>
             </td>
-            <!-- <td><vs-button color="#1877f1" type="filled">Reserve</vs-button></td> -->
+            <td><v-btn color="#1877f1" > Reserve </v-btn></td>
           </tr>
         </tbody>
       </table>
