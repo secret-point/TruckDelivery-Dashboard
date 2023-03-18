@@ -11,16 +11,28 @@
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
-              <input class="custom-input" placeholder="12345 address line one" />
+              <vue-google-autocomplete
+                id="map-pickup"
+                class="custom-input"
+                :country="['us', 'ca']"
+                v-on:placechanged="setAddress($event)"
+              >
+              </vue-google-autocomplete>
+              <!-- <input class="custom-input" placeholder="12345 address line one" /> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">Address 2 (optional)</label>
-              <input class="custom-input" placeholder="12345 address line two" />
-              <label class="text-xs text-gray-400">Apartment, Unit, Suite, etc.</label>
+              <label class="text-sm">City</label>
+              <input v-model="city" class="custom-input" placeholder="Newyork" />
+              <!-- <label class="text-xs text-gray-400">Apartment, Unit, Suite, etc.</label> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">City or Postal code</label>
-              <input class="custom-input" placeholder="El Monte, CA 91732" />
+              <label class="text-sm">State</label>
+              <input v-model="state" class="custom-input" placeholder="NY" />
+              <!-- <label class="text-xs text-gray-400">Seattle etc.</label> -->
+            </div>
+            <div class="mt-10px w-full">
+              <label class="text-sm">Zip code</label>
+              <input v-model="zipcode" class="custom-input" placeholder="91732" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Pick-up reference number (optional)</label>
@@ -65,8 +77,46 @@
 </template>
 
 <script>
+import GoogleMapMixin from '../../../../src/mixings/googleMapMixin'
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
+import config from '@/config/constants.js'
+
 export default {
-  name: 'PickupDetails'
+  name: 'PickupDetails',
+  mixins: [GoogleMapMixin],
+  components: {
+    VueGoogleAutocomplete
+  },
+  data() {
+    return {
+        googleMapAutoCompleteOptions: config.googleMapAutoCompleteOptions,
+        address: '',
+        city: '',
+        state: '',
+        zipcode: ''
+    }
+  },
+  methods:{
+//     administrative_area_level_1: "NY"
+// administrative_area_level_2: "New York County"
+// country: "United States"
+// latitude: 40.7094756
+// locality: "New York"
+// longitude: -74.0072955
+// postal_code: "10038"
+// route: "William Street"
+// street_number: "123"
+      setAddress(place) {
+        console.log("event$",place)
+        const {route,street_number,postal_code,administrative_area_level_1,locality} = place
+        if (!place) return;
+        this.address = `${street_number} ${route}`
+        this.city = locality
+        this.state = administrative_area_level_1
+        this.zipcode = postal_code
+      
+    },
+  }
 }
 </script>
 

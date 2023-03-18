@@ -11,20 +11,32 @@
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
-              <input class="custom-input" placeholder="12345 address line one" />
-              <label class="text-xs text-gray-400">
+               <vue-google-autocomplete
+                id="map-pickup"
+                class="custom-input"
+                :country="['us', 'ca']"
+                v-on:placechanged="setAddress($event)"
+              >
+              </vue-google-autocomplete>
+              <!-- <input class="custom-input" placeholder="12345 address line one" /> -->
+              <!-- <label class="text-xs text-gray-400">
                 This address is not recognized, please double check that it is entered correctly. If
                 the address is correct, you may proceed with your shipment.
-              </label>
+              </label> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">Address 2 (optional)</label>
-              <input class="custom-input" placeholder="12345 address line two" />
-              <label class="text-xs text-gray-400">Apartment, Unit, Suite, etc.</label>
+              <label class="text-sm">City</label>
+              <input v-model="city" class="custom-input" placeholder="Newyork" />
+              <!-- <label class="text-xs text-gray-400">Apartment, Unit, Suite, etc.</label> -->
+            </div>
+             <div class="mt-10px w-full">
+              <label class="text-sm">State</label>
+              <input v-model="state" class="custom-input" placeholder="NY" />
+              <!-- <label class="text-xs text-gray-400">Seattle etc.</label> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">City or Postal code</label>
-              <input class="custom-input" placeholder="El Monte, CA 91732" />
+              <label class="text-sm">Zip code</label>
+              <input v-model="zipcode" class="custom-input" placeholder="91732" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Pick-up reference number (optional)</label>
@@ -69,8 +81,33 @@
 </template>
 
 <script>
+import GoogleMapMixin from '../../../../src/mixings/googleMapMixin'
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
+
 export default {
-  name: 'DeliveryDetails'
+  name: 'DeliveryDetails',
+  data(){
+    return {
+        address: '',
+        city: '',
+        state: '',
+        zipcode: ''
+    }
+  },
+  components: {
+    VueGoogleAutocomplete
+  },
+  mixins: [GoogleMapMixin],
+  methods:{
+    setAddress(place) {
+        const {route,street_number,postal_code,administrative_area_level_1,locality} = place
+        if (!place) return;
+        this.address = `${street_number} ${route}`
+        this.city = locality
+        this.state = administrative_area_level_1
+        this.zipcode = postal_code
+    },
+  }
 }
 </script>
 
