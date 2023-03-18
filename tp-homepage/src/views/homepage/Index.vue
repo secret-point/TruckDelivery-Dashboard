@@ -11,6 +11,7 @@
     </div>
 
     <trucks-list :availableTrucks="searchData"></trucks-list>
+    <notifications position="bottom right" />
   </div>
 </template>
 
@@ -18,7 +19,6 @@
 import TrucksList from './components/TrucksList.vue'
 import SearchPanel from './components/SearchPanel.vue'
 import TruckpediaHeader from './components/Header.vue'
-import axios from 'axios'
 
 export default {
   components: { SearchPanel, TrucksList, TruckpediaHeader },
@@ -29,7 +29,8 @@ export default {
       destinationPlace: null,
       startDate: null,
       endDate: null,
-      searchData: []
+      searchData: [],
+      validationAlert: false
     }
   },
   methods: {
@@ -67,6 +68,14 @@ export default {
       return degree * (Math.PI / 180)
     },
     searchResult() {
+      if (!this.startDate || !this.endDate || !this.originPlace || !this.destinationPlace) {
+        this.$notify({
+          type: 'error',
+          title: 'Error',
+          text: 'All fields are required.'
+        })
+        return
+      }
       const origin = this.originPlace.place
       const destination = this.destinationPlace.place
       const distance = this.calculateDistance(
@@ -92,11 +101,9 @@ export default {
         },
         distance: Number(distance)
       }
-      this.$http
-        .post('truckpedia/available-trucks/search', payload)
-        .then(({ data }) => {
-          this.searchData = data.payload
-        })
+      this.$http.post('truckpedia/available-trucks/search', payload).then(({ data }) => {
+        this.searchData = data.payload
+      })
     }
   }
 }

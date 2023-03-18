@@ -1,5 +1,6 @@
 <template>
   <div class="pb-4 hero-bg">
+    <notifications position="bottom right" />
     <v-form @submit.prevent="submit">
       <v-container>
         <v-card max-width="55%" class="pa-10 mx-auto">
@@ -147,7 +148,7 @@
 
           <v-card-actions>
             <v-row class="justify-space-between w-100">
-              <v-btn variant="outlined" color="error"> Logout </v-btn>
+              <v-btn variant="outlined" color="error" @click="logout"> Logout </v-btn>
               <v-btn type="submit" color="primary" variant="flat">Submit</v-btn>
             </v-row>
           </v-card-actions>
@@ -220,11 +221,10 @@ export default {
   },
 
   methods: {
-    checkLogout() {
+    logout() {
       try {
-        if (!localStorage.getItem('access_token')) {
-          window.location.reload()
-        }
+        localStorage.removeItem('access_token');
+        this.$router.push({name: 'home'})
       } catch (e) {
         console.log(`Error while logging out: ${e}`)
       }

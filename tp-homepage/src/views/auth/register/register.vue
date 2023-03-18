@@ -2,6 +2,7 @@
   <div class="logo" @click="$router.push('/')">
     <img src="@/assets/images/logo.svg" />
   </div>
+  <notifications position="bottom right" />
   <v-row no-gutters class="pa-4 h-screen">
     <v-col cols="6" class="d-flex flex-column justify-center h-screen">
       <v-form @submit.prevent="submit">
