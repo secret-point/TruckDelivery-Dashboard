@@ -1,6 +1,6 @@
 <template>
     <div class="logo">
-        <img src="@/assets/images/logo.svg" />
+        <img src="@/assets/images/logo.svg" @click="$router.push('/')" />
     </div>
   <v-row no-gutters class="pa-4 h-screen">
     <v-col cols="6" class="d-flex flex-column justify-center h-75">

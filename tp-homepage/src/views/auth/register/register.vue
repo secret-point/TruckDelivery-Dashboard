@@ -1,30 +1,28 @@
 <template>
-  <div class="logo">
+  <div class="logo" @click="$router.push('/')">
     <img src="@/assets/images/logo.svg" />
   </div>
   <v-row no-gutters class="pa-4 h-screen">
     <v-col cols="6" class="d-flex flex-column justify-center h-screen">
       <v-container class="w-50">
         <h2 class="font-weight-bold pb-4 text-center color-grey">Create Account</h2>
-        <v-select
-          clearable
-          label="Select Role"
-          :items="['Carrier', 'Broker', 'Shipper']"
-          variant="outlined"
-        ></v-select>
+        <v-select clearable label="Select Role" :items="['Carrier']" variant="outlined"></v-select>
         <v-text-field
+          v-model="email"
           :rules="[rules.required, rules.email]"
           clearable
           label="Email address"
           variant="outlined"
         ></v-text-field>
         <v-text-field
+          v-model="firstName"
           :rules="[rules.required]"
           clearable
           label="First name"
           variant="outlined"
         ></v-text-field>
         <v-text-field
+          v-model="lastName"
           :rules="[rules.required]"
           clearable
           label="Last name"
@@ -32,6 +30,7 @@
         ></v-text-field>
         <v-text-field
           clearable
+          v-model="password"
           type="password"
           label="Password"
           variant="outlined"
@@ -59,16 +58,21 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'register',
   data() {
     return {
       show1: false,
       show2: true,
+      email: '',
+      firstName: '',
+      lastName: '',
       password: '',
       rules: {
         required: (value) => !!value || 'Required.',
-        min: (v) => v.length >= 8 || 'Min 8 characters',
+        min: (v) => v.length >= 6 || 'Min 6 characters',
         emailMatch: () => `The email and password you entered don't match`
       },
       image: '../../../assets/images/auth/side right.png'
@@ -80,8 +84,31 @@ export default {
     }
   },
   methods: {
-    submit(){
-     this.$router.push('setup-profile')
+    submit() {
+      this.$notify({
+          type: 'success',
+          title: 'Important message',
+          text: 'Hello user!'
+        })
+      const payload = {
+        first_name: this.firstName,
+        last_name: this.lastName,
+        email: this.email,
+        password: this.password
+        // confirmPassword: this.confirm_password
+      }
+      axios.post('http://127.0.0.1:8000/api/auth/register', payload).then(({ data }) => {
+        console.log(data)
+        this.$notify({
+          type: 'success',
+          title: 'Important message',
+          text: 'Hello user!'
+        })
+      }).catch(() => {
+
+      })
+      console.log(payload)
+      //  this.$router.push('setup-profile')
     },
     goToLogin() {
       this.$router.push('login')

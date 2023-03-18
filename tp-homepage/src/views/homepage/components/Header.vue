@@ -4,7 +4,7 @@
       <span class="truck-logo">TRUCK</span>
       <span class="pedia-logo">PEDIA</span>
     </div> -->
-    <img src="@/assets/images/logo.svg">
+    <img src="@/assets/images/logo.svg" @click="$router.push('/')">
     <div>
       <ul class="d-flex align-center" style="list-style-type: none">
         <li class="color-primary">How it works</li>
