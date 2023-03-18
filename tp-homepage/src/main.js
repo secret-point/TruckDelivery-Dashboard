@@ -9,17 +9,17 @@ import store from './store/index'
 
 const app = createApp(App)
 // Vuetify
-import 'vuetify/styles'
+// import 'vuetify/styles'
 import '@mdi/font/css/materialdesignicons.css'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+// import { createVuetify } from 'vuetify'
+// import * as components from 'vuetify/components'
+// import * as directives from 'vuetify/directives'
 import Notifications from '@kyvg/vue3-notification'
 
-const vuetify = createVuetify({
-  components,
-  directives
-})
+// const vuetify = createVuetify({
+//   components,
+//   directives
+// })
 app.use(Notifications);
 app.use(router);
 app.use(vuetify);

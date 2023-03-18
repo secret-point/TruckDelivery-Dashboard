@@ -10,7 +10,7 @@
         <li class="color-primary">How it works</li>
         <li style="color: #9e9e9e" @click="goToLogin">Login</li>
         <li>
-          <v-btn color="#1877F2" @click="goToRegister"> <span style="color: #fff">Signup</span> </v-btn>
+          <v-btn color="primary" @click="goToRegister">Signup </v-btn>
           <!-- <vs-button color="#1877F2" type="filled">Signup</vs-button> -->
         </li>
       </ul>

@@ -85,11 +85,6 @@ export default {
   },
   methods: {
     submit() {
-      this.$notify({
-          type: 'success',
-          title: 'Important message',
-          text: 'Hello user!'
-        })
       const payload = {
         first_name: this.firstName,
         last_name: this.lastName,
@@ -97,16 +92,24 @@ export default {
         password: this.password
         // confirmPassword: this.confirm_password
       }
-      axios.post('http://127.0.0.1:8000/api/auth/register', payload).then(({ data }) => {
-        console.log(data)
-        this.$notify({
-          type: 'success',
-          title: 'Important message',
-          text: 'Hello user!'
+      axios
+        .post('http://127.0.0.1:8000/api/auth/register', payload)
+        .then(({ data }) => {
+          console.log(data)
+          this.$notify({
+            type: 'success',
+            title: 'Success',
+            text: 'Congratulations! You have registered successfully.'
+          })
         })
-      }).catch(() => {
-
-      })
+        .catch((error) => {
+          console.log(error)
+          this.$notify({
+            type: 'error',
+            title: 'Error',
+            text: error.response.data.message
+          })
+        })
       console.log(payload)
       //  this.$router.push('setup-profile')
     },
