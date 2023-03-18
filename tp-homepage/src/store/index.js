@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import moduleAuth from './auth/moduleAuth.js'
+import moduleTrial from './trial/index.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  'auth': moduleAuth,
+  'auth': moduleTrial,
 })
 
