@@ -2,14 +2,6 @@
   <div>
     <div class="search-panel">
       <div>
-        <!-- <gmap-autocomplete
-          class="vs-inputx vs-input--input normal hasValue"
-          placeholder="Origin city state"
-          @place_changed="setPlace($event)"
-          :options="googleMapAutoCompleteOptions"
-          :select-first-on-enter="true"
-        >
-        </gmap-autocomplete> -->
         <vue-google-autocomplete
           id="map"
           class="custom-input"

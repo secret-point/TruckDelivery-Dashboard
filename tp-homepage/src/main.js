@@ -16,6 +16,11 @@ import '@mdi/font/css/materialdesignicons.css'
 // import * as directives from 'vuetify/directives'
 import Notifications from '@kyvg/vue3-notification'
 
+// axios
+import axios from './axios.js'
+
+app.config.globalProperties.$http = axios
+
 // const vuetify = createVuetify({
 //   components,
 //   directives

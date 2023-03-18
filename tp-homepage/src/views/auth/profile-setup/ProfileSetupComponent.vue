@@ -1,196 +1,198 @@
 <template>
   <div class="pb-4 hero-bg">
-    <v-container>
-      <v-card max-width="55%" class="pa-10 mx-auto">
-        <v-row>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="comfortable"
-              :persistent-placeholder="true"
-              label="Business Name"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="compact"
-              :persistent-placeholder="true"
-              label="USDOT Number"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="compact"
-              :persistent-placeholder="true"
-              label="Billing Email"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="compact"
-              :persistent-placeholder="true"
-              label="Load# start from"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <p class="heading">Business Address</p>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="compact"
-              :persistent-placeholder="true"
-              label="Address"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              color="#8A8A8A"
-              density="compact"
-              :persistent-placeholder="true"
-              label="City"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="compact"
-              :persistent-placeholder="true"
-              label="State"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="compact"
-              :persistent-placeholder="true"
-              label="Zipcode"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="compact"
-              :persistent-placeholder="true"
-              label="Phone Number"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="6">
-            <v-text-field
-              clearable
-              density="compact"
-              :persistent-placeholder="true"
-              label="Fax"
-              variant="underlined"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <p class="heading">Time Zone</p>
-          </v-col>
-          <v-col cols="6">
-            <v-select
-              clearable
-              :persistent-placeholder="true"
-              label="Time Zone"
-              item-title="label"
-              item-value="value"
-              :items="timezone_options"
-              variant="underlined"
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-card-actions>
-          <v-row class="justify-space-between w-100">
-            <v-btn variant="outlined" color="error"> Logout </v-btn>
-            <v-btn color="#1877F2" variant="flat"> <span style="color: #fff">Submit</span></v-btn>
+    <v-form @submit.prevent="submit">
+      <v-container>
+        <v-card max-width="55%" class="pa-10 mx-auto">
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
+                v-model="bussinesName"
+                clearable
+                density="comfortable"
+                :persistent-placeholder="true"
+                label="Business Name"
+                :rules="[rules.required]"
+                variant="underlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="usdotNumber"
+                clearable
+                density="compact"
+                :rules="[rules.required]"
+                :persistent-placeholder="true"
+                label="USDOT Number"
+                variant="underlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="email"
+                clearable
+                density="compact"
+                :persistent-placeholder="true"
+                label="Billing Email"
+                variant="underlined"
+                :rules="[rules.required, rules.email]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="loadUniqueIdStartedFrom"
+                type="number"
+                clearable
+                density="compact"
+                :persistent-placeholder="true"
+                label="Load# start from"
+                variant="underlined"
+                :rules="[rules.required]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <p class="heading">Business Address</p>
+            </v-col>
+            <v-col cols="6">
+              <div class="autocomplete">
+                <label class="label">Address</label>
+                <vue-google-autocomplete
+                  v-model="address"
+                  id="map"
+                  class="custom-input"
+                  :country="['us', 'ca']"
+                  @placechanged="setPlace"
+                  placeholder=""
+                >
+                </vue-google-autocomplete>
+              </div>
+              <!-- <v-text-field
+                clearable
+                density="compact"
+                :persistent-placeholder="true"
+                label="Address"
+                variant="underlined"
+                :rules="[rules.required]"
+              ></v-text-field> -->
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="city"
+                clearable
+                density="compact"
+                :persistent-placeholder="true"
+                label="City"
+                variant="underlined"
+                :rules="[rules.required]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="state"
+                clearable
+                density="compact"
+                :persistent-placeholder="true"
+                label="State"
+                variant="underlined"
+                :rules="[rules.required]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="zipcode"
+                clearable
+                density="compact"
+                :persistent-placeholder="true"
+                label="Zipcode"
+                variant="underlined"
+                :rules="[rules.required]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="phoneNumber"
+                clearable
+                density="compact"
+                :persistent-placeholder="true"
+                :rules="[rules.required]"
+                label="Phone Number"
+                variant="underlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="faxNumber"
+                clearable
+                density="compact"
+                :persistent-placeholder="true"
+                label="Fax"
+                variant="underlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <p class="heading">Time Zone</p>
+            </v-col>
+            <v-col cols="6">
+              <v-select
+                v-model="timeZone"
+                :persistent-placeholder="true"
+                label="Time Zone"
+                item-title="label"
+                item-value="value"
+                :items="timezone_options"
+                variant="underlined"
+                :rules="[rules.required]"
+              ></v-select>
+            </v-col>
           </v-row>
-        </v-card-actions>
-      </v-card>
-    </v-container>
+
+          <v-card-actions>
+            <v-row class="justify-space-between w-100">
+              <v-btn variant="outlined" color="error"> Logout </v-btn>
+              <v-btn type="submit" color="primary" variant="flat">Submit</v-btn>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-container>
+    </v-form>
   </div>
 </template>
 
 <script>
-import config from '@/config/constants.js'
-
-// const dict = {
-//   custom: {
-//     business_name: {
-//       required: 'The business name field is required'
-//       // alpha: 'Your business name may only contain alphabetic characters'
-//     },
-//     usdot_number: {
-//       required: 'The usdot number field is required'
-//       // alpha: 'Your USDOT Number may only contain alphabetic characters'
-//     },
-//     email: {
-//       required: 'The billing email field is required.',
-//       email: 'Please enter valid email address.'
-//     },
-//     load_unique_id_started_from: {
-//       required: 'The load id field is required',
-//       numeric: 'Please enter only numeric value.'
-//     },
-//     address: {
-//       required: 'The address field is required'
-//     },
-//     state: {
-//       required: 'The state field is required'
-//     },
-//     city: {
-//       required: 'The city field is required'
-//     },
-//     zipcode: {
-//       required: 'The zipcode field is required'
-//     },
-//     phone_number: {
-//       required: 'The phone number field is required'
-//     },
-//     fax_number: {
-//       required: 'The fax number field is required'
-//     },
-//     timezone: {
-//       required: 'The timezone field is required'
-//     }
-//   }
-// }
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
 
 export default {
+  components: {
+    VueGoogleAutocomplete
+  },
   data() {
     return {
-      business_name: '',
-      usdot_number: '',
+      bussinesName: '',
+      usdotNumber: '',
       email: '',
-      load_unique_id_started_from: '',
+      loadUniqueIdStartedFrom: '',
       address: '',
       zipcode: '',
       city: '',
       state: '',
       timezone_options: [],
-      time_zone: '',
-      fax_number: '',
-      phone_number: '',
-      // google map autocomplete options
-      googleMapAutoCompleteOptions: config.googleMapAutoCompleteOptions
+      timeZone: '',
+      faxNumber: '',
+      phoneNumber: '',
+      rules: {
+        required: (value) => !!value || 'Required.',
+        min: (v) => v.length >= 6 || 'Min 6 characters',
+        emailMatch: () => `The email and password you entered don't match`,
+        email: (value) => {
+          const pattern =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Invalid e-mail.'
+        }
+      }
     }
   },
 
   async created() {
-    window.addEventListener('storage', this.checkLogout)
+    // window.addEventListener('storage', this.checkLogout)
 
     try {
       // const {data} = await this.$store.dispatch('auth/getTimezoneList')
@@ -229,50 +231,24 @@ export default {
     },
 
     async submit() {
-      this.$validator.validateAll().then(async (result) => {
-        if (result) {
-          try {
-            this.$vs.loading()
+      const payload = {
+        business_name: this.businessName,
+        usdot_number: this.usdotNumber,
+        email: this.email,
+        load_unique_id_started_from: this.loadUniqueIdStartedFrom,
+        address: this.address,
+        city: this.city,
+        state: this.state,
+        zipcode: this.zipcode,
+        phone_number: this.phoneNumber,
+        fax_number: this.faxNumber,
+        timezone: this.timeZone
+      }
 
-            const payload = {
-              business_name: this.business_name,
-              usdot_number: this.usdot_number,
-              email: this.email,
-              load_unique_id_started_from: this.load_unique_id_started_from,
-              address: this.address,
-              city: this.city,
-              state: this.state,
-              zipcode: this.zipcode,
-              phone_number: this.phone_number,
-              fax_number: this.fax_number,
-              timezone: this.time_zone
-            }
-
-            // console.log(payload)
-
-            await this.$store.dispatch('auth/adminSetupProfile', payload)
-
-            await this.$router.push({ name: 'home' })
-
-            this.$vs.notify({
-              color: 'success',
-              title: 'Profile Setup',
-              text: 'Profile set up successfully.'
-            })
-          } catch (error) {
-            this.$vs.notify({
-              title: 'Error',
-              text: error.response.data.message,
-              color: 'danger',
-              time: 5000
-            })
-          } finally {
-            this.$vs.loading.close()
-          }
-        }
+      this.$http.post('admin/setup-profile', payload).then(() => {
+        this.$router.push({ name: 'home' })
       })
     },
-
     async logout() {
       this.$vs.loading()
 
@@ -301,41 +277,44 @@ export default {
      * Google Map Autocomplete
      */
     setPlace(place) {
+      console.log(place)
       if (!place) return
-
-      const address = place.formatted_address.split(', ').slice(0, -3).join(', ')
-
-      const city = place.address_components
-        .filter((address) => {
-          return address.types.includes('locality')
-        })
-        .map((address) => address.long_name)[0]
-
-      const state = place.address_components
-        .filter((address) => {
-          return address.types.includes('administrative_area_level_1')
-        })
-        .map((address) => address.short_name)[0]
-
-      const postalCode = place.address_components
-        .filter((address) => {
-          return address.types.includes('postal_code')
-        })
-        .map((address) => address.short_name)[0]
-
-      // const latitude = place.geometry.location.lat()
-      // const longitude = place.geometry.location.lng()
-
+      const address = place.street_number ? place.street_number + '' + place.route : place.route
       this.address = address
-      this.city = city
-      this.state = state
-      this.zipcode = postalCode
+      this.city = place.locality
+      this.state = place.administrative_area_level_1
+      this.zipcode = place.postal_code
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.autocomplete {
+  position: relative;
+  .label {
+    font-size: 12px;
+    color: inherit;
+    opacity: 0.68;
+    position: absolute;
+    top: -10px;
+  }
+  .custom-input {
+    color: inherit;
+    position: relative;
+    padding: 0.4rem;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    box-shadow: 0 0 0 0 rgb(0 0 0 / 15%);
+    transition: all 0.3s ease;
+    width: 100%;
+    outline: 0;
+    margin-top: 2px;
+  }
+}
+
 .hero-bg {
   background-image: url('../../../assets/images/login-bg.jpg');
   background-position: center;

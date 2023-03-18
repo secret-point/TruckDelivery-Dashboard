@@ -1,20 +1,24 @@
 <template>
   <div class="route">
     <truckpedia-header v-if="showOnAuth"></truckpedia-header>
-    <notifications position="bottom right"  />
+    <notifications position="bottom right" />
     <RouterView />
   </div>
 </template>
 <script>
-import truckpediaHeader from './views/homepage/components/Header.vue';
+import truckpediaHeader from './views/homepage/components/Header.vue'
 
 export default {
   components: {
-    truckpediaHeader,
+    truckpediaHeader
   },
   computed: {
     showOnAuth() {
-      if (this.$route.name === 'login' || this.$route.name === 'register') {
+      if (
+        this.$route.name === 'login' ||
+        this.$route.name === 'register' ||
+        this.$route.name === 'setup-profile'
+      ) {
         return false
       }
       return true
@@ -26,9 +30,9 @@ export default {
 <style lang="scss">
 .vue-notification {
   // styling
-  margin: 0 5px 5px;
+  margin: 0 15px 15px;
   padding: 10px;
-  font-size: 12px;
+  font-size: 14px;
   color: #ffffff;
 
   // default (blue)
@@ -50,4 +54,6 @@ export default {
     background: #e54d42;
     border-left-color: #b82e24;
   }
-}</style>
+}
+
+</style>

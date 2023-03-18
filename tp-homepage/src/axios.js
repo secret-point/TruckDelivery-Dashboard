@@ -1,9 +1,12 @@
 // axios
 import axios from 'axios'
 
-const baseURL = '/api'
-
+const baseURL = 'http://127.0.0.1:8000/api/'
+const token = localStorage.getItem('access_token')
 export default axios.create({
-  baseURL
-  // You can add your headers here
+  baseURL: baseURL,
+  headers: {
+    Authorization: `Bearer ${token}`
+  }
 })
+
