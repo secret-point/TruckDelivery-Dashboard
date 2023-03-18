@@ -113,7 +113,8 @@ export default {
             text: 'Congratulations! You have registered successfully.'
           })
           window.localStorage.setItem('access_token', data.payload.access_token)
-          this.$router.push('setup-profile')
+          this.$router.push('setup-profile');
+          window.reload();
         })
         .catch((error) => {
           this.$notify({

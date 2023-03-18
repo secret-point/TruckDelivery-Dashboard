@@ -1,12 +1,15 @@
 <template>
   <div>
-
     <search-panel
       @address="address"
       @originDate="originDate"
       @destinationDate="destinationDate"
       @search="searchResult"
     ></search-panel>
+    <div class="d-flex justify-center pa-15">
+      <img src="@/assets/images/map.png" />
+    </div>
+
     <trucks-list :availableTrucks="searchData"></trucks-list>
   </div>
 </template>
@@ -57,7 +60,7 @@ export default {
           Math.sin(dLng / 2)
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
       const distance = radius * c
-      const miles =  distance * 0.621371;
+      const miles = distance * 0.621371
       return miles.toFixed(2)
     },
     toRadians(degree) {
@@ -89,10 +92,10 @@ export default {
         },
         distance: Number(distance)
       }
-      axios
-        .post('http://127.0.0.1:8000/api/truckpedia/available-trucks/search', payload)
-        .then(({data}) => {
-         this.searchData = data.payload; 
+      this.$http
+        .post('truckpedia/available-trucks/search', payload)
+        .then(({ data }) => {
+          this.searchData = data.payload
         })
     }
   }

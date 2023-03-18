@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <truckpedia-header></truckpedia-header> -->
     <main>
       <v-container>
         <v-row>

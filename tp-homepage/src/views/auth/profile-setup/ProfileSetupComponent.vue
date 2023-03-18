@@ -6,7 +6,7 @@
           <v-row>
             <v-col cols="6">
               <v-text-field
-                v-model="bussinesName"
+                v-model="businessName"
                 clearable
                 density="comfortable"
                 :persistent-placeholder="true"
@@ -166,7 +166,7 @@ export default {
   },
   data() {
     return {
-      bussinesName: '',
+      businessName: '',
       usdotNumber: '',
       email: '',
       loadUniqueIdStartedFrom: '',
@@ -249,35 +249,34 @@ export default {
         this.$router.push({ name: 'home' })
       })
     },
-    async logout() {
-      this.$vs.loading()
+    // async logout() {
+    //   this.$vs.loading()
 
-      try {
-        await this.$store.dispatch('auth/logout')
+    //   try {
+    //     await this.$store.dispatch('auth/logout')
 
-        await this.$router.push({ name: 'page-login' }).catch(() => {})
+    //     await this.$router.push({ name: 'page-login' }).catch(() => {})
 
-        this.$vs.notify({
-          title: 'Logout.',
-          color: 'success',
-          text: 'You logout successfully.'
-        })
-      } catch (error) {
-        this.$vs.notify({
-          color: 'danger',
-          title: 'Error',
-          text: error.response.data.message
-        })
-      } finally {
-        this.$vs.loading.close()
-      }
-    },
+    //     this.$vs.notify({
+    //       title: 'Logout.',
+    //       color: 'success',
+    //       text: 'You logout successfully.'
+    //     })
+    //   } catch (error) {
+    //     this.$vs.notify({
+    //       color: 'danger',
+    //       title: 'Error',
+    //       text: error.response.data.message
+    //     })
+    //   } finally {
+    //     this.$vs.loading.close()
+    //   }
+    // },
 
     /*
      * Google Map Autocomplete
      */
     setPlace(place) {
-      console.log(place)
       if (!place) return
       const address = place.street_number ? place.street_number + '' + place.route : place.route
       this.address = address
