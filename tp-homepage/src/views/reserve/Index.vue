@@ -15,7 +15,7 @@
         </div>
 
         <!-- Body -->
-        <component :is="currentComponent" />
+        <component :is="currentComponent" @submit="reserveApi" />
 
         <!-- Footer -->
         <div class="mt-10px flex items-center justify-center gap-10px absolute bottom-0 w-full">
@@ -86,6 +86,62 @@ export default {
       if (this.currentStep > 1) {
         this.currentStep--
       }
+    },
+    reserveApi() {
+      console.log("enter")
+      const payload = {
+        comapnyId: 23,
+        deliveryType: 'flexible',
+        estimatedPrice: 200,
+        additionalInformation: {
+          loadUniqueId: 1232,
+          estimatedShipmentValue: 120,
+          itemDescription: 'These are metal sheets',
+          totalMiles: 300,
+          calculateUsing: 'p'
+        },
+        pickupDetails: [
+          {
+            name: 'Shipper',
+            address: '450 Lakeville Rd',
+            city: 'Lake Success',
+            state: 'NY',
+            zipCode: '11042',
+            latitude: 40.7557536,
+            longitude: -73.7021789,
+            contactPerson: 'Hitesh',
+            phone: '7022331233',
+            email: 'hiteshkr8750@gmail.com',
+            date: '2023-03-18',
+            startTime: '02:00',
+            endTime: '05:32',
+            specialInstruction: 'This is a shipper notes.',
+            reference: 'ADBC123456'
+          }
+        ],
+        deliveryDetails: [
+          {
+            name: 'Receiver',
+            address: '500 W Madison St',
+            city: 'Chicago',
+            state: 'IL',
+            zipCode: '60661',
+            latitude: 41.8822847,
+            longitude: -87.6402818,
+            contactPerson: 'Vikas',
+            phone: '8750234138',
+            email: 'hitesh.kumar@ezpapel.com',
+            date: '2023-03-20',
+            startTime: '01:21',
+            endTime: '03:32',
+            specialInstruction: 'This is a receiver notes.',
+            reference: 'XYZ9857634'
+          }
+        ]
+      }
+      this.$http.post('truckpedia/reserved', payload).then((data) => {
+        console.log(data)
+      })
     }
   }
 }

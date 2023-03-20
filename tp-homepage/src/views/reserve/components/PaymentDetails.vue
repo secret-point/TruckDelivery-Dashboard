@@ -36,7 +36,7 @@
               <input class="custom-input" placeholder="Card holder name" />
             </div>
             <div class="mt-20px w-full flex flex-col">
-              <v-btn class="w-full" color="primary">Pay now</v-btn>
+              <v-btn class="w-full" color="primary" @click="submit">Pay now</v-btn>
               <v-btn class="mt-10px self-end" variant="flat"> Cancel </v-btn>
             </div>
           </div>
@@ -48,7 +48,12 @@
 
 <script>
 export default {
-  name: 'PaymentDetails'
+  name: 'PaymentDetails',
+  methods: {
+    submit(){
+      this.$emit('submit')
+    }
+  }
 }
 </script>
 
