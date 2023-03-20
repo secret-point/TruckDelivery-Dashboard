@@ -114,12 +114,12 @@ export default {
             text: 'Congratulations! You have registered successfully.'
           })
           window.localStorage.setItem('access_token', data.payload.access_token)
-          this.$router.push('setup-profile');
+          this.$router.push({name: 'setup-profile', query: {role: this.role}});
           window.reload();
         })
         .catch((error) => {
+          if(!error) return
           this.$notify({
-            group: 'auth',
             type: 'error',
             title: 'Error',
             text: error.response.data.message

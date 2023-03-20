@@ -2,7 +2,7 @@
   <div>
     <div class="search-panel">
       <div>
-        <vue-google-autocomplete
+        <!-- <vue-google-autocomplete
           id="map"
           class="custom-input"
           :country="['us', 'ca']"
@@ -10,12 +10,32 @@
           v-on:placechanged="setPlace($event, 'origin')"
           types="(cities)"
         >
-        </vue-google-autocomplete>
+        </vue-google-autocomplete> -->
+        <GMapAutocomplete
+          name="address"
+          placeholder="Origin city state"
+          class="custom-input"
+          :value="originAddress"
+          @place_changed="setPlace($event, 'origin')"
+          :options="googleMapAutoCompleteOptions"
+          :select-first-on-enter="true"
+        >
+        </GMapAutocomplete>
       </div>
 
       <span>to</span>
       <div>
-        <vue-google-autocomplete
+        <GMapAutocomplete
+          name="address"
+          placeholder="Destination city state"
+          class="custom-input"
+          :value="destinationAddress"
+          @place_changed="setPlace($event, 'destination')"
+          :options="googleMapAutoCompleteOptions"
+          :select-first-on-enter="true"
+        >
+        </GMapAutocomplete>
+        <!-- <vue-google-autocomplete
           id="map1"
           class="custom-input"
           :country="['us', 'ca']"
@@ -23,7 +43,7 @@
           v-on:placechanged="setPlace($event, 'destination')"
           types="(cities)"
         >
-        </vue-google-autocomplete>
+        </vue-google-autocomplete> -->
       </div>
       <div>
         <flat-pickr
@@ -49,14 +69,14 @@
 </template>
 
 <script>
-import GoogleMapMixin from '../../../../src/mixings/googleMapMixin'
-import config from '@/config/constants.js'
-import flatPickr from 'vue-flatpickr-component'
-import 'flatpickr/dist/flatpickr.css'
-import VueGoogleAutocomplete from 'vue-google-autocomplete'
+import GoogleMapMixin from "../../../../src/mixings/googleMapMixin";
+import config from "@/config/constants.js";
+import flatPickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
+import VueGoogleAutocomplete from "vue-google-autocomplete";
 
 export default {
-  name: 'SearchPanel',
+  name: "SearchPanel",
   data() {
     return {
       // google map autocomplete options
@@ -64,39 +84,75 @@ export default {
       originDate: null,
       destinationDate: null,
       // Flat Pikr Config
-      flat_pikr_config: {}
-    }
+      flat_pikr_config: {},
+      destinationAddress: "",
+      originAddress: "",
+    };
   },
   components: {
     flatPickr,
-    VueGoogleAutocomplete
+    VueGoogleAutocomplete,
   },
   mixins: [GoogleMapMixin],
   watch: {
     originDate: {
       handler(val) {
-        this.$emit('originDate', val)
-      }
+        this.$emit("originDate", val);
+      },
     },
     destinationDate: {
       handler(val) {
-        this.$emit('destinationDate', val)
-      }
-    }
+        this.$emit("destinationDate", val);
+      },
+    },
   },
   methods: {
+    updateGoogleCityState(city, state, lat, lng, type) {
+      const place = { city, state, lat, lng };
+      this.$emit("address", { place, type });
+      if (type === "origin") {
+        this.originAddress = city + ", " + state;
+      } else {
+        this.destinationAddress = city + ", " + state;
+      }
+    },
     /*
      * Google Map Autocomplete
      */
     setPlace(place, type) {
-      if (!place) return
-      this.$emit('address', { place, type })
+      if (!place) return;
+
+      const city = place.address_components
+        .filter((address) => {
+          return address.types.includes("locality");
+        })
+        .map((address) => address.long_name)[0];
+
+      const state = place.address_components
+        .filter((address) => {
+          return address.types.includes("administrative_area_level_1");
+        })
+        .map((address) => address.short_name)[0];
+
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      if (city && state) {
+        this.updateGoogleCityState(city, state, lat, lng, type);
+      }
     },
+
+    /*
+     * Google Map Autocomplete
+     */
+    // setPlace(place, type) {
+    //   if (!place) return;
+    //   this.$emit("address", { place, type });
+    // },
     submit() {
-      this.$emit('search')
-    }
-  }
-}
+      this.$emit("search");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

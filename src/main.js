@@ -1,29 +1,41 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import vuetify from './plugins/vuetify'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import vuetify from "./plugins/vuetify";
 // import store from './store/index'
 
-const app = createApp(App)
+const app = createApp(App);
 // Vuetify
 // import 'vuetify/styles'
-import '@mdi/font/css/materialdesignicons.css'
+import "@mdi/font/css/materialdesignicons.css";
 // import { createVuetify } from 'vuetify'
 // import * as components from 'vuetify/components'
 // import * as directives from 'vuetify/directives'
-import Notifications from '@kyvg/vue3-notification'
+import Notifications from "@kyvg/vue3-notification";
 
 // axios
-import axios from './axios.js'
+import axios from "./axios.js";
 
-app.config.globalProperties.$http = axios
+app.config.globalProperties.$http = axios;
+
 
 // const vuetify = createVuetify({
 //   components,
 //   directives
 // })
-app.use(Notifications);
 app.use(router);
+
+app.use(Notifications);
 app.use(vuetify);
+
+import VueGoogleMaps from "@fawmi/vue-google-maps";
+import config from "./config";
+app.use(VueGoogleMaps, {
+    load: {
+      key: config.MIX_GOOGLE_MAP_API_KEY,
+      libraries: "places",
+      // language: 'de',
+    },
+  });
 // app.use(store)
-app.mount('#app')
+app.mount("#app");
