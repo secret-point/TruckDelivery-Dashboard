@@ -86,7 +86,7 @@ export default {
       )
       const payload = {
         origin: {
-          city: origin.administrative_area_level_2,
+          city: origin.locality,
           state: origin.administrative_area_level_1,
           latitude: origin.latitude,
           longitude: origin.longitude,
@@ -94,7 +94,7 @@ export default {
           endDate: this.endDate
         },
         destination: {
-          city: destination.administrative_area_level_2,
+          city: destination.locality,
           state: destination.administrative_area_level_1,
           latitude: destination.latitude,
           longitude: destination.longitude
