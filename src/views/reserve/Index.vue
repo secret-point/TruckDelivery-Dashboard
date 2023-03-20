@@ -15,8 +15,9 @@
         </div>
 
         <!-- Body -->
-        <component :is="currentComponent" @submit="reserveApi" />
-
+      
+         <component :is="currentComponent" @submit="reserveApi"  @updateDetails="updateDetails"/>
+ 
         <!-- Footer -->
         <div class="mt-10px flex items-center justify-center gap-10px absolute bottom-0 w-full">
           <v-btn color="primary" variant="outlined" @click.stop="navigateBackward">
@@ -73,10 +74,30 @@ export default {
         3: 'DeliveryDetails',
         4: 'PaymentDetails'
       },
-      currentStep: 1
+      currentStep: 1,
+      pickVal:{},
+      deliveryVal:{},
+      info:{}
     }
   },
+  activated() {
+        console.log('activated==');
+    },
+    deactivated() {
+        console.log('deactivated==');
+    },
   methods: {
+    updateDetails(payload){
+      console.log("final-d-p==",payload)
+      if(payload.type==='deliver'){
+        this.deliveryVal = payload.rawVal
+      }else if(payload.type==='pickUp'){
+        this.pickVal = payload.rawVal
+      }else{
+        this.info = payload.rawVal
+      }
+    },
+    
     navigateForward() {
       if (this.currentStep < Object.keys(this.components).length) {
         this.currentStep++
@@ -87,58 +108,32 @@ export default {
         this.currentStep--
       }
     },
+    createPayload({company = '',firstName = '',lastName ='',...rest},info,name){
+        return {name:name,contactPerson:`${firstName} ${lastName}`,date:info && info.date,startTime:`${info?.startTime?.firstPart}:${info?.startTime?.lastPart}`,endTime:`${info?.stopTime?.firstPart}:${info?.stopTime?.lastPart}`,...rest}
+    },
     reserveApi() {
-      console.log("enter")
+      const pickUpDetails = this.createPayload(this.pickVal,this.info.pickUp,'Shipper')
+      const deliveryDetails = this.createPayload(this.deliveryVal,this.info.delivery,'Receiver')
+      
       const payload = {
         comapnyId: 23,
         deliveryType: 'flexible',
         estimatedPrice: 200,
         additionalInformation: {
           loadUniqueId: 1232,
-          estimatedShipmentValue: 120,
-          itemDescription: 'These are metal sheets',
+          estimatedShipmentValue: this.info.shipment,
+          itemDescription: this.info.description,
           totalMiles: 300,
           calculateUsing: 'p'
         },
         pickupDetails: [
-          {
-            name: 'Shipper',
-            address: '450 Lakeville Rd',
-            city: 'Lake Success',
-            state: 'NY',
-            zipCode: '11042',
-            latitude: 40.7557536,
-            longitude: -73.7021789,
-            contactPerson: 'Hitesh',
-            phone: '7022331233',
-            email: 'hiteshkr8750@gmail.com',
-            date: '2023-03-18',
-            startTime: '02:00',
-            endTime: '05:32',
-            specialInstruction: 'This is a shipper notes.',
-            reference: 'ADBC123456'
-          }
+         pickUpDetails
         ],
         deliveryDetails: [
-          {
-            name: 'Receiver',
-            address: '500 W Madison St',
-            city: 'Chicago',
-            state: 'IL',
-            zipCode: '60661',
-            latitude: 41.8822847,
-            longitude: -87.6402818,
-            contactPerson: 'Vikas',
-            phone: '8750234138',
-            email: 'hitesh.kumar@ezpapel.com',
-            date: '2023-03-20',
-            startTime: '01:21',
-            endTime: '03:32',
-            specialInstruction: 'This is a receiver notes.',
-            reference: 'XYZ9857634'
-          }
+         deliveryDetails
         ]
       }
+      console.log("api-payload",payload)
       this.$http.post('truckpedia/reserved', payload).then((data) => {
         console.log(data)
       })

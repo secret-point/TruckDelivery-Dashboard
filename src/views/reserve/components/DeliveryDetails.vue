@@ -6,8 +6,8 @@
           <div class="flex flex-col w-full">
             <h3 class="">Great! Now tell us a little bit more about the delivery location</h3>
             <div class="mt-20px w-full">
-              <label class="text-sm">Company or Individual name</label>
-              <input class="custom-input" placeholder="$ 100000" />
+              <label class="text-sm" >Company or Individual name</label>
+              <input type="number" v-model="deliveryVal.company" class="custom-input" placeholder="37" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
@@ -26,25 +26,25 @@
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">City</label>
-              <input v-model="city" class="custom-input" placeholder="Newyork" />
+              <input  v-model="deliveryVal.city" class="custom-input" placeholder="Newyork" />
               <!-- <label class="text-xs text-gray-400">Apartment, Unit, Suite, etc.</label> -->
             </div>
              <div class="mt-10px w-full">
               <label class="text-sm">State</label>
-              <input v-model="state" class="custom-input" placeholder="NY" />
+              <input v-model="deliveryVal.state" class="custom-input" placeholder="NY" />
               <!-- <label class="text-xs text-gray-400">Seattle etc.</label> -->
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Zip code</label>
-              <input v-model="zipcode" class="custom-input" placeholder="91732" />
+              <input v-model="deliveryVal.zipcode" class="custom-input" placeholder="91732" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Pick-up reference number (optional)</label>
-              <input class="custom-input" placeholder="1223243432423432" />
+              <input v-model="deliveryVal.reference" class="custom-input" placeholder="1223243432423432" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Special instructions (optional)</label>
-              <textarea class="custom-input" placeholder="Notes" rows="6" />
+              <textarea v-model="deliveryVal.specialInstruction" class="custom-input" placeholder="Notes" rows="6" />
             </div>
           </div>
         </div>
@@ -55,19 +55,19 @@
             <h3 class="">Who can we contact at this location?</h3>
             <div class="mt-20px w-full">
               <label class="text-sm">First name</label>
-              <input class="custom-input" placeholder="Hongshuai" />
+              <input v-model="deliveryVal.firstName" class="custom-input" placeholder="Hongshuai" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Last name</label>
-              <input class="custom-input" placeholder="Lu" />
+              <input v-model="deliveryVal.lastName" class="custom-input" placeholder="Lu" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Phone</label>
-              <input class="custom-input" placeholder="(626)831 8933" />
+              <input v-model="deliveryVal.phone" class="custom-input" placeholder="(626)831 8933" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Email</label>
-              <input class="custom-input" type="email" placeholder="justin@gmail.com" />
+              <input v-model="deliveryVal.email" class="custom-input" type="email" placeholder="justin@gmail.com" />
             </div>
             <div class="mt-10px flex gap-5px w-full">
               <input type="checkbox" />
@@ -81,31 +81,63 @@
 </template>
 
 <script>
+import { isProxy, toRaw } from 'vue';
 import GoogleMapMixin from '../../../../src/mixings/googleMapMixin'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
+// import DeliveryDetailsVue from '../../../../tp-homepage/src/views/reserve/components/DeliveryDetails.vue'
 
 export default {
   name: 'DeliveryDetails',
   data(){
     return {
-        address: '',
-        city: '',
-        state: '',
-        zipcode: ''
+        
+        deliveryVal:{
+          address: '',
+          city: '',
+          state: '',
+          zipcode: '',
+          email:'',
+          phone:'',
+          firstName: '',
+          lastName: '',
+          specialInstruction:'',
+          reference:'',
+          company:'',
+          latitude:'',
+          longitude:''
+          // isAppointment:false
+        }
     }
   },
   components: {
     VueGoogleAutocomplete
   },
   mixins: [GoogleMapMixin],
+  
+   watch:{
+    deliveryVal:{
+      deep:true,
+      handler:function(nv,ov){
+        if(isProxy(nv)){
+          const rawVal = toRaw(nv)
+          const payload = { rawVal ,type:'deliver'}
+          this.$emit('updateDetails',payload)
+          console.log("delivery==",rawVal)
+        }
+      }
+    }
+   
+  },
   methods:{
     setAddress(place) {
-        const {route,street_number,postal_code,administrative_area_level_1,locality} = place
+        const {latitude,longitude,route,street_number,postal_code,administrative_area_level_1,locality} = place
         if (!place) return;
-        this.address = `${street_number} ${route}`
-        this.city = locality
-        this.state = administrative_area_level_1
-        this.zipcode = postal_code
+        this.deliveryVal.address = `${street_number} ${route}`
+        this.deliveryVal.city = locality
+        this.deliveryVal.state = administrative_area_level_1
+        this.deliveryVal.zipcode = postal_code
+        this.deliveryVal.latitude = latitude
+        this.deliveryVal.longitude = longitude
     },
   }
 }

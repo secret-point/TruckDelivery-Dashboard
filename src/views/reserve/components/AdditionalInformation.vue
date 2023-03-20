@@ -4,11 +4,11 @@
       <h3 class="">Additional information</h3>
       <div class="mt-20px w-full max-width-60-percent">
         <label class="text-sm">Estimated shipment value</label>
-        <input class="custom-input" placeholder="$ 100000" />
+        <input v-model="info.shipment" class="custom-input" placeholder="$ 100000" />
       </div>
       <div class="mt-10px w-full max-width-60-percent">
         <label class="text-sm">Item Description</label>
-        <input class="custom-input" placeholder="Some text" />
+        <input v-model="info.description" class="custom-input" placeholder="Some text" />
         <label class="text-xs text-gray-400">ex: some text about description</label>
       </div>
     </div>
@@ -18,7 +18,7 @@
         <label class="text-sm">Requested loading date</label>
         <flat-pickr
           class="custom-input"
-          v-model="date"
+          v-model="info.pickUp.date"
           placeholder="1/5/2023"
           :config="flat_pikr_config"
         />
@@ -38,17 +38,17 @@
         <label class="text-sm">Requested loading hours</label>
         <div class="flex items-center">
           <div class="flex gap-5px items-center">
-            <input class="custom-input" type="number" :min="1" :max="24" />
+            <input v-model="info.pickUp.startTime.FirstPart" class="custom-input" type="number" :min="1" :max="24" />
             <label>:</label>
-            <input class="custom-input" type="number" :min="0" :max="59" />
+            <input v-model="info.pickUp.startTime.secondPart" class="custom-input" type="number" :min="0" :max="59" />
           </div>
           <div class="mx-10px">
             <label class="text-sm">to</label>
           </div>
           <div class="flex gap-5px items-center">
-            <input class="custom-input" type="number" :min="1" :max="24" />
+            <input v-model="info.pickUp.stopTime.FirstPart" class="custom-input" type="number" :min="1" :max="24" />
             <label>:</label>
-            <input class="custom-input" type="number" :min="0" :max="59" />
+            <input v-model="info.pickUp.stopTime.secondPart" class="custom-input" type="number" :min="0" :max="59" />
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
         <label class="text-sm">Requested unloading date</label>
         <flat-pickr
           class="custom-input"
-          v-model="date"
+          v-model="info.delivery.date"
           placeholder="1/5/2023"
           :config="flat_pikr_config"
         />
@@ -80,17 +80,17 @@
         <label class="text-sm">Requested unloading hours</label>
         <div class="flex items-center">
           <div class="flex gap-5px items-center">
-            <input class="custom-input" type="number" :min="1" :max="24" />
+            <input v-model="info.delivery.startTime.FirstPart" class="custom-input" type="number" :min="1" :max="24" />
             <label>:</label>
-            <input class="custom-input" type="number" :min="0" :max="59" />
+            <input v-model="info.delivery.startTime.secondPart" class="custom-input" type="number" :min="0" :max="59" />
           </div>
           <div class="mx-10px">
             <label class="text-sm">to</label>
           </div>
           <div class="flex gap-5px items-center">
-            <input class="custom-input" type="number" :min="1" :max="24" />
+            <input v-model="info.delivery.stopTime.FirstPart" class="custom-input" type="number" :min="1" :max="24" />
             <label>:</label>
-            <input class="custom-input" type="number" :min="0" :max="59" />
+            <input v-model="info.delivery.stopTime.secondPart" class="custom-input" type="number" :min="0" :max="59" />
           </div>
         </div>
       </div>
@@ -102,6 +102,8 @@
 <script>
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
+import { isProxy, toRaw } from 'vue';
+
 
 export default {
   name: 'AdditionalInformation',
@@ -111,9 +113,49 @@ export default {
   data() {
     return {
       date: null,
-      flat_pikr_config: {}
+      flat_pikr_config: {},
+      info:{
+        shipment:'',
+        description:'',
+        pickUp:{
+          date:'',
+          startTime:{
+            firstPart:'',
+            secondPart:''
+          },
+          stopTime:{
+            firstPart:'',
+            secondPart:''
+          }
+        },
+         delivery:{
+          date:'',
+          startTime:{
+            firstPart:'',
+            secondPart:''
+          },
+          stopTime:{
+            firstPart:'',
+            secondPart:''
+          }
+        }
+      }
     }
-  }
+  },
+   watch:{
+    info:{
+      deep:true,
+      handler:function(nv,ov){
+        if(isProxy(nv)){
+          const rawVal = toRaw(nv)
+          const payload = { rawVal ,type:'info'}
+          this.$emit('updateDetails', payload)
+          console.log("info==",rawVal)
+        }
+      }
+    }
+   
+  },
 }
 </script>
 

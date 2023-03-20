@@ -30,7 +30,7 @@
                   </div>
                 </div>
                 <span v-else :class="{ 'font-bold': col.column === 'rate' }">{{
-                  field[col.column]
+                  field[col.column].toFixed(2)
                 }}</span>
               </div>
             </td>

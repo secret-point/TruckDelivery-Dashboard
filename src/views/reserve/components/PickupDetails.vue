@@ -6,8 +6,8 @@
           <div class="flex flex-col w-full">
             <h3 class="">What is the pick-up address?</h3>
             <div class="mt-20px w-full">
-              <label class="text-sm">Company or Individual name</label>
-              <input class="custom-input" placeholder="$ 100000" />
+              <label class="text-sm">Companytrtro or Individual name</label>
+              <input type="number" v-model="pickVal.company" class="custom-input" placeholder="$ 100000" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
@@ -22,25 +22,25 @@
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">City</label>
-              <input v-model="city" class="custom-input" placeholder="Newyork" />
+              <input v-model="pickVal.city" class="custom-input" placeholder="Newyork" />
               <!-- <label class="text-xs text-gray-400">Apartment, Unit, Suite, etc.</label> -->
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">State</label>
-              <input v-model="state" class="custom-input" placeholder="NY" />
+              <input v-model="pickVal.state" class="custom-input" placeholder="NY" />
               <!-- <label class="text-xs text-gray-400">Seattle etc.</label> -->
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Zip code</label>
-              <input v-model="zipcode" class="custom-input" placeholder="91732" />
+              <input v-model="pickVal.zipcode" class="custom-input" placeholder="91732" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Pick-up reference number (optional)</label>
-              <input class="custom-input" placeholder="1223243432423432" />
+              <input v-model="pickVal.reference" class="custom-input" placeholder="1223243432423432" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Special instructions (optional)</label>
-              <textarea class="custom-input" placeholder="Notes" rows="6" />
+              <textarea v-model="pickVal.specialInstruction" class="custom-input" placeholder="Notes" rows="6" />
             </div>
           </div>
         </div>
@@ -51,23 +51,23 @@
             <h3 class="">Who can we contact at this location?</h3>
             <div class="mt-20px w-full">
               <label class="text-sm">First name</label>
-              <input class="custom-input" placeholder="Hongshuai" />
+              <input v-model="pickVal.firstName" class="custom-input" placeholder="Hongshuai" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Last name</label>
-              <input class="custom-input" placeholder="Lu" />
+              <input v-model="pickVal.lastName" class="custom-input" placeholder="Lu" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Phone</label>
-              <input class="custom-input" placeholder="(626)831 8933" />
+              <input v-model="pickVal.phone" class="custom-input" placeholder="(626)831 8933" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Email</label>
-              <input class="custom-input" type="email" placeholder="justin@gmail.com" />
+              <input v-model="pickVal.email" class="custom-input" type="email" placeholder="justin@gmail.com" />
             </div>
             <div class="mt-10px flex gap-5px w-full">
-              <input type="checkbox" />
-              <label class="text-sm">Appointment required</label>
+              <input  type="checkbox" />
+              <label  class="text-sm">Appointment required</label>
             </div>
           </div>
         </div>
@@ -80,6 +80,7 @@
 import GoogleMapMixin from '../../../../src/mixings/googleMapMixin'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 import config from '@/config/constants.js'
+import { isProxy, toRaw } from 'vue';
 
 export default {
   name: 'PickupDetails',
@@ -90,11 +91,39 @@ export default {
   data() {
     return {
         googleMapAutoCompleteOptions: config.googleMapAutoCompleteOptions,
-        address: '',
-        city: '',
-        state: '',
-        zipcode: ''
+        trial:'',
+        pickVal:{
+          address: '',
+          city: '',
+          state: '',
+          zipcode: '',
+          email:'',
+          phone:'',
+          firstName: '',
+          lastName: '',
+          specialInstruction:'',
+          reference:'',
+          company:'',
+          longitude:'',
+          latitude:'',
+          // isAppointment:false
+        }
     }
+  },
+  watch:{
+    pickVal:{
+      deep:true,
+      handler:function(nv,ov){
+        if(isProxy(nv)){
+          const rawVal = toRaw(nv)
+          const payload = { rawVal ,type:'pickUp'}
+          // this.$emit('updateDetails',payload)
+          this.$emit('updateDetails', payload)
+          console.log("pickup==",rawVal)
+        }
+      }
+    }
+   
   },
   methods:{
 //     administrative_area_level_1: "NY"
@@ -108,15 +137,19 @@ export default {
 // street_number: "123"
       setAddress(place) {
         console.log("event$",place)
-        const {route,street_number,postal_code,administrative_area_level_1,locality} = place
+        const {latitude,longitude,route,street_number,postal_code,administrative_area_level_1,locality} = place
         if (!place) return;
-        this.address = `${street_number} ${route}`
-        this.city = locality
-        this.state = administrative_area_level_1
-        this.zipcode = postal_code
+        this.pickVal.address = `${street_number} ${route}`
+        this.pickVal.city = locality
+        this.pickVal.state = administrative_area_level_1
+        this.pickVal.zipcode = postal_code
+        this.pickVal.latitude = latitude
+        this.pickVal.longitude = longitude
+
       
     },
-  }
+  },
+ 
 }
 </script>
 
