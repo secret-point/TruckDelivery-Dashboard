@@ -2,6 +2,7 @@
   <div class="logo">
     <img src="@/assets/images/logo.svg" @click="$router.push('/')" />
   </div>
+  <notifications position="bottom right" />
   <v-row no-gutters class="pa-4 h-screen">
     <v-col cols="6" class="d-flex flex-column justify-center h-75">
       <v-form @submit.prevent="submit">
@@ -34,7 +35,9 @@
             hint="Enter your password to access this website"
             counter
           ></v-text-field>
-          <v-btn color="primary" type="submit" class="w-100" rounded="lg">Login </v-btn>
+          <v-btn color="primary" type="submit" class="w-100" rounded="lg"
+            >Login
+          </v-btn>
           <p class="mt-5">
             Don't have an account?
             <span style="color: #5299f5" @click="goToRegister">Register</span>
@@ -54,47 +57,62 @@
 </template>
 
 <script>
-import config from '../../../config/constants'
+import config from "../../../config/constants";
 export default {
-  name: 'login',
+  name: "login",
   data() {
     return {
-      email: '',
-      password: '',
-      role: '',
+      email: "",
+      password: "",
+      role: "",
       roles: config.roles,
       rules: {
-        required: (value) => !!value || 'Required.',
-        min: (v) => v.length >= 6 || 'Min 6 characters',
+        required: (value) => !!value || "Required.",
+        min: (v) => v.length >= 6 || "Min 6 characters",
         emailMatch: () => `The email and password you entered don't match`,
         email: (value) => {
           const pattern =
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(value) || 'Invalid e-mail.'
-        }
-      }
-    }
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return pattern.test(value) || "Invalid e-mail.";
+        },
+      },
+    };
   },
   methods: {
     submit() {
       const payload = {
         email: this.email,
         password: this.password,
-        remember_me: false
+        remember_me: false,
+      };
+      if (this.role != "carrier") {
+        payload.role = this.role;
       }
-      if (this.role != 'carrier') {
-        payload.role = this.role
-      }
-      this.$http.post('auth/login', payload).then(({data}) => {
-        localStorage.setItem('access_token', data.payload.access_token)
-        this.$router.push({ name: 'home' })
-      })
+      this.$http
+        .post("auth/login", payload)
+        .then(({ data }) => {
+          this.$notify({
+            type: "success",
+            title: "Success",
+            text: "Congratulations! You have Login successfully.",
+          });
+          localStorage.setItem("access_token", data.payload.access_token);
+          this.$router.push({ name: "home" });
+        })
+        .catch((error) => {
+          if (!error) return;
+          this.$notify({
+            type: "error",
+            title: "Error",
+            text: error.response.data.message,
+          });
+        });
     },
     goToRegister() {
-      this.$router.push('register')
-    }
-  }
-}
+      this.$router.push("register");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

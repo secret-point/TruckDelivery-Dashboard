@@ -259,17 +259,21 @@ export default {
         timezone: this.timeZone,
       };
       if (this.role != "carrier") {
-        payload.companyType = this.companyType;
+        if (this.companyType === "ba") {
+          payload.companyType = "broker";
+        } else {
+          payload.companyType = "shipper";
+        }
       }
       this.$http
         .post("admin/setup-profile", payload)
         .then(() => {
           this.$notify({
-            group: 'auth',
-            type: 'success',
-            title: 'Welcome',
-            text: 'Congratulations! You have registered successfully.'
-          })
+            group: "auth",
+            type: "success",
+            title: "Welcome",
+            text: "Congratulations! You have registered successfully.",
+          });
           this.$router.push({ name: "home" });
         })
         .catch((error) => {
