@@ -8,6 +8,7 @@
           :country="['us', 'ca']"
           placeholder="Origin city state"
           v-on:placechanged="setPlace($event, 'origin')"
+          types="(cities)"
         >
         </vue-google-autocomplete>
       </div>
@@ -20,6 +21,7 @@
           :country="['us', 'ca']"
           placeholder="Destination city state"
           v-on:placechanged="setPlace($event, 'destination')"
+          types="(cities)"
         >
         </vue-google-autocomplete>
       </div>
