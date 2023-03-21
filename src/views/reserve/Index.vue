@@ -19,7 +19,7 @@
          <component :is="currentComponent" @submit="reserveApi"  @updateDetails="updateDetails"/>
  
         <!-- Footer -->
-        <div class="mt-10px flex items-center justify-center gap-10px absolute bottom-0 w-full">
+        <div class="mt-10px flex items-center justify-center gap-10px  bottom-0 w-full">
           <v-btn color="primary" variant="outlined" @click.stop="navigateBackward">
             Previous
           </v-btn>
