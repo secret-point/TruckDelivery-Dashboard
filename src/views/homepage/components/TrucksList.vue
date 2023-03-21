@@ -4,9 +4,10 @@
       <!-- <p class="font-bold">Trucks we found {{ this.truckList.data.length }} results</p> -->
       <!-- <span class="total-result">{{ this.truckList.data.length }} results</span> -->
       <p class="font-bold"
-        >{{ truckList.data.length }} carriers found for route {{ origin.city }},
-        {{ origin.state }} to {{ destination.city }}, {{ destination.state }},
-        pickup dates from {{ startDate }} to {{ endDate }}, {{ distance }} miles.</p
+        ><b>{{ truckList.data.length }}</b> carriers found for route <b>{{ origin.city }}</b>,
+        <b>{{ origin.state }}</b> to <b>{{ destination.city }}</b>, <b>{{ destination.state }}</b>,
+        pickup dates from <b>{{ startDate }}</b> to <b>{{ endDate }}</b>,
+        <b>{{ distance }}</b> miles.</p
       >
     </div>
     <div class="truck-list-table p-5">
@@ -24,16 +25,36 @@
             <td v-for="(col, i) in truckList.header" :key="i">
               <div class="td-description">
                 <div v-if="col.column === 'company'" class="flex items-center">
-                  <img :src="field[col.column].logoUrl" alt="logo" class="logo" />
-                  <div class="flex flex-column align-center justify-center ml-3">
-                    <p><span class="font-medium" >{{ field[col.column].name }}</span></p>
+                  <v-rating
+                      v-model="favRating"
+                      density="compact"
+                      color="#FBBC05"
+                      readonly
+                      length="1"
+                      size="small"
+                    ></v-rating>
+                  <img
+                    v-if="field[col.column].logoUrl"
+                    :src="field[col.column].logoUrl"
+                    alt="logo"
+                    class="logo ml-4"
+                  />
+                  <div
+                    class="flex flex-column ml-3"
+                  >
+                    <p style="position: relative; bottom: -6px;"
+                      ><span class="font-weight-bold text-uppercase">{{
+                        field[col.column].name
+                      }}</span></p
+                    >
                     <v-rating
-                        v-model="rating"
-                        class="ma-2"
-                        density="compact"
-                        color="yellow"
-                        readonly
-                      ></v-rating>
+                      v-model="rating"
+                      class="mr-3"
+                      density="compact"
+                      color="#FBBC05"
+                      readonly
+                      size="small"
+                    ></v-rating>
                     <!-- <star-rating
                       v-model="rating"
                       :starSize="15"
@@ -41,12 +62,16 @@
                     ></star-rating> -->
                   </div>
                 </div>
-                <span v-else :class="{ 'font-bold': col.column === 'rate' }">{{
-                  field[col.column].toFixed(2)
+                <span style="color: #1877F2" v-else :class="{ 'font-bold': col.column === 'rate' }">{{
+                  toFixed(field[col.column])
                 }}</span>
               </div>
             </td>
-            <td><v-btn color="primary" @click="goToReserve(field.company.id)"> Reserve </v-btn></td>
+            <td
+              ><v-btn color="primary" class="text-capitalize" @click="goToReserve(field.company.id)">
+                Reserve
+              </v-btn></td
+            >
           </tr>
         </tbody>
       </table>
@@ -56,7 +81,7 @@
 
 <script>
 import StarRating from "vue-star-rating";
-import { calculateDistance } from "@/helpers/helper"; 
+import { calculateDistance, toFixed } from "@/helpers/helper";
 export default {
   name: "TruckList",
   components: {
@@ -96,6 +121,7 @@ export default {
   data() {
     return {
       rating: 5,
+      favRating: 0,
       truckList: {
         header: [
           { name: "Carrier Name", column: "company" },
@@ -105,17 +131,20 @@ export default {
         data: [],
         distance: "",
         startDate: null,
-        endDate: null
+        endDate: null,
       },
     };
   },
   methods: {
-    goToReserve(id){
-      this.$store.dispatch('truck/setTruckId',id)
-      this.$router.push('reserve')
-    }
-  }
-}
+    toFixed(value){
+     toFixed(value, 2)
+    },
+    goToReserve(id) {
+      this.$store.dispatch("truck/setTruckId", id);
+      this.$router.push("reserve");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -144,11 +173,14 @@ export default {
       width: 100%;
       tr {
         th {
-          font-weight: 600;
+          font-weight: 00;
           color: #626262;
           font-size: 0.9rem;
           text-align: left;
           padding: 20px;
+          &:first-child{
+            padding-left: 56px;
+          }
         }
         td {
           padding: 6px 10px;
@@ -160,7 +192,7 @@ export default {
           line-height: 2;
           color: #626262;
           .td-description {
-            padding-top: 1.25rem;
+            padding-top: 0.25rem;
             padding-bottom: 1.25rem;
           }
           .logo {

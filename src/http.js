@@ -6,11 +6,11 @@ import axios from './axios.js'
 // Request interceptor
 axios.interceptors.request.use(request => {
   // const token = store.getters['auth/token'];
-  const token = localStorage.getItem('access_token')
-
-  if (token) {
-    request.headers.common['Authorization'] = `Bearer ${token}`
-  }
+  // const token = localStorage.getItem('access_token')
+  // console.log(token)
+  // if (token) {
+  //   request.headers.common['Authorization'] = `Bearer ${token}`
+  // }
 
   // const locale = store.getters['lang/locale']
   // if (locale) {

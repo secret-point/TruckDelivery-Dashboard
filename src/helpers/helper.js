@@ -22,3 +22,11 @@ export const calculateDistance = (lat1, lng1, lat2, lng2) => {
   const miles = distance * 0.621371;
   return miles.toFixed(2);
 };
+
+
+export const toFixed = (x, d) => {
+  if (!d) return x.toFixed(d); // don't go wrong if no decimal
+  return Number(x)
+    .toFixed(d)
+    .replace(/\.?0+$/, "");
+}
