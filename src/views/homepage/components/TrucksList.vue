@@ -20,8 +20,15 @@
               <div class="td-description">
                 <div v-if="col.column === 'company'" class="flex items-center">
                   <img :src="field[col.column].logoUrl" alt="logo" class="logo" />
-                  <div class="flex flex-col ml-3">
-                    <span class="font-medium">{{ field[col.column].name }}</span>
+                  <div class="flex flex-column align-center justify-center ml-3">
+                    <p><span class="font-medium" >{{ field[col.column].name }}</span></p>
+                    <v-rating
+                        v-model="rating"
+                        class="ma-2"
+                        density="compact"
+                        color="yellow"
+                        readonly
+                      ></v-rating>
                     <!-- <star-rating
                       v-model="rating"
                       :starSize="15"
@@ -63,7 +70,7 @@ export default {
   },
   data() {
     return {
-      rating: null,
+      rating: 5,
       truckList: {
         header: [
           { name: 'Carrier Name', column: 'company' },
