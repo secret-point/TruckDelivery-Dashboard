@@ -266,7 +266,11 @@ export default {
         }
       }
       this.$http
-        .post("admin/setup-profile", payload)
+        .post("admin/setup-profile", payload, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        })
         .then(() => {
           this.$notify({
             group: "auth",
