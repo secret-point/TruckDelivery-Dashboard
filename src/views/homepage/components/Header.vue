@@ -14,7 +14,7 @@
           <!-- <vs-button color="#1877F2" type="filled">Signup</vs-button> -->
         </li>
         <li v-else>
-          <v-btn color="primary">Dashboard </v-btn>
+          <v-btn color="primary" @click.stop="goToDashboard"> Dashboard </v-btn>
         </li>
       </ul>
     </div>
@@ -39,7 +39,15 @@ export default {
     },
     goToRegister() {
       this.$router.push('register')
-    }
+    },
+    goToDashboard() {
+      const accessToken = localStorage.getItem("access_token");
+      if (!process.env.NODE_ENV || process.env.NODE_ENV !== "development") {
+        window.location.href = `https://dashboard.ezpapel.ai/login?access_token='${accessToken}'`;
+      } else {
+        window.location.href = `http://127.0.0.1:8000/login?access_token='${accessToken}'`;
+      }
+    },
   }
 }
 </script>
