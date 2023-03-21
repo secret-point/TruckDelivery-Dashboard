@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
-// import store from './store/index'
+import store from './store/index'
 
 const app = createApp(App);
 // Vuetify
@@ -37,5 +37,5 @@ app.use(VueGoogleMaps, {
       // language: 'de',
     },
   });
-// app.use(store)
+app.use(store)
 app.mount("#app");

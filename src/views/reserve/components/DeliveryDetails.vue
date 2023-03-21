@@ -7,17 +7,26 @@
             <h3 class="">Great! Now tell us a little bit more about the delivery location</h3>
             <div class="mt-20px w-full">
               <label class="text-sm" >Company or Individual name</label>
-              <input type="number" v-model="deliveryVal.company" class="custom-input" placeholder="37" />
+              <input type="text" v-model="deliveryVal.company" class="custom-input" placeholder="truckpedia" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
-               <vue-google-autocomplete
+              <GMapAutocomplete
+                  name="map-delivery"
+                  placeholder="123,seattle"
+                  class="custom-input"
+                  :country="['us', 'ca']"
+                  :value="deliveryVal.address"
+                  @place_changed="setAddress($event)"
+                >
+              </GMapAutocomplete>
+               <!-- <vue-google-autocomplete
                 id="map-pickup"
                 class="custom-input"
                 :country="['us', 'ca']"
                 v-on:placechanged="setAddress($event)"
               >
-              </vue-google-autocomplete>
+              </vue-google-autocomplete> -->
               <!-- <input class="custom-input" placeholder="12345 address line one" /> -->
               <!-- <label class="text-xs text-gray-400">
                 This address is not recognized, please double check that it is entered correctly. If
@@ -129,15 +138,50 @@ export default {
    
   },
   methods:{
-    setAddress(place) {
-        const {latitude,longitude,route,street_number,postal_code,administrative_area_level_1,locality} = place
-        if (!place) return;
-        this.deliveryVal.address = `${street_number} ${route}`
-        this.deliveryVal.city = locality
-        this.deliveryVal.state = administrative_area_level_1
-        this.deliveryVal.zipcode = postal_code
-        this.deliveryVal.latitude = latitude
-        this.deliveryVal.longitude = longitude
+    // setAddress(place) {
+    //     const {latitude,longitude,route,street_number,postal_code,administrative_area_level_1,locality} = place
+    //     if (!place) return;
+    //     this.deliveryVal.address = `${street_number} ${route}`
+    //     this.deliveryVal.city = locality
+    //     this.deliveryVal.state = administrative_area_level_1
+    //     this.deliveryVal.zipcode = postal_code
+    //     this.deliveryVal.latitude = latitude
+    //     this.deliveryVal.longitude = longitude
+    // },
+     setAddress(place) {
+      console.log("event$",place)
+      if (!place) return;
+      let address = place.formatted_address.split(", ").slice(0, -3).join(", ");
+      if (!address) {
+        address = place.formatted_address.split(", ")[0];
+      }
+
+      const city = place.address_components
+        .filter((address) => {
+          return address.types.includes("locality");
+        })
+        .map((address) => address.long_name)[0];
+
+      const state = place.address_components
+        .filter((address) => {
+          return address.types.includes("administrative_area_level_1");
+        })
+        .map((address) => address.short_name)[0];
+
+      const zipcode = place.address_components
+        .filter((address) => address.types.includes("postal_code"))
+        .map(
+          (address) => address.short_name && parseInt(address.short_name)
+        )[0];
+
+      const lat = place.geometry.location.lat();
+      const lng = place.geometry.location.lng();
+      this.deliveryVal.address = address;
+      this.deliveryVal.city = city;
+      this.deliveryVal.state= state;
+      this.deliveryVal.zipcode = zipcode;
+      this.deliveryVal.latitude = lat;
+      this.deliveryVal.longitude = lng;
     },
   }
 }

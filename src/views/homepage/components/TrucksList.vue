@@ -41,7 +41,7 @@
                 }}</span>
               </div>
             </td>
-            <td><v-btn color="primary" @click="goToReserve"> Reserve </v-btn></td>
+            <td><v-btn color="primary" @click="goToReserve(field.company.id)"> Reserve </v-btn></td>
           </tr>
         </tbody>
       </table>
@@ -82,7 +82,8 @@ export default {
     }
   },
   methods: {
-    goToReserve(){
+    goToReserve(id){
+      this.$store.dispatch('truck/setTruckId',id)
       this.$router.push('reserve')
     }
   }

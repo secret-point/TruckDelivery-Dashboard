@@ -2,8 +2,8 @@
   <section>
     <v-sheet class="pa-6" border rounded color="grey-lighten-3" height="556" width="100%">
       <v-tabs fixed-tabs color="primary" v-model="tab">
-        <v-tab value="1" key="1"> Flexible Delivery Date Price </v-tab>
-        <v-tab value="2" key="2"> Guarantee Delivery Date Price </v-tab>
+        <v-tab value="flexible" key="1"> Flexible Delivery Date Price </v-tab>
+        <v-tab value="guarantee" key="2"> Guarantee Delivery Date Price </v-tab>
       </v-tabs>
       <v-window v-model="tab" class="text-body-1 px-2">
         <v-window-item v-for="item in items" :key="item.id" :value="item.id">
@@ -12,7 +12,7 @@
             <p class="my-3">for 3- 5 days transit</p>
             <p class="my-2">Estimated Price</p>
             <div class="my-2 d-flex justify-space-between align-center">
-              <input type="text" height="48" width="472" placeholder="$" class="mr-5"/>
+              <input v-model.number="estimatedPrice" type="number" height="48" width="472" placeholder="$" class="mr-5"/>
               <v-btn variant="flat" color="primary" size="large" @click="goToReserveInfo">Reserve</v-btn>
             </div>
             <p class="my-2">You won’t be charged yet</p>
@@ -48,14 +48,15 @@ export default {
   name: 'DeliveryPrice',
   data() {
     return {
+      estimatedPrice:0,
       tab: null,
       items: [
         {
-          id: '1',
+          id: 'flexible',
           text: 'Porem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
         },
         {
-          id: '2',
+          id: 'guarantee',
           text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
         }
       ]
@@ -63,6 +64,8 @@ export default {
   },
   methods: {
     goToReserveInfo(){
+      const payload = {estimatedPrice:this.estimatedPrice,deliveryType:this.tab}
+      this.$store.dispatch('truck/setDeliveryTypeAndEstimation',payload)
       this.$router.push('reserve-info')
     }
   }

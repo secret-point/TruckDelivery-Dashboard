@@ -33,12 +33,14 @@
 </template>
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
+import { mapState } from "vuex";
 import AdditionalInformation from './components/AdditionalInformation.vue'
 import ReservationSummary from './components/ReservationSummary.vue'
 import DeliveryDetails from './components/DeliveryDetails.vue'
 import PaymentDetails from './components/PaymentDetails.vue'
 import PickupDetails from './components/PickupDetails.vue'
-
+import {toRaw } from 'vue';
+import {calculateDistance} from '@/utils'
 export default {
   name: 'Index',
   components: {
@@ -49,6 +51,7 @@ export default {
     PickupDetails
   },
   computed: {
+     ...mapState('truck', ["truckDetails"]),
     headerText() {
       const labels = {
         1: 'Additional information',
@@ -80,12 +83,7 @@ export default {
       info:{}
     }
   },
-  activated() {
-        console.log('activated==');
-    },
-    deactivated() {
-        console.log('deactivated==');
-    },
+ 
   methods: {
     updateDetails(payload){
       console.log("final-d-p==",payload)
@@ -112,19 +110,20 @@ export default {
         return {name:name,contactPerson:`${firstName} ${lastName}`,date:info && info.date,startTime:`${info?.startTime?.firstPart}:${info?.startTime?.lastPart}`,endTime:`${info?.stopTime?.firstPart}:${info?.stopTime?.lastPart}`,...rest}
     },
     reserveApi() {
+      const truckDetails = toRaw(this.truckDetails)
       const pickUpDetails = this.createPayload(this.pickVal,this.info.pickUp,'Shipper')
       const deliveryDetails = this.createPayload(this.deliveryVal,this.info.delivery,'Receiver')
-      
+      const miles = calculateDistance(this.pickVal.latitude,this.pickVal.longitude,this.deliveryVal.latitude,this.deliveryVal.longitude)
       const payload = {
-        comapnyId: 23,
-        deliveryType: 'flexible',
-        estimatedPrice: 200,
+        comapnyId: truckDetails.id,
+        deliveryType: truckDetails.deliveryType,
+        estimatedPrice: truckDetails.estimatedPrice,
         additionalInformation: {
-          loadUniqueId: 1232,
+          // loadUniqueId: 1232,
           estimatedShipmentValue: this.info.shipment,
           itemDescription: this.info.description,
-          totalMiles: 300,
-          calculateUsing: 'p'
+          totalMiles: miles,
+          calculateUsing: 'google_maps'
         },
         pickupDetails: [
          pickUpDetails
@@ -133,7 +132,7 @@ export default {
          deliveryDetails
         ]
       }
-      console.log("api-payload",payload)
+      console.log("final-payload==",payload)
       this.$http.post('truckpedia/reserved', payload).then((data) => {
         console.log(data)
       })

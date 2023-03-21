@@ -4,7 +4,7 @@
       <h3 class="">Additional information</h3>
       <div class="mt-20px w-full max-width-60-percent">
         <label class="text-sm">Estimated shipment value</label>
-        <input v-model="info.shipment" class="custom-input" placeholder="$ 100000" />
+        <input type="number" v-model.number="info.shipment" class="custom-input" placeholder="$100000" />
       </div>
       <div class="mt-10px w-full max-width-60-percent">
         <label class="text-sm">Item Description</label>
