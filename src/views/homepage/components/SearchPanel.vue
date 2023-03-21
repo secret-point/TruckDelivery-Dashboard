@@ -13,7 +13,7 @@
         </vue-google-autocomplete> -->
         <GMapAutocomplete
           name="address"
-          placeholder="Origin city state"
+          placeholder="Pickup city state"
           class="custom-input"
           :value="originAddress"
           @place_changed="setPlace($event, 'origin')"
@@ -26,8 +26,8 @@
       <span>to</span>
       <div>
         <GMapAutocomplete
-          name="address"
-          placeholder="Destination city state"
+          name="address1"
+          placeholder="Delivery city state"
           class="custom-input"
           :value="destinationAddress"
           @place_changed="setPlace($event, 'destination')"
@@ -48,19 +48,20 @@
       <div>
         <flat-pickr
           class="custom-input"
-          placeholder="Origin date"
-          v-model="originDate"
+          placeholder="Pickup date"
+          v-model="date"
           :config="flat_pikr_config"
+          @on-change="handleFlatPickerInput"
         />
       </div>
-      <div>
+      <!-- <div>
         <flat-pickr
           class="custom-input"
           placeholder="Destination date"
           v-model="destinationDate"
           :config="flat_pikr_config"
         />
-      </div>
+      </div> -->
       <div>
         <button class="search-btn" @click="submit">Search</button>
       </div>
@@ -74,6 +75,7 @@ import config from "@/config/constants.js";
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import { formatDate } from "@/helpers/helper";
 
 export default {
   name: "SearchPanel",
@@ -81,10 +83,12 @@ export default {
     return {
       // google map autocomplete options
       googleMapAutoCompleteOptions: config.googleMapAutoCompleteOptions,
-      originDate: null,
-      destinationDate: null,
+      date: null,
       // Flat Pikr Config
-      flat_pikr_config: {},
+      flat_pikr_config: {
+        mode: "range",
+        defaultDate: [],
+      },
       destinationAddress: "",
       originAddress: "",
     };
@@ -94,19 +98,33 @@ export default {
     VueGoogleAutocomplete,
   },
   mixins: [GoogleMapMixin],
-  watch: {
-    originDate: {
-      handler(val) {
-        this.$emit("originDate", val);
-      },
-    },
-    destinationDate: {
-      handler(val) {
-        this.$emit("destinationDate", val);
-      },
-    },
-  },
+  // watch: {
+  //   date: {
+  //     handler(val) {
+  //       if(!val) return;
+  //       this.$emit("searchDataRange", val);
+  //     },
+  //   },
+  // },
   methods: {
+    handleFlatPickerInput(selectedDates, dateStr, instance) {
+      if (!selectedDates && !dateStr) return;
+      this.date = dateStr;
+
+      const selectedDateFormat = dateStr.split(" to ");
+      const startDate = new Date(selectedDateFormat[0]);
+      const skipDay = 60;
+
+      startDate.setDate(startDate.getDate() - skipDay);
+      this.flat_pikr_config.minDate = formatDate(new Date(startDate));
+      startDate.setDate(startDate.getDate() + skipDay * 2);
+      this.flat_pikr_config.maxDate = formatDate(new Date(startDate));
+      if (selectedDates.length >= 2) {
+        this.flat_pikr_config.minDate = "";
+        this.flat_pikr_config.maxDate = "";
+      }
+      this.$emit("searchDataRange", this.date);
+    },
     updateGoogleCityState(city, state, lat, lng, type) {
       const place = { city, state, lat, lng };
       this.$emit("address", { place, type });
@@ -121,7 +139,6 @@ export default {
      */
     setPlace(place, type) {
       if (!place) return;
-
       const city = place.address_components
         .filter((address) => {
           return address.types.includes("locality");
@@ -138,6 +155,14 @@ export default {
       const lng = place.geometry.location.lng();
       if (city && state) {
         this.updateGoogleCityState(city, state, lat, lng, type);
+      } else {
+        this.updateGoogleCityState(
+          place.formatted_address.split(",")[0],
+          state,
+          lat,
+          lng,
+          type
+        );
       }
     },
 

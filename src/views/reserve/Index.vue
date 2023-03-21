@@ -168,7 +168,6 @@ export default {
          deliveryDetails
         ]
       }
-      console.log("final-payload==",payload)
       this.$http.post('truckpedia/reserved', payload).then((data) => {
         console.log(data)
       })

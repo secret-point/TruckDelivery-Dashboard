@@ -1,8 +1,13 @@
 <template>
   <div class="truck-list" v-if="truckList.data.length">
     <div class="truck-header">
-      <p class="font-bold">Trucks we found</p>
-      <span class="total-result">{{ this.truckList.data.length }} results</span>
+      <!-- <p class="font-bold">Trucks we found {{ this.truckList.data.length }} results</p> -->
+      <!-- <span class="total-result">{{ this.truckList.data.length }} results</span> -->
+      <p class="font-bold"
+        >{{ truckList.data.length }} carriers found for route {{ origin.city }},
+        {{ origin.state }} to {{ destination.city }}, {{ destination.state }},
+        pickup dates from {{ startDate }} to {{ endDate }}, {{ distance }} miles.</p
+      >
     </div>
     <div class="truck-list-table p-5">
       <table>
@@ -50,36 +55,59 @@
 </template>
 
 <script>
-import StarRating from 'vue-star-rating'
+import StarRating from "vue-star-rating";
+import { calculateDistance } from "@/helpers/helper"; 
 export default {
-  name: 'TruckList',
+  name: "TruckList",
   components: {
-    StarRating
+    StarRating,
   },
   props: {
     availableTrucks: {
-      default: []
-    }
+      default: [],
+    },
+    destination: {
+      type: Object,
+    },
+    origin: {
+      type: Object,
+    },
+    date: {
+      type: String,
+    },
   },
   watch: {
     availableTrucks: {
       handler(val) {
-        this.truckList.data = val.availableTrucks
-      }
-    }
+        this.truckList.data = val.availableTrucks;
+        this.distance = calculateDistance(
+          this.origin.lat,
+          this.origin.lng,
+          this.destination.lat,
+          this.destination.lng
+        );
+        this.startDate = this.date.split("to")[0];
+        this.endDate = this.date.split("to")[1]
+          ? this.date.split("to")[1]
+          : this.date.split("to")[0];
+      },
+    },
   },
   data() {
     return {
       rating: 5,
       truckList: {
         header: [
-          { name: 'Carrier Name', column: 'company' },
-          { name: 'Max Weight', column: 'maxWeight' },
-          { name: 'Rate', column: 'rate' }
+          { name: "Carrier Name", column: "company" },
+          { name: "Max Weight", column: "maxWeight" },
+          { name: "Rate", column: "rate" },
         ],
-        data: []
-      }
-    }
+        data: [],
+        distance: "",
+        startDate: null,
+        endDate: null
+      },
+    };
   },
   methods: {
     goToReserve(id){
