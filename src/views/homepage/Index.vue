@@ -978,52 +978,52 @@ export default {
       destinationState: "",
     };
   },
-  // mounted() {
-  //   $("path").click((e) => {
-  //     const primaryColor = "#e7f0fb";
-  //     const desColor = "#48F4A2";
-  //     const originColor = "#1877F2";
-  //     if ($(e.currentTarget).hasClass("originState")) {
-  //       $(e.currentTarget)
-  //         .css({ fill: primaryColor })
-  //         .removeClass("originState");
-  //     } else {
-  //       if ($(e.currentTarget).hasClass("destinationState")) {
-  //         $(e.currentTarget)
-  //           .css({ fill: primaryColor })
-  //           .removeClass("destinationState");
-  //       } else {
-  //         if ($("path").hasClass("originState")) {
-  //           if ($("path").hasClass("destinationState")) return;
-  //           $(e.currentTarget)
-  //             .css({ fill: desColor })
-  //             .addClass("destinationState");
-  //         } else {
-  //           $(e.currentTarget)
-  //             .css({ fill: originColor })
-  //             .addClass("originState");
-  //         }
-  //       }
-  //     }
+  mounted() {
+    $("path").click((e) => {
+      const primaryColor = "#e7f0fb";
+      const desColor = "#48F4A2";
+      const originColor = "#1877F2";
+      if ($(e.currentTarget).hasClass("originState")) {
+        $(e.currentTarget)
+          .css({ fill: primaryColor })
+          .removeClass("originState");
+      } else {
+        if ($(e.currentTarget).hasClass("destinationState")) {
+          $(e.currentTarget)
+            .css({ fill: primaryColor })
+            .removeClass("destinationState");
+        } else {
+          if ($("path").hasClass("originState")) {
+            if ($("path").hasClass("destinationState")) return;
+            $(e.currentTarget)
+              .css({ fill: desColor })
+              .addClass("destinationState");
+          } else {
+            $(e.currentTarget)
+              .css({ fill: originColor })
+              .addClass("originState");
+          }
+        }
+      }
 
-  //     const originLongName = $(".originState").parent("a").attr("title");
-  //     const destinationLongName = $(".destinationState")
-  //       .parent("a")
-  //       .attr("title");
-  //     const originShortName = $(".originState")
-  //       .parent("a")
-  //       .children("text")
-  //       .html();
-  //     const destinationShortName = $(".destinationState")
-  //       .parent("a")
-  //       .children("text")
-  //       .html();
+      // const originLongName = $(".originState").parent("a").attr("title");
+      // const destinationLongName = $(".destinationState")
+      //   .parent("a")
+      //   .attr("title");
+      // const originShortName = $(".originState")
+      //   .parent("a")
+      //   .children("text")
+      //   .html();
+      // const destinationShortName = $(".destinationState")
+      //   .parent("a")
+      //   .children("text")
+      //   .html();
 
-  //     this.originState = `${originLongName},${originShortName}`;
-  //     this.destinationState = `${destinationLongName},${destinationShortName}`;
-  //     // this.originPlace.place =
-  //   });
-  // },
+      // this.originState = `${originLongName},${originShortName}`;
+      // this.destinationState = `${destinationLongName},${destinationShortName}`;
+      // this.originPlace.place =
+    });
+  },
   methods: {
     searchDataRange(date) {
       this.date = date;
