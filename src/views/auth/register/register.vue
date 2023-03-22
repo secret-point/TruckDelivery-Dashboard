@@ -114,6 +114,7 @@ export default {
             text: 'Congratulations! You have registered successfully.'
           })
           window.localStorage.setItem('access_token', data.payload.access_token)
+          window.localStorage.setItem('user_role', data.payload.role)
           this.$router.push({name: 'setup-profile', query: {role: this.role}});
           window.reload();
         })

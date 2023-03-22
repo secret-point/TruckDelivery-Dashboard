@@ -88,6 +88,10 @@ export default {
       if (this.role != "carrier") {
         payload.role = this.role;
       }
+      payload.role
+        ? window.localStorage.setItem("user_role", payload.role)
+        : window.localStorage.removeItem("user_role");
+
       this.$http
         .post("auth/login", payload)
         .then(({ data }) => {

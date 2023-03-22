@@ -13,7 +13,7 @@
           <v-btn color="primary" @click="goToRegister">Signup </v-btn>
           <!-- <vs-button color="#1877F2" type="filled">Signup</vs-button> -->
         </li>
-        <li v-else>
+        <li v-else-if="showDashboard">
           <v-btn color="primary" @click.stop="goToDashboard"> Dashboard </v-btn>
         </li>
       </ul>
@@ -31,7 +31,14 @@ export default {
         return true
       }
       return false
-    }
+    },
+    showDashboard() {
+      return (
+        localStorage.getItem("user_role") &&
+        (localStorage.getItem("user_role") === "ba" ||
+          localStorage.getItem("user_role") === "sa")
+      );
+    },
   },
   methods: {
     goToLogin() {
