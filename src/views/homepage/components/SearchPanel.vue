@@ -79,6 +79,14 @@ import { formatDate } from "@/helpers/helper";
 
 export default {
   name: "SearchPanel",
+  props: {
+    mapOriginState: {
+      type: String,
+    },
+    mapDestinationState: {
+      type: String,
+    },
+  },
   data() {
     return {
       // google map autocomplete options
@@ -97,16 +105,43 @@ export default {
     flatPickr,
     VueGoogleAutocomplete,
   },
+  watch: {
+    mapOriginState: {
+      handler(val) {
+        if (val === "undefined,undefined") return;
+        this.originAddress = val;
+        this.getLatLngFromAddress(val, "origin");
+      },
+    },
+    mapDestinationState: {
+      handler(val) {
+        if (val === "undefined,undefined") return;
+        this.destinationAddress = val;
+        this.getLatLngFromAddress(val, "destination");
+      },
+    },
+  },
   mixins: [GoogleMapMixin],
-  // watch: {
-  //   date: {
-  //     handler(val) {
-  //       if(!val) return;
-  //       this.$emit("searchDataRange", val);
-  //     },
-  //   },
-  // },
   methods: {
+    getLatLngFromAddress(city, type) {
+      var address = city;
+      var geocoder = new google.maps.Geocoder();
+      var THIS = this;
+      geocoder.geocode({ address: address }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          const city = address.split(",")[0];
+          const state = address.split(",")[1];
+          const lat = results[0].geometry.location.lat();
+          const lng = results[0].geometry.location.lng();
+
+          THIS.updateGoogleCityState(city, state, lat, lng, type);
+        } else {
+          console.log(
+            "Geocode was not successful for the following reason: " + status
+          );
+        }
+      });
+    },
     handleFlatPickerInput(selectedDates, dateStr, instance) {
       if (!selectedDates && !dateStr) return;
       this.date = dateStr;
