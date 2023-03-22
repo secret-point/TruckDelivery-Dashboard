@@ -4,6 +4,7 @@ import router from "./router";
 import vuetify from "./plugins/vuetify";
 import store from './store/index'
 
+
 const app = createApp(App);
 // Vuetify
 // import 'vuetify/styles'
@@ -24,7 +25,7 @@ app.config.globalProperties.$http = axios;
 //   directives
 // })
 app.use(router);
-
+// app.use(VeeValidate)
 app.use(Notifications);
 app.use(vuetify);
 

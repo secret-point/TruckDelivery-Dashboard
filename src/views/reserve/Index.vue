@@ -15,8 +15,9 @@
         </div>
 
         <!-- Body -->
-      
-         <component :is="currentComponent" @submit="reserveApi"  @updateDetails="updateDetails"/>
+          <keep-alive>
+         <component ref="current" :is="currentComponent" @submit="reserveApi"  @updateDetails="updateDetails"/>
+          </keep-alive>
  
         <!-- Footer -->
         <div class="mt-10px flex items-center justify-center gap-10px  bottom-0 w-full">
@@ -41,6 +42,9 @@ import PaymentDetails from './components/PaymentDetails.vue'
 import PickupDetails from './components/PickupDetails.vue'
 import {toRaw } from 'vue';
 import {calculateDistance} from '@/utils'
+import _cloneDeep from 'lodash/cloneDeep'
+
+
 export default {
   name: 'Index',
   components: {
@@ -83,7 +87,9 @@ export default {
       info:{}
     }
   },
- 
+  // mounted(){
+  //   console.log("refs==", _cloneDeep(this.$refs.current))
+  // },
   methods: {
     updateDetails(payload){
       console.log("final-d-p==",payload)
@@ -96,7 +102,20 @@ export default {
       }
     },
     
-    navigateForward() {
+    async navigateForward() {
+      // console.log("refs==", _cloneDeep(this.$refs.current))
+      const currentComponent = _cloneDeep(this.$refs.current)
+      // console.log("refs.$v==", currentComponent.v$)
+      // return
+      const isFormCorrect  = await currentComponent.v$.$validate()
+      if (!isFormCorrect){
+        this.$notify({
+            type: "error",
+            title: "Error",
+            text: "*Fields required",
+      });
+      return;
+      }
       if (this.currentStep < Object.keys(this.components).length) {
         this.currentStep++
       }
@@ -107,7 +126,24 @@ export default {
       }
     },
     createPayload({company = '',firstName = '',lastName ='',...rest},info,name){
-        return {name:name,contactPerson:`${firstName} ${lastName}`,date:info && info.date,startTime:`${info?.startTime?.firstPart}:${info?.startTime?.lastPart}`,endTime:`${info?.stopTime?.firstPart}:${info?.stopTime?.lastPart}`,...rest}
+        const start = (info?.startTime?.firstPart ?? '')
+        var startRange;
+        if(start){
+           startRange = `${info?.startTime?.firstPart}:${info?.startTime?.lastPart}`
+        }else{
+          startRange = null
+        }
+
+        const stop = (info?.stopTime?.firstPart ?? '')
+        var stopRange;
+        if(stop){
+           stopRange = `${info?.stopTime?.firstPart}:${info?.stopTime?.lastPart}`
+        }else{
+          stopRange = null
+        }
+
+
+        return {name:name,contactPerson:`${firstName} ${lastName}`,date:info && info.date,startTime:startRange,endTime:stopRange,...rest}
     },
     reserveApi() {
       const truckDetails = toRaw(this.truckDetails)

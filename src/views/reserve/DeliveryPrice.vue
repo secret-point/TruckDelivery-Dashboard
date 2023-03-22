@@ -11,8 +11,16 @@
             <h3 class="my-3 mt-5">$3210</h3>
             <p class="my-3">for 3- 5 days transit</p>
             <p class="my-2">Estimated Price</p>
-            <div class="my-2 d-flex justify-space-between align-center">
-              <input v-model.number="estimatedPrice" type="number" height="48" width="472" placeholder="$" class="mr-5"/>
+            <div class="my-2 d-flex justify-space-between align-start">
+              <!-- <v-text-field
+            label="Outlined"
+            single-line
+            outlined
+          ></v-text-field> -->
+              <div>
+                <input @blur="v$.estimatedPrice.$touch" v-model.number="estimatedPrice" type="number" height="48" width="472" placeholder="$" class="mr-5"/>
+                <span v-if="v$.estimatedPrice.$error" class="text-red text-caption font-weight-bold">*required</span>
+              </div>
               <v-btn variant="flat" color="primary" size="large" @click="goToReserveInfo">Reserve</v-btn>
             </div>
             <p class="my-2">You won’t be charged yet</p>
@@ -44,11 +52,23 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core'
+import { required} from '@vuelidate/validators'
 export default {
+   setup () {
+    return {
+      v$: useVuelidate()
+    }
+  },
+  validations () {
+    return {
+      estimatedPrice:{ required }
+    }
+  },
   name: 'DeliveryPrice',
   data() {
     return {
-      estimatedPrice:0,
+      estimatedPrice:null,
       tab: null,
       items: [
         {
@@ -63,7 +83,16 @@ export default {
     }
   },
   methods: {
-    goToReserveInfo(){
+    async goToReserveInfo(){
+      const isFormCorrect = await this.v$.$validate()
+       if (!isFormCorrect){
+        this.$notify({
+            type: "error",
+            title: "Error",
+            text: "*Fields required",
+      });
+      return
+       }
       const payload = {estimatedPrice:this.estimatedPrice,deliveryType:this.tab}
       this.$store.dispatch('truck/setDeliveryTypeAndEstimation',payload)
       this.$router.push('reserve-info')
