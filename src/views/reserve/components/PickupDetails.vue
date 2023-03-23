@@ -73,12 +73,12 @@
             <div class="mt-10px w-full">
               <label class="text-sm">Zip code</label>
               <input
-                v-model="pickVal.zipcode"
+                v-model="pickVal.zipCode"
                 class="custom-input"
                 placeholder="91732"
               />
               <span
-                v-if="v$.pickVal.zipcode.$error"
+                v-if="v$.pickVal.zipCode.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -171,7 +171,7 @@ export default {
         address: { required },
         city: { required },
         state: { required },
-        zipcode: { required },
+        zipCode: { required },
         longitude: { required },
         latitude: { required },
       },
@@ -193,7 +193,7 @@ export default {
         address: "",
         city: "",
         state: "",
-        zipcode: "",
+        zipCode: "",
         email: "",
         phone: "",
         firstName: "",
@@ -214,9 +214,7 @@ export default {
         if (isProxy(nv)) {
           const rawVal = toRaw(nv);
           const payload = { rawVal, type: "pickUp" };
-          // this.$emit('updateDetails',payload)
           this.$emit("updateDetails", payload);
-          console.log("pickup==", rawVal);
         }
       },
     },
@@ -243,7 +241,6 @@ export default {
     //     this.pickVal.longitude = longitude
     // },
     setAddress(place) {
-      console.log("event$", place);
       if (!place) return;
       let address = place.formatted_address.split(", ").slice(0, -3).join(", ");
       if (!address) {
@@ -273,7 +270,7 @@ export default {
       this.pickVal.address = address;
       this.pickVal.city = city;
       this.pickVal.state = state;
-      this.pickVal.zipcode = zipcode;
+      this.pickVal.zipCode = String(zipcode);
       this.pickVal.latitude = lat;
       this.pickVal.longitude = lng;
     },

@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <notifications position="bottom right" />
     <v-row>
       <!-- Left Section -->
       <v-col cols="4">
@@ -10,21 +11,42 @@
       <v-col class="relative" cols="8">
         <!-- Header -->
         <div>
-          <span class="text-base font-semibold text-gray-700">{{ headerText }}</span>
-          <v-progress-linear class="mt-10px" :model-value="progressValue" color="primary" />
+          <span class="text-base font-semibold text-gray-700">{{
+            headerText
+          }}</span>
+          <v-progress-linear
+            class="mt-10px"
+            :model-value="progressValue"
+            color="primary"
+          />
         </div>
 
         <!-- Body -->
-          <keep-alive>
-         <component ref="current" :is="currentComponent" @submit="reserveApi"  @updateDetails="updateDetails"/>
-          </keep-alive>
- 
+        <keep-alive>
+          <component
+            ref="current"
+            :is="currentComponent"
+            @submit="reserveApi"
+            @updateDetails="updateDetails"
+          />
+        </keep-alive>
+
         <!-- Footer -->
-        <div class="mt-10px flex items-center justify-center gap-10px  bottom-0 w-full">
-          <v-btn color="primary" variant="outlined" @click.stop="navigateBackward">
+        <div
+          class="mt-10px flex items-center justify-center gap-10px bottom-0 w-full"
+        >
+          <v-btn
+            color="primary"
+            variant="outlined"
+            @click.stop="navigateBackward"
+          >
             Previous
           </v-btn>
-          <v-btn :disabled="currentStep == 4" color="primary" @click.stop="navigateForward">
+          <v-btn
+            :disabled="currentStep == 4"
+            color="primary"
+            @click.stop="navigateForward"
+          >
             Next
           </v-btn>
         </div>
@@ -35,123 +57,145 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script>
 import { mapState } from "vuex";
-import AdditionalInformation from './components/AdditionalInformation.vue'
-import ReservationSummary from './components/ReservationSummary.vue'
-import DeliveryDetails from './components/DeliveryDetails.vue'
-import PaymentDetails from './components/PaymentDetails.vue'
-import PickupDetails from './components/PickupDetails.vue'
-import {toRaw } from 'vue';
-import {calculateDistance} from '@/utils'
-import _cloneDeep from 'lodash/cloneDeep'
-
+import AdditionalInformation from "./components/AdditionalInformation.vue";
+import ReservationSummary from "./components/ReservationSummary.vue";
+import DeliveryDetails from "./components/DeliveryDetails.vue";
+import PaymentDetails from "./components/PaymentDetails.vue";
+import PickupDetails from "./components/PickupDetails.vue";
+import { toRaw } from "vue";
+import { calculateDistance } from "@/utils";
+import _cloneDeep from "lodash/cloneDeep";
 
 export default {
-  name: 'Index',
+  name: "Index",
   components: {
     AdditionalInformation,
     ReservationSummary,
     DeliveryDetails,
     PaymentDetails,
-    PickupDetails
+    PickupDetails,
   },
   computed: {
-     ...mapState('truck', ["truckDetails"]),
+    ...mapState("truck", ["truckDetails"]),
     headerText() {
       const labels = {
-        1: 'Additional information',
-        2: 'Pickup details',
-        3: 'Delivery details',
-        4: 'Payment details'
-      }
+        1: "Additional information",
+        2: "Pickup details",
+        3: "Delivery details",
+        4: "Payment details",
+      };
 
-      return labels[this.currentStep] ?? ''
+      return labels[this.currentStep] ?? "";
     },
     currentComponent() {
-      return this.components[this.currentStep] ?? null
+      return this.components[this.currentStep] ?? null;
     },
     progressValue() {
-      return (this.currentStep / Object.keys(this.components).length) * 100
-    }
+      return (this.currentStep / Object.keys(this.components).length) * 100;
+    },
   },
   data() {
     return {
       components: {
-        1: 'AdditionalInformation',
-        2: 'PickupDetails',
-        3: 'DeliveryDetails',
-        4: 'PaymentDetails'
+        1: "AdditionalInformation",
+        2: "PickupDetails",
+        3: "DeliveryDetails",
+        4: "PaymentDetails",
       },
       currentStep: 1,
-      pickVal:{},
-      deliveryVal:{},
-      info:{}
-    }
+      pickVal: {},
+      deliveryVal: {},
+      info: {},
+    };
   },
   // mounted(){
   //   console.log("refs==", _cloneDeep(this.$refs.current))
   // },
   methods: {
-    updateDetails(payload){
-      console.log("final-d-p==",payload)
-      if(payload.type==='deliver'){
-        this.deliveryVal = payload.rawVal
-      }else if(payload.type==='pickUp'){
-        this.pickVal = payload.rawVal
-      }else{
-        this.info = payload.rawVal
+    updateDetails(payload) {
+      // console.log("final-d-p==", payload);
+      if (payload.type === "deliver") {
+        this.deliveryVal = payload.rawVal;
+      } else if (payload.type === "pickUp") {
+        this.pickVal = payload.rawVal;
+      } else {
+        this.info = payload.rawVal;
       }
     },
-    
+
     async navigateForward() {
       // console.log("refs==", _cloneDeep(this.$refs.current))
-      const currentComponent = _cloneDeep(this.$refs.current)
+      const currentComponent = _cloneDeep(this.$refs.current);
       // console.log("refs.$v==", currentComponent.v$)
       // return
-      const isFormCorrect  = await currentComponent.v$.$validate()
-      if (!isFormCorrect){
+      const isFormCorrect = await currentComponent.v$.$validate();
+      if (!isFormCorrect) {
         this.$notify({
-            type: "error",
-            title: "Error",
-            text: "*Fields required",
-      });
-      return;
+          type: "error",
+          title: "Error",
+          text: "*Fields required",
+        });
+        return;
       }
       if (this.currentStep < Object.keys(this.components).length) {
-        this.currentStep++
+        this.currentStep++;
       }
     },
     navigateBackward() {
       if (this.currentStep > 1) {
-        this.currentStep--
+        this.currentStep--;
       }
     },
-    createPayload({company = '',firstName = '',lastName ='',...rest},info,name){
-        const start = (info?.startTime?.firstPart ?? '')
-        var startRange;
-        if(start){
-           startRange = `${info?.startTime?.firstPart}:${info?.startTime?.lastPart}`
-        }else{
-          startRange = null
-        }
+    createPayload(
+      { company = "", firstName = "", lastName = "", ...rest },
+      info,
+      name
+    ) {
+      const start = info?.startTime;
+      var startRange;
+      if (start) {
+        startRange = `${info?.startTime}`;
+      } else {
+        startRange = null;
+      }
 
-        const stop = (info?.stopTime?.firstPart ?? '')
-        var stopRange;
-        if(stop){
-           stopRange = `${info?.stopTime?.firstPart}:${info?.stopTime?.lastPart}`
-        }else{
-          stopRange = null
-        }
+      const stop = info?.stopTime;
+      var stopRange;
+      if (stop) {
+        stopRange = `${info?.stopTime}`;
+      } else {
+        stopRange = null;
+      }
 
-
-        return {name:name,contactPerson:`${firstName} ${lastName}`,date:info && info.date,startTime:startRange,endTime:stopRange,...rest}
+      return {
+        name: name,
+        contactPerson: `${firstName} ${lastName}`,
+        date: info && info.date,
+        startTime: startRange,
+        endTime: stopRange,
+        ...rest,
+      };
     },
     reserveApi() {
-      const truckDetails = toRaw(this.truckDetails)
-      const pickUpDetails = this.createPayload(this.pickVal,this.info.pickUp,'Shipper')
-      const deliveryDetails = this.createPayload(this.deliveryVal,this.info.delivery,'Receiver')
-      const miles = calculateDistance(this.pickVal.latitude,this.pickVal.longitude,this.deliveryVal.latitude,this.deliveryVal.longitude)
+      const truckDetails = toRaw(this.truckDetails);
+      const pickUpDetails = this.createPayload(
+        this.pickVal,
+        this.info.pickUp,
+        "Shipper"
+      );
+      const deliveryDetails = this.createPayload(
+        this.deliveryVal,
+        this.info.delivery,
+        "Receiver"
+      );
+      const miles = calculateDistance(
+        this.pickVal.latitude,
+        this.pickVal.longitude,
+        this.deliveryVal.latitude,
+        this.deliveryVal.longitude
+      );
       const payload = {
-        comapnyId: truckDetails.id,
+        companyId: truckDetails.id,
         deliveryType: truckDetails.deliveryType,
         estimatedPrice: truckDetails.estimatedPrice,
         additionalInformation: {
@@ -159,23 +203,34 @@ export default {
           estimatedShipmentValue: this.info.shipment,
           itemDescription: this.info.description,
           totalMiles: miles,
-          calculateUsing: 'google_maps'
+          calculateUsing: "google_maps",
         },
-        pickupDetails: [
-         pickUpDetails
-        ],
-        deliveryDetails: [
-         deliveryDetails
-        ]
-      }
-      this.$http.post('truckpedia/reserved', payload).then((data) => {
-        console.log(data)
-      })
-    }
-  }
-}
+        pickupDetails: [pickUpDetails],
+        deliveryDetails: [deliveryDetails],
+      };
+      this.$http
+        .post("truckpedia/reserved", payload)
+        .then((data) => {
+          this.$notify({
+            type: "success",
+            title: "Success",
+            text: "Reserved successfully.",
+          });
+          this.$router.push({ name: "home" });
+        })
+        .catch((error) => {
+          if (!error) return;
+          this.$notify({
+            type: "error",
+            title: "Error",
+            text: error.response.data.message,
+          });
+        });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-@import './scss/utility.scss';
+@import "./scss/utility.scss";
 </style>

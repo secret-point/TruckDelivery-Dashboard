@@ -4,10 +4,12 @@
       <!-- <p class="font-bold">Trucks we found {{ this.truckList.data.length }} results</p> -->
       <!-- <span class="total-result">{{ this.truckList.data.length }} results</span> -->
       <p class="font-bold"
-        ><b>{{ truckList.data.length }}</b> carriers found for route <b>{{ origin.city }}</b>,
-        <b>{{ origin.state }}</b> to <b>{{ destination.city }}</b>, <b>{{ destination.state }}</b>,
-        pickup dates from <b>{{ startDate }}</b> to <b>{{ endDate }}</b>,
-        <b>{{ distance }}</b> miles.</p
+        ><b>{{ truckList.data.length }}</b> carriers found for route
+        <b>{{ origin.city }}</b
+        >, <b>{{ origin.state }}</b> to <b>{{ destination.city }}</b
+        >, <b>{{ destination.state }}</b
+        >, pickup dates from <b>{{ startDate }}</b> to <b>{{ endDate }}</b
+        >, <b>{{ distance }}</b> miles.</p
       >
     </div>
     <div class="truck-list-table p-5">
@@ -26,23 +28,21 @@
               <div class="td-description">
                 <div v-if="col.column === 'company'" class="flex items-center">
                   <v-rating
-                      v-model="favRating"
-                      density="compact"
-                      color="#FBBC05"
-                      readonly
-                      length="1"
-                      size="small"
-                    ></v-rating>
+                    v-model="favRating"
+                    density="compact"
+                    color="#FBBC05"
+                    readonly
+                    length="1"
+                    size="small"
+                  ></v-rating>
                   <img
                     v-if="field[col.column].logoUrl"
                     :src="field[col.column].logoUrl"
                     alt="logo"
                     class="logo ml-4"
                   />
-                  <div
-                    class="flex flex-column ml-3"
-                  >
-                    <p style="position: relative; bottom: -6px;"
+                  <div class="flex flex-column ml-3">
+                    <p style="position: relative; bottom: -6px"
                       ><span class="font-weight-bold text-uppercase">{{
                         field[col.column].name
                       }}</span></p
@@ -62,13 +62,20 @@
                     ></star-rating> -->
                   </div>
                 </div>
-                <span style="color: #1877F2" v-else :class="{ 'font-bold': col.column === 'rate' }">{{
-                  toFixed(field[col.column])
-                }}</span>
+                <span
+                  style="color: #1877f2"
+                  v-else
+                  :class="{ 'font-bold': col.column === 'rate' }"
+                  >{{ toFixed(field[col.column]) }}</span
+                >
               </div>
             </td>
             <td
-              ><v-btn color="primary" class="text-capitalize" @click="goToReserve(field.company.id)">
+              ><v-btn
+                color="primary"
+                class="text-capitalize"
+                @click="goToReserve(field.company.id)"
+              >
                 Reserve
               </v-btn></td
             >
@@ -136,12 +143,17 @@ export default {
     };
   },
   methods: {
-    toFixed(value){
-     toFixed(value, 2)
+    toFixed(value) {
+      toFixed(value, 2);
     },
     goToReserve(id) {
-      this.$store.dispatch("truck/setTruckId", id);
-      this.$router.push("reserve");
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        this.$store.dispatch("truck/setTruckId", id);
+        this.$router.push("reserve");
+      } else {
+        this.$router.push({name: 'login'});
+      }
     },
   },
 };
@@ -178,7 +190,7 @@ export default {
           font-size: 0.9rem;
           text-align: left;
           padding: 20px;
-          &:first-child{
+          &:first-child {
             padding-left: 56px;
           }
         }

@@ -79,12 +79,12 @@
             <div class="mt-10px w-full">
               <label class="text-sm">Zip code</label>
               <input
-                v-model="deliveryVal.zipcode"
+                v-model="deliveryVal.zipCode"
                 class="custom-input"
                 placeholder="91732"
               />
               <span
-                v-if="v$.deliveryVal.zipcode.$error"
+                v-if="v$.deliveryVal.zipCode.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -177,7 +177,7 @@ export default {
         address: { required },
         city: { required },
         state: { required },
-        zipcode: { required },
+        zipCode: { required },
         longitude: { required },
         latitude: { required },
       },
@@ -190,7 +190,7 @@ export default {
         address: "",
         city: "",
         state: "",
-        zipcode: "",
+        zipCode: "",
         email: "",
         phone: "",
         firstName: "",
@@ -234,7 +234,6 @@ export default {
     //     this.deliveryVal.longitude = longitude
     // },
     setAddress(place) {
-      console.log("event$", place);
       if (!place) return;
       let address = place.formatted_address.split(", ").slice(0, -3).join(", ");
       if (!address) {
@@ -264,7 +263,7 @@ export default {
       this.deliveryVal.address = address;
       this.deliveryVal.city = city;
       this.deliveryVal.state = state;
-      this.deliveryVal.zipcode = zipcode;
+      this.deliveryVal.zipCode = String(zipcode);
       this.deliveryVal.latitude = lat;
       this.deliveryVal.longitude = lng;
     },

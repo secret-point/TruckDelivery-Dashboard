@@ -15,7 +15,7 @@ import "@mdi/font/css/materialdesignicons.css";
 import Notifications from "@kyvg/vue3-notification";
 
 // axios
-import axios from "./axios.js";
+import axios from "./axios";
 
 app.config.globalProperties.$http = axios;
 

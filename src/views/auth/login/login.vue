@@ -92,15 +92,14 @@ export default {
         ? window.localStorage.setItem("user_role", payload.role)
         : window.localStorage.removeItem("user_role");
 
-      this.$http
-        .post("auth/login", payload)
+      this.$store.dispatch("auth/loginJWT", payload)
         .then(({ data }) => {
           this.$notify({
             type: "success",
             title: "Success",
             text: "Congratulations! You have Login successfully.",
           });
-          localStorage.setItem("access_token", data.payload.access_token);
+          // localStorage.setItem("access_token", data.payload.access_token);
           this.$router.push({ name: "home" });
         })
         .catch((error) => {

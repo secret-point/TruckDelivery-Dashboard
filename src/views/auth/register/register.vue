@@ -104,8 +104,8 @@ export default {
       if (this.role != 'carrier') {
         payload.role = this.role
       }
-      this.$http
-        .post('auth/register', payload)
+      this.$store
+        .dispatch('auth/registerUserJWT', payload)
         .then(({ data }) => {
           this.$notify({
             group: 'auth',
@@ -113,12 +113,13 @@ export default {
             title: 'Success',
             text: 'Congratulations! You have registered successfully.'
           })
-          window.localStorage.setItem('access_token', data.payload.access_token)
-          window.localStorage.setItem('user_role', data.payload.role)
+          // window.localStorage.setItem('access_token', data.payload.access_token)
+          // window.localStorage.setItem('user_role', data.payload.role)
           this.$router.push({name: 'setup-profile', query: {role: this.role}});
-          window.reload();
+          // window.reload();
         })
         .catch((error) => {
+          console.log(error)
           if(!error) return
           this.$notify({
             type: 'error',

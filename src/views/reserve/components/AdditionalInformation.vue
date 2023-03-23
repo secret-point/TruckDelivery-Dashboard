@@ -63,7 +63,12 @@
         <label class="text-sm">Requested loading hours</label>
         <div class="flex items-center">
           <div class="flex gap-5px items-center">
-            <input
+            <flat-pickr
+              v-model="info.pickUp.startTime"
+              :config="configTimeFlatPickr"
+              class="custom-input"
+            />
+            <!-- <input
               v-model="info.pickUp.startTime.firstPart"
               placeholder="00"
               class="custom-input"
@@ -79,13 +84,18 @@
               type="number"
               :min="0"
               :max="59"
-            />
+            /> -->
           </div>
           <div class="mx-10px">
             <label class="text-sm">to</label>
           </div>
           <div class="flex gap-5px items-center">
-            <input
+            <flat-pickr
+              v-model="info.pickUp.stopTime"
+              :config="configTimeFlatPickr"
+              class="custom-input"
+            />
+            <!-- <input
               v-model.number="info.pickUp.stopTime.firstPart"
               placeholder="00"
               class="custom-input"
@@ -101,7 +111,7 @@
               type="number"
               :min="0"
               :max="59"
-            />
+            /> -->
           </div>
         </div>
       </div>
@@ -142,7 +152,12 @@
           <label class="text-sm">Requested unloading hours</label>
           <div class="flex items-center">
             <div class="flex gap-5px items-center">
-              <input
+              <flat-pickr
+                v-model="info.delivery.startTime"
+                :config="configTimeFlatPickr"
+                class="custom-input"
+              />
+              <!-- <input
                 v-model="info.delivery.startTime.firstPart"
                 placeholder="00"
                 class="custom-input"
@@ -158,13 +173,18 @@
                 type="number"
                 :min="0"
                 :max="59"
-              />
+              /> -->
             </div>
             <div class="mx-10px">
               <label class="text-sm">to</label>
             </div>
             <div class="flex gap-5px items-center">
-              <input
+              <flat-pickr
+                v-model="info.delivery.stopTime"
+                :config="configTimeFlatPickr"
+                class="custom-input"
+              />
+              <!-- <input
                 v-model="info.delivery.stopTime.firstPart"
                 placeholder="00"
                 class="custom-input"
@@ -180,7 +200,7 @@
                 type="number"
                 :min="0"
                 :max="59"
-              />
+              /> -->
             </div>
           </div>
         </div>
@@ -223,30 +243,23 @@ export default {
     return {
       date: null,
       flat_pikr_config: {},
+      configTimeFlatPickr: {
+        enableTime: true,
+        noCalendar: true,
+        time_24hr: true,
+      },
       info: {
         shipment: "",
         description: "",
         pickUp: {
           date: "",
-          startTime: {
-            firstPart: '',
-            secondPart: '',
-          },
-          stopTime: {
-            firstPart: '',
-            secondPart: ''
-          },
+          startTime: "",
+          stopTime: "",
         },
         delivery: {
           date: "",
-          startTime: {
-            firstPart: '',
-            secondPart: '',
-          },
-          stopTime: {
-            firstPart: '',
-            secondPart: '',
-          },
+          startTime: "",
+          stopTime: "",
         },
       },
     };
@@ -259,7 +272,6 @@ export default {
           const rawVal = toRaw(nv);
           const payload = { rawVal, type: "info" };
           this.$emit("updateDetails", payload);
-          console.log("info==", rawVal);
         }
       },
     },
