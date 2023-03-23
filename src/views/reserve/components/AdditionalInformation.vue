@@ -36,7 +36,7 @@
           @blur="v$.info.pickUp.date.$touch"
           class="custom-input"
           v-model="info.pickUp.date"
-          placeholder="1/5/2023"
+          placeholder="Select date"
           :config="flat_pikr_config"
         />
         <span
@@ -125,7 +125,7 @@
             @blur="v$.info.delivery.date.$touch"
             class="custom-input"
             v-model="info.delivery.date"
-            placeholder="1/5/2023"
+            placeholder="Select date"
             :config="flat_pikr_config"
           />
           <span
