@@ -171,7 +171,7 @@
 
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
-
+import config from "../../../config";
 export default {
   components: {
     VueGoogleAutocomplete,
@@ -191,6 +191,8 @@ export default {
       faxNumber: "",
       phoneNumber: "",
       companyType: "carrier",
+      // google map autocomplete options
+      googleMapAutoCompleteOptions: config.googleMapAutoCompleteOptions,
       rules: {
         required: (value) => !!value || "Required.",
         min: (v) => v.length >= 6 || "Min 6 characters",
@@ -265,13 +267,8 @@ export default {
           payload.companyType = "shipper";
         }
       }
-      this.$http
-        .post("admin/setup-profile", payload, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        })
-        .then(() => {
+      this.$store
+        .dispatch("auth/adminSetupProfile", payload).then(() => {
           this.$notify({
             group: "auth",
             type: "success",
@@ -281,11 +278,12 @@ export default {
           this.$router.push({ name: "home" });
         })
         .catch((error) => {
+          console.log(error)
           if (!error) return;
           this.$notify({
             type: "error",
             title: "Error",
-            text: error.response.data.message,
+            text:  error.response.data.message,
           });
         });
     },
@@ -314,12 +312,10 @@ export default {
     // },
     setPlace(place) {
       if (!place) return;
-
       const address = place.formatted_address
         .split(", ")
         .slice(0, -3)
         .join(", ");
-
       const city = place.address_components
         .filter((address) => {
           return address.types.includes("locality");

@@ -208,8 +208,8 @@ export default {
         pickupDetails: [pickUpDetails],
         deliveryDetails: [deliveryDetails],
       };
-      this.$http
-        .post("truckpedia/reserved", payload)
+      this.$store
+        .dispatch("truck/reserved", payload)
         .then((data) => {
           this.$notify({
             type: "success",
