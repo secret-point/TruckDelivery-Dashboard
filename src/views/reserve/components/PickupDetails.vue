@@ -11,14 +11,14 @@
                 type="text"
                 v-model="pickVal.company"
                 class="custom-input"
-                placeholder="ezpapel"
+                placeholder="Your company name"
               />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
               <GMapAutocomplete
                 name="map-pickup"
-                placeholder="123,seattle"
+                placeholder="12345 address"
                 class="custom-input"
                 :country="['us', 'ca']"
                 :value="pickVal.address"
@@ -45,7 +45,7 @@
               <input
                 v-model="pickVal.city"
                 class="custom-input"
-                placeholder="Newyork"
+                placeholder="EI Monte"
               />
               <span
                 v-if="v$.pickVal.city.$error"
@@ -60,7 +60,7 @@
               <input
                 v-model="pickVal.state"
                 class="custom-input"
-                placeholder="NY"
+                placeholder="CA"
               />
               <span
                 v-if="v$.pickVal.state.$error"
@@ -137,7 +137,7 @@
                 v-model="pickVal.email"
                 class="custom-input"
                 type="email"
-                placeholder="justin@gmail.com"
+                placeholder="example@gmail.com"
               />
             </div>
             <!-- <div class="mt-10px flex gap-5px w-full">

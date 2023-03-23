@@ -13,14 +13,14 @@
                 type="text"
                 v-model="deliveryVal.company"
                 class="custom-input"
-                placeholder="truckpedia"
+                placeholder="Your company name"
               />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
               <GMapAutocomplete
                 name="map-delivery"
-                placeholder="123,seattle"
+                placeholder="12345 address"
                 class="custom-input"
                 :country="['us', 'ca']"
                 :value="deliveryVal.address"
@@ -51,7 +51,7 @@
               <input
                 v-model="deliveryVal.city"
                 class="custom-input"
-                placeholder="Newyork"
+                placeholder="EI Monte"
               />
               <span
                 v-if="v$.deliveryVal.city.$error"
@@ -66,7 +66,7 @@
               <input
                 v-model="deliveryVal.state"
                 class="custom-input"
-                placeholder="NY"
+                placeholder="CA"
               />
               <span
                 v-if="v$.deliveryVal.state.$error"
@@ -143,7 +143,7 @@
                 v-model="deliveryVal.email"
                 class="custom-input"
                 type="email"
-                placeholder="justin@gmail.com"
+                placeholder="example@gmail.com"
               />
             </div>
             <!-- <div class="mt-10px flex gap-5px w-full">

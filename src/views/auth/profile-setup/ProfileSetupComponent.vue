@@ -278,7 +278,7 @@ export default {
           this.$router.push({ name: "home" });
         })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
           if (!error) return;
           this.$notify({
             type: "error",

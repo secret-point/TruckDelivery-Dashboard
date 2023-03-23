@@ -21,7 +21,7 @@
         <input
           v-model="info.description"
           class="custom-input"
-          placeholder="Some text"
+          placeholder="Item Description"
         />
         <label class="text-xs text-gray-400"
           >ex: some text about description</label

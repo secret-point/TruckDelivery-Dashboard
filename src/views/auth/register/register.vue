@@ -119,7 +119,7 @@ export default {
           // window.reload();
         })
         .catch((error) => {
-          console.log(error)
+          // console.log(error)
           if(!error) return
           this.$notify({
             type: 'error',
