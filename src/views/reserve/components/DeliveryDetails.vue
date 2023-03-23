@@ -217,7 +217,7 @@ export default {
           const rawVal = toRaw(nv);
           const payload = { rawVal, type: "deliver" };
           this.$emit("updateDetails", payload);
-          console.log("delivery==", rawVal);
+          // console.log("delivery==", rawVal);
         }
       },
     },
