@@ -976,54 +976,59 @@ export default {
       validationAlert: false,
       originState: "",
       destinationState: "",
+      mapColors: {
+        primaryColor: "#e7f0fb",
+        desColor: "#48F4A2",
+        originColor: "#1877F2",
+      },
     };
   },
-  mounted() {
-    $("path").click((e) => {
-      const primaryColor = "#e7f0fb";
-      const desColor = "#48F4A2";
-      const originColor = "#1877F2";
-      if ($(e.currentTarget).hasClass("originState")) {
-        $(e.currentTarget)
-          .css({ fill: primaryColor })
-          .removeClass("originState");
-      } else {
-        if ($(e.currentTarget).hasClass("destinationState")) {
-          $(e.currentTarget)
-            .css({ fill: primaryColor })
-            .removeClass("destinationState");
-        } else {
-          if ($("path").hasClass("originState")) {
-            if ($("path").hasClass("destinationState")) return;
-            $(e.currentTarget)
-              .css({ fill: desColor })
-              .addClass("destinationState");
-          } else {
-            $(e.currentTarget)
-              .css({ fill: originColor })
-              .addClass("originState");
-          }
-        }
-      }
+  // mounted() {
+  //   $("path").click((e) => {
+  //     const primaryColor = "#e7f0fb";
+  //     const desColor = "#48F4A2";
+  //     const originColor = "#1877F2";
+  //     if ($(e.currentTarget).hasClass("originState")) {
+  //       $(e.currentTarget)
+  //         .css({ fill: primaryColor })
+  //         .removeClass("originState");
+  //     } else {
+  //       if ($(e.currentTarget).hasClass("destinationState")) {
+  //         $(e.currentTarget)
+  //           .css({ fill: primaryColor })
+  //           .removeClass("destinationState");
+  //       } else {
+  //         if ($("path").hasClass("originState")) {
+  //           if ($("path").hasClass("destinationState")) return;
+  //           $(e.currentTarget)
+  //             .css({ fill: desColor })
+  //             .addClass("destinationState");
+  //         } else {
+  //           $(e.currentTarget)
+  //             .css({ fill: originColor })
+  //             .addClass("originState");
+  //         }
+  //       }
+  //     }
 
-      // const originLongName = $(".originState").parent("a").attr("title");
-      // const destinationLongName = $(".destinationState")
-      //   .parent("a")
-      //   .attr("title");
-      // const originShortName = $(".originState")
-      //   .parent("a")
-      //   .children("text")
-      //   .html();
-      // const destinationShortName = $(".destinationState")
-      //   .parent("a")
-      //   .children("text")
-      //   .html();
+  //     // const originLongName = $(".originState").parent("a").attr("title");
+  //     // const destinationLongName = $(".destinationState")
+  //     //   .parent("a")
+  //     //   .attr("title");
+  //     // const originShortName = $(".originState")
+  //     //   .parent("a")
+  //     //   .children("text")
+  //     //   .html();
+  //     // const destinationShortName = $(".destinationState")
+  //     //   .parent("a")
+  //     //   .children("text")
+  //     //   .html();
 
-      // this.originState = `${originLongName},${originShortName}`;
-      // this.destinationState = `${destinationLongName},${destinationShortName}`;
-      // this.originPlace.place =
-    });
-  },
+  //     // this.originState = `${originLongName},${originShortName}`;
+  //     // this.destinationState = `${destinationLongName},${destinationShortName}`;
+  //     // this.originPlace.place =
+  //   });
+  // },
   methods: {
     searchDataRange(date) {
       this.date = date;
@@ -1031,9 +1036,25 @@ export default {
     address(address) {
       if (address.type === "origin") {
         this.originPlace = address;
+        $("path.originState")
+          .removeClass("originState")
+          .css({ fill: this.mapColors.primaryColor });
+        $(`text[title=${address.place.state}]`)
+          .parent("a")
+          .children("path")
+          .addClass("originState")
+          .css({ fill: this.mapColors.originColor });
       }
       if (address.type === "destination") {
         this.destinationPlace = address;
+        $("path.destinationState")
+          .removeClass("destinationState")
+          .css({ fill: this.mapColors.primaryColor });
+        $(`text[title=${address.place.state}]`)
+          .parent("a")
+          .children("path")
+          .addClass("destinationState")
+          .css({ fill: this.mapColors.desColor });
       }
     },
 
