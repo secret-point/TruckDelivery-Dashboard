@@ -15,7 +15,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/auth/login/login.vue')
+      component: () => import('../views/auth/login/Login.vue')
     },
     {
       path: '/register',
@@ -25,7 +25,8 @@ const router = createRouter({
     {
       path: '/setup-profile',
       name: 'setup-profile',
-      component: () => import('../views/auth/profile-setup/ProfileSetupComponent.vue')
+      component: () => import('../views/auth/profile-setup/ProfileSetupComponent.vue'),
+      props: route => ({ query: route.query.role })
     },
 
     {

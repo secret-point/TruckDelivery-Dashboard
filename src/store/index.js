@@ -1,15 +1,18 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+// import  * as Vue from 'vue'
+// import Vuex from 'vuex'
+import { createStore } from "vuex";
 import moduleAuth from './auth/moduleAuth.js'
 
-// import moduleAuth from './trial/index.js'
 
-Vue.use(Vuex)
+import moduleTruck from './truck/index.js'
 
-export default new Vuex.Store({
+// Vue.use(Vuex)
+
+export default createStore({
   modules:{
     'auth': moduleAuth,
+    'truck':moduleTruck
   },
-  strict: process.env.NODE_ENV !== 'production'
+  // strict: process.env.NODE_ENV !== 'production'
 })
 
