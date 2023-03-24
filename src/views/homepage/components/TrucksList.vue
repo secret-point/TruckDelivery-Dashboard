@@ -66,8 +66,7 @@
                   style="color: #1877f2"
                   v-else
                   :class="{ 'font-bold': col.column === 'rate' }"
-                  >{{ toFixed(field[col.column]) }}</span
-                >
+                  >{{ toFixed(field[col.column]) }}</span>
               </div>
             </td>
             <td
@@ -144,7 +143,10 @@ export default {
   },
   methods: {
     toFixed(value) {
-      toFixed(value, 2);
+      if(typeof value === "number"){
+       return toFixed(value, 2);
+      }
+      return value
     },
     goToReserve(id) {
       const token = localStorage.getItem("access_token");
@@ -189,7 +191,7 @@ export default {
           color: #626262;
           font-size: 0.9rem;
           text-align: left;
-          padding: 20px;
+          padding: 8px;
           &:first-child {
             padding-left: 56px;
           }
