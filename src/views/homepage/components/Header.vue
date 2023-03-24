@@ -15,6 +15,8 @@
         </li>
         <li v-else-if="showDashboard">
           <v-btn color="primary" @click.stop="goToDashboard"> Dashboard </v-btn>
+        </li>
+        <li v-if="checkAccessToken">
           <v-btn color="error" class="ml-3" variant="text" @click.stop="logout"> Logout </v-btn>
         </li>
       </ul>
@@ -58,7 +60,8 @@ export default {
     logout(){
       this.$store
         .dispatch('auth/logout')
-    }
+    },
+
   }
 }
 </script>
