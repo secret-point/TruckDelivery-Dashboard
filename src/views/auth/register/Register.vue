@@ -106,7 +106,7 @@ export default {
       }
       this.$store
         .dispatch('auth/registerUserJWT', payload)
-        .then(({ data }) => {
+        .then(({ data: { payload } }) => {
           this.$notify({
             group: 'auth',
             type: 'success',
@@ -114,7 +114,13 @@ export default {
             text: 'Congratulations! You have registered successfully.'
           })
           // window.localStorage.setItem('access_token', data.payload.access_token)
-          // window.localStorage.setItem('user_role', data.payload.role)
+          window.localStorage.removeItem("user_role");
+          if (payload?.admin_company_details?.companyType)
+            window.localStorage.setItem(
+              "user_role",
+              payload?.admin_company_details?.companyType
+            );
+
           this.$router.push({name: 'setup-profile', query: {role: this.role}});
           // window.reload();
         })

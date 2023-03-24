@@ -33,11 +33,10 @@ export default {
       return false
     },
     showDashboard() {
-      return (
-        localStorage.getItem("user_role") &&
-        (localStorage.getItem("user_role") === "ba" ||
-          localStorage.getItem("user_role") === "sa")
-      );
+      const allowedRoles = ['broker', 'shipper'];
+      const userRole = localStorage.getItem('user_role');
+
+      return userRole && allowedRoles.includes(userRole)
     },
   },
   methods: {
