@@ -9,8 +9,8 @@ export default {
     commit("SET_DELIVERY_AND_ESTIMATION", payload);
   },
 
-  async reserved({ commit }, payload) {
-    const response = await axios.post("truckpedia/reserved", payload);
+  async reserve({ commit }, payload) {
+    const response = await axios.post("truckpedia/reserve", payload);
     return response;
   },
 };

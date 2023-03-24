@@ -209,12 +209,12 @@ export default {
         deliveryDetails: [deliveryDetails],
       };
       this.$store
-        .dispatch("truck/reserved", payload)
+        .dispatch("truck/reserve", payload)
         .then((data) => {
           this.$notify({
             type: "success",
             title: "Success",
-            text: "Reserved successfully.",
+            text: "Reserve successfully.",
           });
           this.$router.push({ name: "home" });
         })
