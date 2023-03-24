@@ -7,7 +7,7 @@
     <img src="@/assets/images/logo.svg" @click="$router.push('/')" />
     <div>
       <ul class="d-flex align-center" style="list-style-type: none">
-        <li class="color-primary">How it works</li>
+        <!-- <li class="color-primary">How it works</li> -->
         <li style="color: #9e9e9e" @click="goToLogin" v-if="!checkAccessToken">Login</li>
         <li v-if="!checkAccessToken">
           <v-btn color="primary" @click="goToRegister">Signup </v-btn>
@@ -15,6 +15,7 @@
         </li>
         <li v-else-if="showDashboard">
           <v-btn color="primary" @click.stop="goToDashboard"> Dashboard </v-btn>
+          <v-btn color="error" class="ml-3" variant="text" @click.stop="logout"> Logout </v-btn>
         </li>
       </ul>
     </div>
@@ -54,6 +55,10 @@ export default {
         window.location.href = `http://127.0.0.1:8000/login?access_token='${accessToken}'`;
       }
     },
+    logout(){
+      this.$store
+        .dispatch('auth/logout')
+    }
   }
 }
 </script>

@@ -54,4 +54,9 @@ export default {
     commit('SET_USER', response.payload)
     return response
   },
+
+  async logout ({commit}) {
+    await axios.post('auth/logout')
+    commit('CLEAR_USER_DATA')
+  },
 };
