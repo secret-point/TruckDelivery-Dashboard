@@ -224,7 +224,7 @@ export default {
             title: "Success",
             text: "Reserve successfully.",
           });
-          this.goToDashboard(); // go to ezpapel dashboard
+          // this.goToDashboard(); // go to ezpapel dashboard
           this.$router.push({ name: "home" }); // go to truckpedia homepage
         })
         .catch((error) => {
