@@ -13,7 +13,7 @@
           <v-btn color="primary" @click="goToRegister">Signup </v-btn>
           <!-- <vs-button color="#1877F2" type="filled">Signup</vs-button> -->
         </li>
-        <li v-else-if="showDashboard">
+        <li v-if="checkAccessToken">
           <v-btn color="primary" @click.stop="goToDashboard"> Dashboard </v-btn>
         </li>
         <li v-if="checkAccessToken">
