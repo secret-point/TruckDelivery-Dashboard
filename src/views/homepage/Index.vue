@@ -7,6 +7,18 @@
       :mapOriginState="originState"
       :mapDestinationState="destinationState"
     ></search-panel>
+    <div class="d-flex gap-2 flex-wrap w-100 justify-center mt-13">
+      <div
+        class="truck-type"
+        v-for="(item, index) in truckTypeIconsName"
+        :key="index"
+        @click="setTruckTypeActive(item.title)"
+        :class="[activeType.includes(item.title) && 'active-type']"
+      >
+        <truck-type-icons :icon="item.icon"></truck-type-icons>
+        <span>{{ item.title }}</span>
+      </div>
+    </div>
     <div class="d-flex justify-center pa-15" style="height: 75vh">
       <!-- <img src="../../assets/images/map.svg" /> -->
 
@@ -964,8 +976,9 @@ import SearchPanel from "./components/SearchPanel.vue";
 import TruckpediaHeader from "./components/Header.vue";
 import { calculateDistance } from "@/helpers/helper";
 import $ from "jquery";
+import TruckTypeIcons from "./components/TruckTypeIcons.vue";
 export default {
-  components: { SearchPanel, TrucksList, TruckpediaHeader },
+  components: { SearchPanel, TrucksList, TruckpediaHeader, TruckTypeIcons },
   name: "TruckpediaHomepage",
   data() {
     return {
@@ -981,6 +994,17 @@ export default {
         desColor: "#48F4A2",
         originColor: "#1877F2",
       },
+      truckTypeIconsName: [
+        { title: "van", icon: "van" },
+        { title: "Reefer", icon: "reefer" },
+        { title: "Flatbed", icon: "flatbed" },
+        { title: "Step Deck", icon: "step_deck" },
+        { title: "Power Only", icon: "power_only" },
+        { title: "Conestoga", icon: "conestoga" },
+        { title: "Box Truck", icon: "box_truck" },
+        { title: "Sprinter", icon: "sprinter" },
+      ],
+      activeType: [],
     };
   },
   // mounted() {
@@ -1030,6 +1054,14 @@ export default {
   //   });
   // },
   methods: {
+    setTruckTypeActive(title) {
+      if (this.activeType.includes(title)) {
+        const index = this.activeType.findIndex((ele) => ele === title);
+        this.activeType.splice(index, 1);
+      } else {
+        this.activeType.push(title);
+      }
+    },
     searchDataRange(date) {
       this.date = date;
     },
@@ -1130,5 +1162,32 @@ export default {
 }
 #states a text {
   font-size: 11px;
+}
+
+.active-type {
+  background: #1877f2;
+  span {
+    color: #fff;
+  }
+}
+
+.truck-type {
+  width: 65px;
+  border-radius: 8px;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 6px;
+  color: "#fff";
+  margin: 2px;
+  cursor: pointer;
+  span {
+    color: "#626262";
+    margin-top: 2px;
+    font-size: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
 }
 </style>
