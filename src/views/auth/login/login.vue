@@ -88,17 +88,22 @@ export default {
       if (this.role != "carrier") {
         payload.role = this.role;
       }
-      payload.role
-        ? window.localStorage.setItem("user_role", payload.role)
-        : window.localStorage.removeItem("user_role");
 
       this.$store.dispatch("auth/loginJWT", payload)
-        .then(({ data }) => {
+        .then(({ data: { payload } }) => {
           this.$notify({
             type: "success",
             title: "Success",
             text: "Congratulations! You have Login successfully.",
           });
+
+          window.localStorage.removeItem("user_role");
+          if (payload?.admin_company_details?.companyType)
+            window.localStorage.setItem(
+              "user_role",
+              payload?.admin_company_details?.companyType
+            );
+
           // localStorage.setItem("access_token", data.payload.access_token);
           this.$router.push({ name: "home" });
         })

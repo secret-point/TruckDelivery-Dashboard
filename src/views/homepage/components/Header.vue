@@ -7,14 +7,17 @@
     <img src="@/assets/images/logo.svg" @click="$router.push('/')" />
     <div>
       <ul class="d-flex align-center" style="list-style-type: none">
-        <li class="color-primary">How it works</li>
+        <!-- <li class="color-primary">How it works</li> -->
         <li style="color: #9e9e9e" @click="goToLogin" v-if="!checkAccessToken">Login</li>
         <li v-if="!checkAccessToken">
           <v-btn color="primary" @click="goToRegister">Signup </v-btn>
           <!-- <vs-button color="#1877F2" type="filled">Signup</vs-button> -->
         </li>
-        <li v-else-if="showDashboard">
+        <li v-if="checkAccessToken">
           <v-btn color="primary" @click.stop="goToDashboard"> Dashboard </v-btn>
+        </li>
+        <li v-if="checkAccessToken">
+          <v-btn color="error" class="ml-3" variant="text" @click.stop="logout"> Logout </v-btn>
         </li>
       </ul>
     </div>
@@ -33,11 +36,10 @@ export default {
       return false
     },
     showDashboard() {
-      return (
-        localStorage.getItem("user_role") &&
-        (localStorage.getItem("user_role") === "ba" ||
-          localStorage.getItem("user_role") === "sa")
-      );
+      const allowedRoles = ['ba', 'sa', 'broker', 'shipper'];
+      const userRole = localStorage.getItem('user_role');
+
+      return userRole && allowedRoles.includes(userRole)
     },
   },
   methods: {
@@ -55,6 +57,11 @@ export default {
         window.location.href = `http://127.0.0.1:8000/login?access_token='${accessToken}'`;
       }
     },
+    logout(){
+      this.$store
+        .dispatch('auth/logout')
+    },
+
   }
 }
 </script>

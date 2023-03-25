@@ -176,6 +176,14 @@ export default {
         ...rest,
       };
     },
+    goToDashboard() {
+      const accessToken = localStorage.getItem("access_token");
+      if (!process.env.NODE_ENV || process.env.NODE_ENV !== "development") {
+        window.location.href = `https://dashboard.ezpapel.ai/login?access_token='${accessToken}'`;
+      } else {
+        window.location.href = `http://127.0.0.1:8000/login?access_token='${accessToken}'`;
+      }
+    },
     reserveApi() {
       const truckDetails = toRaw(this.truckDetails);
       const pickUpDetails = this.createPayload(
@@ -216,7 +224,8 @@ export default {
             title: "Success",
             text: "Reserve successfully.",
           });
-          this.$router.push({ name: "home" });
+          // this.goToDashboard(); // go to ezpapel dashboard
+          this.$router.push({ name: "home" }); // go to truckpedia homepage
         })
         .catch((error) => {
           if (!error) return;

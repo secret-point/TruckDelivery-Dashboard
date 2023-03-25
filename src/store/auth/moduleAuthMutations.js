@@ -16,4 +16,6 @@ export default {
     // location.reload()
     location.href = '/login'
   },
+
+  
 }

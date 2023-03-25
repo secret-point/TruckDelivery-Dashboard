@@ -66,11 +66,9 @@
                 >
                 </vue-google-autocomplete> -->
                 <GMapAutocomplete
-                  name="address"
                   class="custom-input"
                   @place_changed="setPlace"
                   :options="googleMapAutoCompleteOptions"
-                  placeholder=""
                   :select-first-on-enter="true"
                 >
                 </GMapAutocomplete>
