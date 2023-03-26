@@ -13,14 +13,12 @@
                 type="text"
                 v-model="deliveryVal.company"
                 class="custom-input"
-                placeholder="Your company name"
               />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
               <GMapAutocomplete
                 name="map-delivery"
-                placeholder="12345 address"
                 class="custom-input"
                 :country="['us', 'ca']"
                 :value="deliveryVal.address"
@@ -40,7 +38,7 @@
                 v-on:placechanged="setAddress($event)"
               >
               </vue-google-autocomplete> -->
-              <!-- <input class="custom-input" placeholder="12345 address line one" /> -->
+              <!-- <input class="custom-input" /> -->
               <!-- <label class="text-xs text-gray-400">
                 This address is not recognized, please double check that it is entered correctly. If
                 the address is correct, you may proceed with your shipment.
@@ -51,7 +49,6 @@
               <input
                 v-model="deliveryVal.city"
                 class="custom-input"
-                placeholder="EI Monte"
               />
               <span
                 v-if="v$.deliveryVal.city.$error"
@@ -66,7 +63,6 @@
               <input
                 v-model="deliveryVal.state"
                 class="custom-input"
-                placeholder="CA"
               />
               <span
                 v-if="v$.deliveryVal.state.$error"
@@ -81,7 +77,6 @@
               <input
                 v-model="deliveryVal.zipCode"
                 class="custom-input"
-                placeholder="91732"
               />
               <span
                 v-if="v$.deliveryVal.zipCode.$error"
@@ -94,7 +89,6 @@
               <input
                 v-model="deliveryVal.reference"
                 class="custom-input"
-                placeholder="1223243432423432"
               />
             </div>
             <div class="mt-10px w-full">
@@ -102,7 +96,6 @@
               <textarea
                 v-model="deliveryVal.specialInstruction"
                 class="custom-input"
-                placeholder="Notes"
                 rows="6"
               />
             </div>
@@ -118,7 +111,6 @@
               <input
                 v-model="deliveryVal.firstName"
                 class="custom-input"
-                placeholder="Hongshuai"
               />
             </div>
             <div class="mt-10px w-full">
@@ -126,7 +118,6 @@
               <input
                 v-model="deliveryVal.lastName"
                 class="custom-input"
-                placeholder="Lu"
               />
             </div>
             <div class="mt-10px w-full">
@@ -134,7 +125,6 @@
               <input
                 v-model="deliveryVal.phone"
                 class="custom-input"
-                placeholder="(626)831 8933"
               />
             </div>
             <div class="mt-10px w-full">
@@ -143,7 +133,6 @@
                 v-model="deliveryVal.email"
                 class="custom-input"
                 type="email"
-                placeholder="example@gmail.com"
               />
             </div>
             <!-- <div class="mt-10px flex gap-5px w-full">
@@ -255,7 +244,7 @@ export default {
       const zipcode = place.address_components
         .filter((address) => address.types.includes("postal_code"))
         .map(
-          (address) => address.short_name && parseInt(address.short_name)
+          (address) => address.short_name
         )[0];
 
       const lat = place.geometry.location.lat();

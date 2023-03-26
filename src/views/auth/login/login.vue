@@ -8,7 +8,7 @@
       <v-form @submit.prevent="submit">
         <v-container class="w-50">
           <h2 class="font-weight-bold pb-4 text-center color-grey">Login</h2>
-          <v-select
+          <!-- <v-select
             v-model="role"
             clearable
             label="Select Role"
@@ -17,7 +17,7 @@
             item-value="value"
             variant="outlined"
             :rules="[rules.required]"
-          ></v-select>
+          ></v-select> -->
           <v-text-field
             v-model="email"
             :rules="[rules.required, rules.email]"
@@ -85,9 +85,9 @@ export default {
         password: this.password,
         remember_me: false,
       };
-      if (this.role != "carrier") {
+      /*if (this.role != "carrier") {
         payload.role = this.role;
-      }
+      }*/
 
       this.$store.dispatch("auth/loginJWT", payload)
         .then(({ data: { payload } }) => {

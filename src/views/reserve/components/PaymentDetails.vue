@@ -21,7 +21,7 @@
             <h3 class="">Pay by Debit Card</h3>
             <div class="mt-20px w-full">
               <label class="text-sm">Card number</label>
-              <input class="custom-input" placeholder="Enter card number" />
+              <input class="custom-input" />
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Expiration Date</label>
@@ -33,7 +33,7 @@
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Card Holder Name</label>
-              <input class="custom-input" placeholder="Card holder name" />
+              <input class="custom-input" />
             </div>
             <div class="mt-20px w-full flex flex-col">
               <v-btn class="w-full" color="primary" @click="submit">Pay now</v-btn>

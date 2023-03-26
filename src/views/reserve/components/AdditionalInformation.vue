@@ -5,15 +5,13 @@
       <div class="mt-20px w-full max-width-60-percent">
         <label class="text-sm">Estimated shipment value</label>
         <!-- <ValidationProvider  rules="positive" v-slot="{ errors }">
-         <input type="number" v-model.number="info.shipment" class="custom-input" placeholder="$100000" />
+         <input type="number" v-model.number="info.shipment" class="custom-input" />
          <span>{{ errors[0] }}</span>
         </ValidationProvider> -->
         <input
           name="info"
-          type="number"
-          v-model.number="info.shipment"
+          v-model="info.shipment"
           class="custom-input"
-          placeholder="$100000"
         />
       </div>
       <div class="mt-10px w-full max-width-60-percent">
@@ -21,7 +19,6 @@
         <input
           v-model="info.description"
           class="custom-input"
-          placeholder="Item Description"
         />
         <label class="text-xs text-gray-400"
           >ex: some text about description</label
@@ -70,7 +67,6 @@
             />
             <!-- <input
               v-model="info.pickUp.startTime.firstPart"
-              placeholder="00"
               class="custom-input"
               type="number"
               :min="1"
@@ -79,7 +75,6 @@
             <label>:</label>
             <input
               v-model="info.pickUp.startTime.secondPart"
-              placeholder="00"
               class="custom-input"
               type="number"
               :min="0"
@@ -97,7 +92,6 @@
             />
             <!-- <input
               v-model.number="info.pickUp.stopTime.firstPart"
-              placeholder="00"
               class="custom-input"
               type="number"
               :min="1"
@@ -106,7 +100,6 @@
             <label>:</label>
             <input
               v-model.number="info.pickUp.stopTime.secondPart"
-              placeholder="00"
               class="custom-input"
               type="number"
               :min="0"
@@ -159,7 +152,6 @@
               />
               <!-- <input
                 v-model="info.delivery.startTime.firstPart"
-                placeholder="00"
                 class="custom-input"
                 type="number"
                 :min="1"
@@ -168,7 +160,6 @@
               <label>:</label>
               <input
                 v-model="info.delivery.startTime.secondPart"
-                placeholder="00"
                 class="custom-input"
                 type="number"
                 :min="0"
@@ -186,7 +177,6 @@
               />
               <!-- <input
                 v-model="info.delivery.stopTime.firstPart"
-                placeholder="00"
                 class="custom-input"
                 type="number"
                 :min="1"
@@ -195,7 +185,6 @@
               <label>:</label>
               <input
                 v-model="info.delivery.stopTime.secondPart"
-                placeholder="00"
                 class="custom-input"
                 type="number"
                 :min="0"
