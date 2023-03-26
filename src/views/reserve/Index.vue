@@ -128,15 +128,18 @@ export default {
       const currentComponent = _cloneDeep(this.$refs.current);
       // console.log("refs.$v==", currentComponent.v$)
       // return
-      const isFormCorrect = await currentComponent.v$.$validate();
-      if (!isFormCorrect) {
+      // TODO: this is ridiculous, it's not correct on prod because there is no v$ on prod!!!
+      // TODO: this is wrong!!!!!!!!!!! who wrote this code????
+      //const isFormCorrect = await currentComponent.v$.$validate();
+      //if (!isFormCorrect) {
+      /*if (!currentComponent)
         this.$notify({
           type: "error",
           title: "Error",
           text: "*Fields required",
         });
         return;
-      }
+      }*/
       if (this.currentStep < Object.keys(this.components).length) {
         this.currentStep++;
       }
