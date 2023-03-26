@@ -10,7 +10,7 @@
           <div>
             <h3 class="my-3 mt-5">${{(truckDetails.rate).toFixed(2)}}</h3>
             <p class="my-3">for 3- 5 days transit</p>
-            <p class="my-2">Estimated Price</p>
+            <p class="my-2">Estimated Price <span class="text-red font-weight-bold">*</span></p>
             <div class="my-2 d-flex justify-space-between align-start">
               <!-- <v-text-field
             label="Outlined"
