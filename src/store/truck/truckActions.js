@@ -1,8 +1,8 @@
 import axios from "../../http/axios/index";
 
 export default {
-  setTruckId({ commit }, payload) {
-    commit("SET_TRUCK_ID", payload);
+  setTruckDetails({ commit }, payload) {
+    commit("SET_TRUCK_DETAILS", payload);
   },
 
   setDeliveryTypeAndEstimation({ commit }, payload) {

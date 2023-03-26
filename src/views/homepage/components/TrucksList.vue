@@ -1,19 +1,21 @@
 <template>
-  <div class="truck-list" v-if="truckList.data.length">
+  <div class="truck-list container" v-if="truckList.data.length">
     <div class="truck-header">
       <!-- <p class="font-bold">Trucks we found {{ this.truckList.data.length }} results</p> -->
       <!-- <span class="total-result">{{ this.truckList.data.length }} results</span> -->
-      <p class="font-bold"
-        ><b>{{ truckList.data.length }}</b> carriers found for route
+      <div class="container mx-auto">
+        <p class="font-bold text-center">
+        <b>{{ truckList.data.length }}</b> carriers found for route
         <b>{{ origin.city }}</b
         >, <b>{{ origin.state }}</b> to <b>{{ destination.city }}</b
         >, <b>{{ destination.state }}</b
         >, pickup dates from <b>{{ startDate }}</b> to <b>{{ endDate }}</b
-        >, <b>{{ distance }}</b> miles.</p
-      >
+        >, <b>{{ distance }}</b> miles.
+      </p>
+      </div>
     </div>
     <div class="truck-list-table p-5">
-      <table>
+      <table class="container mx-auto">
         <thead>
           <tr>
             <th v-for="(column, i) in truckList.header" :key="i">
@@ -41,7 +43,7 @@
                     alt="logo"
                     class="logo ml-4"
                   />
-                  <div class="flex flex-column ml-3">
+                  <div class="flex flex-column ml-3 items-center">
                     <p style="position: relative; bottom: -6px"
                       ><span class="font-weight-bold text-uppercase">{{
                         field[col.column].name
@@ -70,10 +72,10 @@
               </div>
             </td>
             <td
-              ><v-btn
+               class="float-right"><v-btn
                 color="primary"
                 class="text-capitalize"
-                @click="goToReserve(field.company.id)"
+                @click="goToReserve(field)"
               >
                 Reserve
               </v-btn></td
@@ -148,10 +150,23 @@ export default {
       }
       return value
     },
-    goToReserve(id) {
+    // id:undefined,
+    // estimatedPrice:null,
+    // deliveryType:'',
+    // maxWeight:null,
+    // rate:null,
+    // logoUrl:'',
+    // name:'',
+    // distance:null,
+    // dates:null
+    goToReserve(truckDetails) {
       const token = localStorage.getItem("access_token");
       if (token) {
-        this.$store.dispatch("truck/setTruckId", id);
+        const {company,maxWeight,rate} = truckDetails
+        const payload = {
+          ...company,maxWeight,rate,date:this.date,distance:this.distance
+        }
+        this.$store.dispatch("truck/setTruckDetails", payload);
         this.$router.push("reserve");
       } else {
         this.$router.push({name: 'login'});
@@ -182,6 +197,7 @@ export default {
   }
   .truck-list-table {
     width: 100%;
+    padding:0 30px;
     table {
       border-spacing: 0px;
       width: 100%;

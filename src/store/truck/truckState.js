@@ -2,6 +2,12 @@ export default {
   truckDetails:{
     id:undefined,
     estimatedPrice:null,
-    deliveryType:''
+    deliveryType:'',
+    maxWeight:null,
+    rate:null,
+    logoUrl:'',
+    name:'',
+    distance:null,
+    date:null
   }
 }

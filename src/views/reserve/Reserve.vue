@@ -5,14 +5,14 @@
         <v-row>
           <v-col cols="5">
             <article>
-             <intro/>
-             <Details/>
-             <offers/>
+             <intro :truckDetails="truckDetails"/>
+             <Details />
+             <offers />
             </article>
           </v-col>
           <v-col cols="7">
             <aside>
-              <delivery-price/>
+              <delivery-price :truckDetails="truckDetails"/>
             </aside>
           </v-col>
         </v-row>
@@ -27,6 +27,8 @@ import DeliveryPrice from './DeliveryPrice.vue'
 import Details from './Details.vue'
 import Intro from './Intro.vue'
 import Offers from './Offers.vue'
+import { mapState } from "vuex";
+import { toRaw } from "vue";
 
 export default {
   name:'Reserve',
@@ -36,6 +38,9 @@ export default {
     Details,
     Offers,
     DeliveryPrice,
+  },
+  computed:{
+      ...mapState("truck", ["truckDetails"]),
   }
 
 }

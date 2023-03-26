@@ -2,21 +2,26 @@
   <section>
     <div>
     <v-row class="justify-space-between align-center mb-3">
-      <v-col cols="8">
-        <div><img src="@/assets/spotEdge.png" width="265" height="60" /></div>
-        <p class="d-flex justify-center">
+      <v-col cols="7">
+       <div class="d-flex align-start">
+        <div class="col-3"><img :src="truckDetails.logoUrl" width="30" height="30" alt="logo"/></div>
+        <div class="col-9 pl-4">
+            <p>{{truckDetails.name}}</p>
+            <p class="d-flex justify-center mt-5">
           <v-icon icon="mdi-star" size="xs" color="info"></v-icon>
           <v-icon icon="mdi-star" size="xs" color="info"></v-icon>
           <v-icon icon="mdi-star" size="xs" color="info"></v-icon>
           <v-icon icon="mdi-star" size="xs" color="info"></v-icon>
           <v-icon icon="mdi-star" size="xs" color="info"></v-icon>
         </p>
+        </div>
+       </div>
       </v-col>
-      <v-col cols="4">
-        <p><v-btn variant="outlined" color="primary" size="x-large">$3210</v-btn></p>
-        <p class="my-1">
+      <v-col cols="5">
+        <p class="text-end"><v-btn variant="outlined" color="primary" size="x-large">{{(truckDetails.rate).toFixed(2)}}</v-btn></p>
+        <p class="my-1 text-end">
           <span class="text-body-2 text-grey">Total miles</span
-          ><span class="ml-4 text-h6">737</span>
+          ><span class="ml-4 text-h6">{{truckDetails.distance}}</span>
         </p>
       </v-col>
     </v-row>
@@ -24,11 +29,11 @@
   <v-divider></v-divider>
   <div class="text-body-2 text-grey">
     <div class="d-flex justify-space-between align-center my-5">
-      <p><span>Pick Up Date</span><span class="ml-3 text-black">Dec 9, 08:08 pm</span></p>
-      <p><span>Max Weight</span><span class="ml-3 text-black">Sample</span></p>
+      <p><span>Pick Up Date</span><span class="ml-3 text-black">{{truckDetails.date}}</span></p>
+      <p><span>Max Weight</span><span class="ml-3 text-black">{{truckDetails.maxWeight}}</span></p>
     </div>
     <div class="d-flex justify-space-between align-center my-5">
-      <p><span>Delivery</span><span class="ml-3 text-black">Dec 12, 02:26 pm</span></p>
+      <p></p>
       <p><span>Truck Type</span><span class="ml-3 text-black">Van</span></p>
     </div>
   </div>
@@ -38,7 +43,13 @@
 
 <script>
 export default {
-  name: 'Intro'
+  name: 'Intro',
+  props:{
+    truckDetails:{
+      type:Object,
+      default:()=>{}
+    }
+  }
 }
 </script>
 

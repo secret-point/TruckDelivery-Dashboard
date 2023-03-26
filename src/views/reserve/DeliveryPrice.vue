@@ -1,6 +1,6 @@
 <template>
   <section>
-    <v-sheet class="pa-6" border rounded color="grey-lighten-3" height="556" width="100%">
+    <v-sheet class="pa-6" border rounded color="grey-lighten-3" height="450" width="100%">
       <v-tabs fixed-tabs color="primary" v-model="tab">
         <v-tab value="flexible" key="1"> Flexible Delivery Date Price </v-tab>
         <v-tab value="guarantee" key="2"> Guarantee Delivery Date Price </v-tab>
@@ -8,7 +8,7 @@
       <v-window v-model="tab" class="text-body-1 px-2">
         <v-window-item v-for="item in items" :key="item.id" :value="item.id">
           <div>
-            <h3 class="my-3 mt-5">$3210</h3>
+            <h3 class="my-3 mt-5">${{(truckDetails.rate).toFixed(2)}}</h3>
             <p class="my-3">for 3- 5 days transit</p>
             <p class="my-2">Estimated Price</p>
             <div class="my-2 d-flex justify-space-between align-start">
@@ -26,19 +26,19 @@
             <p class="my-2">You won’t be charged yet</p>
             <div class="my-5">
               <div class="py-5 d-flex justify-space-between align-center">
-                <span>Lorem ipsum</span><span>$195.00</span>
+                <span>Service fee</span><span>${{serviceCharge}}</span>
               </div>
-              <v-divider></v-divider>
+              <!-- <v-divider></v-divider>
               <div class="py-5 d-flex justify-space-between align-center">
                 <span>Lorem ipsum</span><span>$596.47</span>
               </div>
               <v-divider></v-divider>
                <div class="py-5 d-flex justify-space-between align-center">
                 <span>Lorem ipsum</span><span>$230.75</span>
-              </div>
+              </div> -->
               <v-divider></v-divider>
               <div class="py-5 d-flex justify-space-between align-center">
-                <span class="font-weight-black">Total before taxes</span><span class="font-weight-black">$5,296.47</span>
+                <span class="font-weight-black">Total before taxes</span><span class="font-weight-black">${{totalSum}}</span>
               </div>
             </div>
           </div>
@@ -66,9 +66,21 @@ export default {
     }
   },
   name: 'DeliveryPrice',
+   props:{
+    truckDetails:{
+      type:Object,
+      default:()=>{}
+    }
+  },
+  computed:{
+    totalSum(){
+      return (Number(this.estimatedPrice) + this.serviceCharge).toFixed(2);
+    }
+  },
   data() {
     return {
-      estimatedPrice:null,
+      estimatedPrice:'',
+      serviceCharge:0,
       tab: null,
       items: [
         {
