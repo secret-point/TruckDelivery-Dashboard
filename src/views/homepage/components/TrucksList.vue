@@ -1,5 +1,5 @@
 <template>
-  <div class="truck-list container" v-if="truckList.data.length">
+  <div class="truck-list container" >
     <div class="truck-header">
       <!-- <p class="font-bold">Trucks we found {{ this.truckList.data.length }} results</p> -->
       <!-- <span class="total-result">{{ this.truckList.data.length }} results</span> -->
@@ -95,9 +95,13 @@ export default {
   components: {
     StarRating,
   },
+  mounted(){
+     window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+  },
   props: {
     availableTrucks: {
-      default: [],
+      type:Object,
+      default: ()=>{},
     },
     destination: {
       type: Object,
@@ -111,6 +115,7 @@ export default {
   },
   watch: {
     availableTrucks: {
+      immediate: true,
       handler(val) {
         this.truckList.data = val.availableTrucks;
         this.distance = calculateDistance(

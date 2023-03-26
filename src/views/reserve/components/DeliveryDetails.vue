@@ -16,7 +16,7 @@
               />
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">Address</label>
+              <label class="text-sm">Address <span class="text-red font-weight-bold">*</span></label>
               <GMapAutocomplete
                 id="map"
                 :autoHighlight="true"
@@ -47,8 +47,11 @@
               </label> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">City</label>
-              <input v-model="deliveryVal.city" class="custom-input" />
+              <label class="text-sm">City <span class="text-red font-weight-bold">*</span></label>
+              <input
+                v-model="deliveryVal.city"
+                class="custom-input"
+              />
               <span
                 v-if="v$.deliveryVal.city.$error"
                 class="text-red text-caption font-weight-bold mr-5"
@@ -58,7 +61,7 @@
               <!-- <label class="text-xs text-gray-400">Apartment, Unit, Suite, etc.</label> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">State</label>
+              <label class="text-sm">State <span class="text-red font-weight-bold">*</span></label>
               <input
                 v-model="deliveryVal.state"
                 class="custom-input"
@@ -72,8 +75,11 @@
               <!-- <label class="text-xs text-gray-400">Seattle etc.</label> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">Zip code</label>
-              <input v-model="deliveryVal.zipCode" class="custom-input" />
+              <label class="text-sm">Zip code <span class="text-red font-weight-bold">*</span></label>
+              <input
+                v-model="deliveryVal.zipCode"
+                class="custom-input"
+              />
               <span
                 v-if="v$.deliveryVal.zipCode.$error"
                 class="text-red text-caption font-weight-bold mr-5"

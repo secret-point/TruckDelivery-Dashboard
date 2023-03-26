@@ -4,7 +4,7 @@
     <v-row>
       <!-- Left Section -->
       <v-col cols="4">
-        <ReservationSummary />
+        <ReservationSummary :truckDetails="truckDetails" />
       </v-col>
 
       <!-- Right Section -->
@@ -88,15 +88,15 @@ export default {
       return labels[this.currentStep] ?? "";
     },
     currentComponent() {
-      return this.components[this.currentStep] ?? null;
+      return this.componentsUsed[this.currentStep] ?? null;
     },
     progressValue() {
-      return (this.currentStep / Object.keys(this.components).length) * 100;
+      return (this.currentStep / Object.keys(this.componentsUsed).length) * 100;
     },
   },
   data() {
     return {
-      components: {
+      componentsUsed: {
         1: "AdditionalInformation",
         2: "PickupDetails",
         3: "DeliveryDetails",
@@ -108,9 +108,7 @@ export default {
       info: {},
     };
   },
-  // mounted(){
-  //   console.log("refs==", _cloneDeep(this.$refs.current))
-  // },
+  
   methods: {
     updateDetails(payload) {
       // console.log("final-d-p==", payload);
@@ -124,27 +122,24 @@ export default {
     },
 
     async navigateForward() {
-      // console.log("refs==", _cloneDeep(this.$refs.current))
       const currentComponent = _cloneDeep(this.$refs.current);
-      // console.log("refs.$v==", currentComponent.v$)
-      // return
-      // TODO: this is ridiculous, it's not correct on prod because there is no v$ on prod!!!
-      // TODO: this is wrong!!!!!!!!!!! who wrote this code????
-      //const isFormCorrect = await currentComponent.v$.$validate();
-      //if (!isFormCorrect) {
-      /*if (!currentComponent)
+      const isFormCorrect = await currentComponent.v$.$validate();
+      if (!isFormCorrect) {
         this.$notify({
           type: "error",
           title: "Error",
           text: "*Fields required",
         });
         return;
-      }*/
-      if (this.currentStep < Object.keys(this.components).length) {
+      }
+      if (this.currentStep < Object.keys(this.componentsUsed).length) {
         this.currentStep++;
       }
     },
     navigateBackward() {
+      if(this.currentStep===1){
+        this.$router.push('reserve')
+      }
       if (this.currentStep > 1) {
         this.currentStep--;
       }

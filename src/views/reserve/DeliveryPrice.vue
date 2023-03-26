@@ -77,6 +77,11 @@ export default {
       return (Number(this.estimatedPrice) + this.serviceCharge).toFixed(2);
     }
   },
+  mounted(){
+    if(this.truckDetails?.estimatedPrice){
+      this.estimatedPrice = Number(this.truckDetails.estimatedPrice)
+    }
+  },
   data() {
     return {
       estimatedPrice:'',

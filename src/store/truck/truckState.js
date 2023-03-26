@@ -8,6 +8,8 @@ export default {
     logoUrl:'',
     name:'',
     distance:null,
-    date:null
+    date:null,
+    deliveryDate:'',
+    pickUpDate:''
   }
 }

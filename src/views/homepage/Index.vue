@@ -976,6 +976,7 @@
     </div>
 
     <trucks-list
+      v-if="searchData?.availableTrucks?.length"
       :availableTrucks="searchData"
       :origin="originPlace?.place"
       :destination="destinationPlace?.place"
@@ -1000,7 +1001,7 @@ export default {
       originPlace: null,
       destinationPlace: null,
       date: "",
-      searchData: [],
+      searchData: null,
       validationAlert: false,
       originState: "",
       destinationState: "",
@@ -1155,8 +1156,15 @@ export default {
           .post("truckpedia/available-trucks/search", payload)
           .then(({ data }) => {
             this.searchData = data.payload;
+            this.$notify({
+            type: "success",
+            title: "Success",
+            text: `${data.payload.availableTrucks.length} carriers found`,
+          });
+            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
           })
           .catch((error) => {
+            this.searchData = null
             this.$notify({
               type: "error",
               title: "Error",

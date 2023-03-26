@@ -28,13 +28,14 @@
     <div class="flex flex-col items-center justify-center w-full mt-20px">
       <h3 class="">When should we pick up your items?</h3>
       <div class="mt-20px w-full max-width-60-percent">
-        <label class="text-sm">Requested loading date</label>
+        <label class="text-sm">Requested loading date <span class="text-red font-weight-bold">*</span></label>
         <flat-pickr
           @blur="v$.info.pickUp.date.$touch"
+          name="pickUpDate"
           class="custom-input"
           v-model="info.pickUp.date"
-          placeholder="Select date"
           :config="flat_pikr_config"
+          @input="updateDate($event)"
         />
         <span
           v-if="v$.info.pickUp.date.$error"
@@ -64,6 +65,7 @@
               v-model="info.pickUp.startTime"
               :config="configTimeFlatPickr"
               class="custom-input"
+    
             />
             <!-- <input
               v-model="info.pickUp.startTime.firstPart"
@@ -113,13 +115,14 @@
       <div class="flex flex-col items-center justify-center w-full mt-20px">
         <h3 class="">When should we deliver your items?</h3>
         <div class="mt-20px w-full max-width-60-percent">
-          <label class="text-sm">Requested unloading date</label>
+          <label class="text-sm">Requested unloading date <span class="text-red font-weight-bold">*</span></label>
           <flat-pickr
             @blur="v$.info.delivery.date.$touch"
+            name="deliveryDate"
             class="custom-input"
             v-model="info.delivery.date"
-            placeholder="Select date"
             :config="flat_pikr_config"
+            @input="updateDate($event)"
           />
           <span
             v-if="v$.info.delivery.date.$error"
@@ -265,6 +268,11 @@ export default {
       },
     },
   },
+  methods:{
+    updateDate(event){
+      this.$store.dispatch("truck/updateDate", event);
+    }
+  }
 };
 </script>
 

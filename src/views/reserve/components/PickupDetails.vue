@@ -43,7 +43,33 @@
                 <!-- <input class="custom-input" /> -->
               </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">City</label>
+              <label class="text-sm">Address <span class="text-red font-weight-bold">*</span></label>
+              <GMapAutocomplete
+                placeholder=""
+                name="map-pickup"
+                class="custom-input"
+                :country="['us', 'ca']"
+                :value="pickVal.address"
+                @place_changed="setAddress($event)"
+              >
+              </GMapAutocomplete>
+              <span
+                v-if="v$.pickVal.address.$error"
+                class="text-red text-caption font-weight-bold mr-5"
+                >*required</span
+              >
+
+              <!-- <vue-google-autocomplete
+                id="map-pickup"
+                class="custom-input"
+                :country="['us', 'ca']"
+                v-on:placechanged="setAddress($event)"
+              >
+              </vue-google-autocomplete> -->
+              <!-- <input class="custom-input" /> -->
+            </div>
+            <div class="mt-10px w-full">
+              <label class="text-sm">City <span class="text-red font-weight-bold">*</span></label>
               <input
                 v-model="pickVal.city"
                 class="custom-input"
@@ -57,7 +83,7 @@
               <!-- <label class="text-xs text-gray-400">Apartment, Unit, Suite, etc.</label> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">State</label>
+              <label class="text-sm">State <span class="text-red font-weight-bold">*</span></label>
               <input
                 v-model="pickVal.state"
                 class="custom-input"
@@ -71,7 +97,7 @@
               <!-- <label class="text-xs text-gray-400">Seattle etc.</label> -->
             </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">Zip code</label>
+              <label class="text-sm">Zip code <span class="text-red font-weight-bold">*</span></label>
               <input
                 v-model="pickVal.zipCode"
                 class="custom-input"
