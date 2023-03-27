@@ -970,7 +970,7 @@
     <div class="d-flex justify-center mx-auto">
       <p>
         <span style="color: #3bc1f8; font-size: 18px; font-weight: 600;">  
-          Available in Los Angeles, More regions comming soon!
+          Available in Los Angeles, More regions coming soon!
         </span>
       </p>
 
