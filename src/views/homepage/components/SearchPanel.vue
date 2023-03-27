@@ -1,5 +1,4 @@
 <template>
-     <form autocomplete="off"> 
   <div>
     <div class="search-panel">
       <div>
@@ -27,17 +26,17 @@
 
       <span>to</span>
       <div>
-        <GMapAutocomplete
-          name="address1"
-          placeholder="Delivery city state"
-          class="custom-input"
-          :value="destinationAddress"
-          :country="['us', 'ca']"
-          @place_changed="setPlace($event, 'destination')"
-          :options="googleMapAutoCompleteOptions"
-          :select-first-on-enter="true"
-        >
-        </GMapAutocomplete>
+          <GMapAutocomplete
+            name="address1"
+            placeholder="Delivery city state"
+            class="custom-input"
+            :value="destinationAddress"
+            :country="['us', 'ca']"
+            @place_changed="setPlace($event, 'destination')"
+            :options="googleMapAutoCompleteOptions"
+            :select-first-on-enter="true"
+          >
+          </GMapAutocomplete>
         <!-- <vue-google-autocomplete
           id="map1"
           class="custom-input"
@@ -70,7 +69,6 @@
       </div>
     </div>
   </div>
-</form>
 </template>
 
 <script>
