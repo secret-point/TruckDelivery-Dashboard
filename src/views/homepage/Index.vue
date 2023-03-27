@@ -7,7 +7,7 @@
       :mapOriginState="originState"
       :mapDestinationState="destinationState"
     ></search-panel>
-    <div class="d-flex gap-2 flex-wrap w-100 justify-center mt-13">
+    <div class="d-flex gap-2 flex-wrap w-100 justify-center mt-10">
       <div
         class="truck-type"
         v-for="(item, index) in truckTypeIconsName"
@@ -19,7 +19,7 @@
         <span>{{ item.title }}</span>
       </div>
     </div>
-    <div class="d-flex justify-center pa-15" style="height: 75vh">
+    <div class="d-flex justify-center px-15" style="height: 68vh">
       <!-- <img src="../../assets/images/map.svg" /> -->
 
       <svg
@@ -967,6 +967,19 @@
       :date="date"
     ></trucks-list>
     <notifications position="bottom right" />
+    <div class="d-flex justify-center mx-auto">
+      <p>
+        <span style="color: #3bc1f8; font-size: 18px; font-weight: 600;">  
+          Available in Los Angeles, More regions comming soon!
+        </span>
+      </p>
+
+    </div>
+    <div class="d-flex justify-center mx-auto mt-3">
+      <p>
+        <v-btn color="primary" @click="goToEarlyAccessForm">Get Early Access</v-btn>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -1148,6 +1161,11 @@ export default {
               text: error.response.data.message,
             });
           });
+      }
+    },
+    goToEarlyAccessForm() {
+      if (window) {
+        window.open('https://share.hsforms.com/1XSoJJaoGRE-g-iR7Fco-egcr74g', '_blank');
       }
     },
   },
