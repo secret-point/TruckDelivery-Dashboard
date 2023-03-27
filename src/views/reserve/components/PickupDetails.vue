@@ -8,38 +8,40 @@
             <div class="mt-20px w-full">
               <label class="text-sm">Company or Individual name</label>
               <input
+                name="name"
                 type="text"
                 v-model="pickVal.company"
                 class="custom-input"
               />
             </div>
-            <form autocomplete="off"> 
-            <div class="mt-10px w-full">
-              <label class="text-sm">Address</label>
-              <GMapAutocomplete
-                name="map-pickup"
-                class="custom-input"
-                :country="['us', 'ca']"
-                :value="pickVal.address"
-                @place_changed="setAddress($event)"
-              >
-              </GMapAutocomplete>
-              <span
-                v-if="v$.pickVal.address.$error"
-                class="text-red text-caption font-weight-bold mr-5"
-                >*required</span
-              >
-
-              <!-- <vue-google-autocomplete
-                id="map-pickup"
-                class="custom-input"
-                :country="['us', 'ca']"
-                v-on:placechanged="setAddress($event)"
-              >
-              </vue-google-autocomplete> -->
-              <!-- <input class="custom-input" /> -->
-            </div>
-            </form>
+              <div class="mt-10px w-full">
+                <label class="text-sm">Address</label>
+                <GMapAutocomplete
+                  id="map"
+                  :autoHighlight="true"
+                  :name="'street-address'"
+                  class="custom-input"
+                  :country="['us', 'ca']"
+                  @place_changed="setAddress($event)"
+                  placeholder=""
+                >
+                </GMapAutocomplete>
+                <!-- :value="pickVal.address" -->
+                <span
+                  v-if="v$.pickVal.address.$error"
+                  class="text-red text-caption font-weight-bold mr-5"
+                  >*required</span
+                >
+  
+                <!-- <vue-google-autocomplete
+                  id="map-pickup"
+                  class="custom-input"
+                  :country="['us', 'ca']"
+                  v-on:placechanged="setAddress($event)"
+                >
+                </vue-google-autocomplete> -->
+                <!-- <input class="custom-input" /> -->
+              </div>
             <div class="mt-10px w-full">
               <label class="text-sm">City</label>
               <input
@@ -149,7 +151,7 @@ import config from "@/config/constants.js";
 import { isProxy, toRaw, onActivated } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
-
+import $ from 'jquery';
 export default {
   setup() {
     return {
@@ -211,6 +213,7 @@ export default {
     },
   },
   methods: {
+
     //     administrative_area_level_1: "NY"
     // administrative_area_level_2: "New York County"
     // country: "United States"
@@ -252,12 +255,11 @@ export default {
 
       const zipcode = place.address_components
         .filter((address) => address.types.includes("postal_code"))
-        .map(
-          (address) => address.short_name
-        )[0];
+        .map((address) => address.short_name)[0];
 
       const lat = place.geometry.location.lat();
       const lng = place.geometry.location.lng();
+      $("#map").val(address);
       this.pickVal.address = address;
       this.pickVal.city = city;
       this.pickVal.state = state;

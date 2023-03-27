@@ -16,17 +16,17 @@
               />
             </div>
             <div class="mt-10px w-full">
-              <form autocomplete="off"> 
               <label class="text-sm">Address</label>
               <GMapAutocomplete
-                name="map-delivery"
+                id="map"
+                :autoHighlight="true"
+                :name="'street-address'"
                 class="custom-input"
                 :country="['us', 'ca']"
-                :value="deliveryVal.address"
                 @place_changed="setAddress($event)"
+                placeholder=""
               >
               </GMapAutocomplete>
-              </form>
               <span
                 v-if="v$.deliveryVal.address.$error"
                 class="text-red text-caption font-weight-bold mr-5"
@@ -48,10 +48,7 @@
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">City</label>
-              <input
-                v-model="deliveryVal.city"
-                class="custom-input"
-              />
+              <input v-model="deliveryVal.city" class="custom-input" />
               <span
                 v-if="v$.deliveryVal.city.$error"
                 class="text-red text-caption font-weight-bold mr-5"
@@ -76,10 +73,7 @@
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Zip code</label>
-              <input
-                v-model="deliveryVal.zipCode"
-                class="custom-input"
-              />
+              <input v-model="deliveryVal.zipCode" class="custom-input" />
               <span
                 v-if="v$.deliveryVal.zipCode.$error"
                 class="text-red text-caption font-weight-bold mr-5"
@@ -155,7 +149,7 @@ import VueGoogleAutocomplete from "vue-google-autocomplete";
 import { useVuelidate } from "@vuelidate/core";
 import { required } from "@vuelidate/validators";
 // import DeliveryDetailsVue from '../../../../tp-homepage/src/views/reserve/components/DeliveryDetails.vue'
-
+import $ from 'jquery';
 export default {
   setup() {
     return {
@@ -245,12 +239,11 @@ export default {
 
       const zipcode = place.address_components
         .filter((address) => address.types.includes("postal_code"))
-        .map(
-          (address) => address.short_name
-        )[0];
+        .map((address) => address.short_name)[0];
 
       const lat = place.geometry.location.lat();
       const lng = place.geometry.location.lng();
+      $("#map").val(address);
       this.deliveryVal.address = address;
       this.deliveryVal.city = city;
       this.deliveryVal.state = state;
