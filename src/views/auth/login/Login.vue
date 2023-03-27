@@ -40,7 +40,8 @@
           </v-btn>
           <p class="mt-5">
             Don't have an account?
-            <span style="color: #5299f5" @click="goToRegister">Register</span>
+            <!-- <span style="color: #5299f5; cursor: pointer;" @click="goToRegister">Register</span> -->
+            <span style="color: #5299f5; cursor: pointer;" @click="goToEarlyAccessForm">Register</span>
           </p>
         </v-container>
       </v-form>
@@ -118,6 +119,11 @@ export default {
     },
     goToRegister() {
       this.$router.push("register");
+    },
+    goToEarlyAccessForm() {
+      if (window) {
+        window.open('https://share.hsforms.com/1XSoJJaoGRE-g-iR7Fco-egcr74g', '_blank');
+      }
     },
   },
 };
