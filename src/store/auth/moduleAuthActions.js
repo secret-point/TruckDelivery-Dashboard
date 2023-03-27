@@ -59,4 +59,9 @@ export default {
     await axios.post('auth/logout')
     commit('CLEAR_USER_DATA')
   },
+
+  async getLoggedInUserProfile ({commit}) {
+    const response = await axios.get('auth/user')
+    commit('FETCH_USER', response.data.payload)
+  },
 };

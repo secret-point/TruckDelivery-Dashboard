@@ -44,7 +44,9 @@
                     class="logo ml-4"
                   />
                   <div class="flex flex-column ml-3 items-center">
-                    <p style="position: relative; bottom: -6px"
+                    <p
+                      style="position: relative; bottom: -6px"
+                      :class="{ blur: !isLoggedIn }"
                       ><span class="font-weight-bold text-uppercase">{{
                         field[col.column].name
                       }}</span></p
@@ -68,7 +70,8 @@
                   style="color: #1877f2"
                   v-else
                   :class="{ 'font-bold': col.column === 'rate' }"
-                  >{{ toFixed(field[col.column]) }}</span>
+                  >{{ toFixed(field[col.column]) }}</span
+                >
               </div>
             </td>
             <td
@@ -90,6 +93,7 @@
 <script>
 import StarRating from "vue-star-rating";
 import { calculateDistance, toFixed } from "@/helpers/helper";
+import { mapGetters } from "vuex";
 export default {
   name: "TruckList",
   components: {
@@ -143,12 +147,18 @@ export default {
       },
     };
   },
+  mounted() {
+    console.log(this.isLoggedIn);
+  },
+  computed: {
+    ...mapGetters("auth", ["user", "isLoggedIn"]),
+  },
   methods: {
     toFixed(value) {
-      if(typeof value === "number"){
-       return toFixed(value, 2);
+      if (typeof value === "number") {
+        return toFixed(value, 2);
       }
-      return value
+      return value;
     },
     // id:undefined,
     // estimatedPrice:null,
@@ -169,7 +179,7 @@ export default {
         this.$store.dispatch("truck/setTruckDetails", payload);
         this.$router.push("reserve");
       } else {
-        this.$router.push({name: 'login'});
+        this.$router.push({ name: "login" });
       }
     },
   },
@@ -177,6 +187,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.blur {
+  filter: blur(3px);
+  -webkit-filter: blur(3px);
+}
 .flex {
   display: flex;
 }
