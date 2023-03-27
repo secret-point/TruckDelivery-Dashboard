@@ -13,6 +13,7 @@
                 class="custom-input"
               />
             </div>
+            <form autocomplete="off"> 
             <div class="mt-10px w-full">
               <label class="text-sm">Address</label>
               <GMapAutocomplete
@@ -38,6 +39,7 @@
               </vue-google-autocomplete> -->
               <!-- <input class="custom-input" /> -->
             </div>
+            </form>
             <div class="mt-10px w-full">
               <label class="text-sm">City</label>
               <input

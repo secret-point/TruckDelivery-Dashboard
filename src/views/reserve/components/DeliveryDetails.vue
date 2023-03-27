@@ -16,6 +16,7 @@
               />
             </div>
             <div class="mt-10px w-full">
+              <form autocomplete="off"> 
               <label class="text-sm">Address</label>
               <GMapAutocomplete
                 name="map-delivery"
@@ -25,6 +26,7 @@
                 @place_changed="setAddress($event)"
               >
               </GMapAutocomplete>
+              </form>
               <span
                 v-if="v$.deliveryVal.address.$error"
                 class="text-red text-caption font-weight-bold mr-5"

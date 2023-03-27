@@ -1,4 +1,5 @@
 <template>
+     <form autocomplete="off"> 
   <div>
     <div class="search-panel">
       <div>
@@ -69,6 +70,7 @@
       </div>
     </div>
   </div>
+</form>
 </template>
 
 <script>
