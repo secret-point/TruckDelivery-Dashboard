@@ -1,7 +1,7 @@
 import axios from '../../axios'
 export default {
   SET_USER_DATA (state, user) {
-    state.user = user
+    state.user = user;
     localStorage.setItem('access_token', user.access_token)
     axios.defaults.headers.common['Authorization'] = `Bearer ${user.access_token}`
   },
@@ -16,6 +16,8 @@ export default {
     // location.reload()
     location.href = '/login'
   },
-
+  FETCH_USER (state, user) {
+    state.user = user
+  },
   
 }
