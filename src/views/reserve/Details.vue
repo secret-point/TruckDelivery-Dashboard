@@ -9,7 +9,8 @@
     <!-- <p class="my-3">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam</p> -->
     <div class="my-6">
       <h6 class=" font-weight-black my-4 text-body-2">What will you get</h6>
-      <img src="@/assets/trucks.png" alt="" width="308" height="129">
+      <p>Equipment type: 53' Dry Van</p>
+      <!-- <img src="@/assets/trucks.png" alt="" width="308" height="129">-->
     </div>
   </section>
 </template>
