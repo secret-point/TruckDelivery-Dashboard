@@ -51,7 +51,7 @@
                   >
                     {{ getFirstLetter(field[col.column].name) }}
                   </v-avatar>
-                  <div class="flex flex-column ml-3 items-center">
+                  <div class="flex flex-column ml-3">
                     <p
                       style="position: relative; bottom: -6px"
                       :class="{ blur: !isLoggedIn }"
