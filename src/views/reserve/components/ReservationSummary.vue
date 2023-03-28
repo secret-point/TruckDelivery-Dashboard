@@ -32,12 +32,12 @@
       <div class="w-full">
         <div class="flex gap-10px m-5px-auto">
           <span class="label">Pick Up Date</span>
-          <span class="value">{{truckDetails.date}}</span>
+          <span class="value">{{truckDetails.pickUpDate}}</span>
         </div>
-        <!-- <div v-if="truckDetails.deliveryDate" class="flex gap-10px m-5px-auto">
+        <div v-if="truckDetails.deliveryDate" class="flex gap-10px m-5px-auto">
           <span class="label">Delivery</span>
-          <span class="value">{{getPretty(truckDetails.deliveryDate)}}</span>
-        </div> -->
+          <span class="value">{{truckDetails.deliveryDate}}</span>
+        </div>
         <div class="flex gap-10px m-5px-auto">
           <span class="label">Max Weight</span>
           <span class="value">{{truckDetails.maxWeight}}</span>
@@ -67,7 +67,7 @@
 
         <div class="flex justify-between m-10px-auto">
           <span class="text-lg font-semibold">Total</span>
-          <span class="text-lg font-semibold">${{toFixed(truckDetails.rate)}}</span>
+          <span class="text-lg font-semibold">${{toFixed(truckDetails.rate, 2)}}</span>
         </div>
       </div>
     </div>
