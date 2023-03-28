@@ -56,6 +56,18 @@
             <v-col cols="6">
               <div class="autocomplete">
                 <label class="label">Address</label>
+
+                <GMapAutocomplete
+                  id="map"
+                  class="custom-input"
+                  @place_changed="setPlace"
+                  :options="googleMapAutoCompleteOptions"
+                  :select-first-on-enter="true"
+                  @keydown="onAutoFill"
+                  placeholder=""
+                >
+                </GMapAutocomplete>
+
                 <!-- <vue-google-autocomplete
                   v-model="address"
                   id="map"
@@ -65,13 +77,6 @@
                   placeholder=""
                 >
                 </vue-google-autocomplete> -->
-                <GMapAutocomplete
-                  class="custom-input"
-                  @place_changed="setPlace"
-                  :options="googleMapAutoCompleteOptions"
-                  :select-first-on-enter="true"
-                >
-                </GMapAutocomplete>
               </div>
               <!-- <v-text-field
                 clearable
@@ -170,6 +175,8 @@
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
 import config from "../../../config";
+import $ from "jquery";
+import { getAddressFromGoogleApi } from "../../../helpers/helper";
 export default {
   components: {
     VueGoogleAutocomplete,
@@ -205,8 +212,6 @@ export default {
   },
 
   async created() {
-    // window.addEventListener('storage', this.checkLogout)
-
     try {
       // const {data} = await this.$store.dispatch('auth/getTimezoneList')
       //
@@ -235,6 +240,15 @@ export default {
     this.companyType = this.$route.query.role;
   },
   methods: {
+    onAutoFill() {
+      setTimeout(() => {
+        $(".pac-item").click(async (e) => {
+          const { results } = await getAddressFromGoogleApi($(e.target).text());
+          this.setPlace(results[0]);
+          $(".pac-container").css({ display: "none" });
+        });
+      }, 500);
+    },
     logout() {
       try {
         localStorage.removeItem("access_token");
@@ -334,7 +348,7 @@ export default {
 
       // const latitude = place.geometry.location.lat()
       // const longitude = place.geometry.location.lng()
-
+      $("#map").val(address);
       this.address = address;
       this.city = city;
       this.state = state;
