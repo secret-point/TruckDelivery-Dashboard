@@ -981,6 +981,7 @@
       :origin="originPlace?.place"
       :destination="destinationPlace?.place"
       :date="date"
+      :distance="distance"
     ></trucks-list>
     <notifications position="bottom right" />
   </div>
@@ -990,12 +991,13 @@
 import TrucksList from "./components/TrucksList.vue";
 import SearchPanel from "./components/SearchPanel.vue";
 import TruckpediaHeader from "./components/Header.vue";
-import { calculateDistance } from "@/helpers/helper";
 import $ from "jquery";
 import TruckTypeIcons from "./components/TruckTypeIcons.vue";
+import GoogleMapMixin from "../../mixings/googleMapMixin";
 export default {
   components: { SearchPanel, TrucksList, TruckpediaHeader, TruckTypeIcons },
   name: "TruckpediaHomepage",
+  mixins: [GoogleMapMixin],
   data() {
     return {
       originPlace: null,
@@ -1021,6 +1023,7 @@ export default {
         { title: "Sprinter", icon: "sprinter" },
       ],
       activeType: [],
+      distance: null
     };
   },
   // mounted() {
@@ -1112,7 +1115,7 @@ export default {
       }
       return true;
     },
-    searchResult() {
+    async searchResult() {
       if (
         this.checkValidation(this.date) ||
         this.checkValidation(this.originPlace) ||
@@ -1127,13 +1130,19 @@ export default {
       } else {
         const origin = this.originPlace.place;
         const destination = this.destinationPlace.place;
-        const distance = calculateDistance(
-          origin.lat,
-          origin.lng,
-          destination.lat,
-          destination.lng
-        );
-        const [ startDate, endDate ] = (this.date || '').split(" to ");
+        const routes = [
+          {
+            destination: { lat: destination.lat, lng: destination.lng },
+            origin: { lat: origin.lat, lng: origin.lng },
+          },
+        ];
+        const totalDistanceInMeter =
+          await this.getGoogleDistanceBetweenMultipleRoutes(routes);
+
+        // convert: meter to miles
+        this.distance = (totalDistanceInMeter / 1609.34).toFixed(2);
+
+        const [startDate, endDate] = (this.date || "").split(" to ");
         const payload = {
           origin: {
             city: origin.city,
@@ -1149,26 +1158,32 @@ export default {
             latitude: destination.lat,
             longitude: destination.lng,
           },
-          distance: Number(distance),
+          distance: Number(this.distance),
         };
         this.$http
           .post("truckpedia/available-trucks/search", payload)
           .then(({ data }) => {
             this.searchData = data.payload;
             this.$notify({
-            type: "success",
-            title: "Success",
-            text: `${data.payload.availableTrucks.length} carriers found`,
-          });
-            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+              type: "success",
+              title: "Success",
+              text: `${data.payload.availableTrucks.length} carriers found`,
+            });
+            window.scrollTo(
+              0,
+              document.body.scrollHeight ||
+                document.documentElement.scrollHeight
+            );
           })
           .catch((error) => {
-            this.searchData = null
+            this.searchData = null;
             console.error(error);
             this.$notify({
               type: "error",
               title: "Error",
-              text: (((error || {}).response || {}).data || {}).message || "Something went wrong",
+              text:
+                (((error || {}).response || {}).data || {}).message ||
+                "Something went wrong",
             });
           });
       }
