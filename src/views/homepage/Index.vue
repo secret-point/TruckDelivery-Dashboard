@@ -1165,10 +1165,11 @@ export default {
           })
           .catch((error) => {
             this.searchData = null
+            console.error(error);
             this.$notify({
               type: "error",
               title: "Error",
-              text: error.response.data.message,
+              text: (((error || {}).response || {}).data || {}).message || "Something went wrong",
             });
           });
       }

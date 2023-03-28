@@ -25,7 +25,8 @@ axios.interceptors.request.use(request => {
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status == 401) {
+    const { status } = (error || {}).response || {}
+    if (status == 401) {
       // console.log('AXIOS INTERCEPTOR : LOGOUT LOCAL')
       store.dispatch('auth/logoutLocally')
       router.push({name: 'login'})

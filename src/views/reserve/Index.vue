@@ -226,11 +226,12 @@ export default {
           this.$router.push({ name: "home" }); // go to truckpedia homepage
         })
         .catch((error) => {
+          console.error(error);
           if (!error) return;
           this.$notify({
             type: "error",
             title: "Error",
-            text: error.response.data.message,
+            text: (((error || {}).response || {}).data || {}).message || "Something went wrong",
           });
         });
     },
