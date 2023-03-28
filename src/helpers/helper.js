@@ -29,7 +29,6 @@ export const toFixed = (x, d) => {
   if (!d) return x.toFixed(d); // don't go wrong if no decimal
   return Number(x)
     .toFixed(d)
-    .replace(/\.?0+$/, "");
 }
 
 

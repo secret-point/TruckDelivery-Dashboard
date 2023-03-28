@@ -8,7 +8,7 @@
       <v-window v-model="tab" class="text-body-1 px-2">
         <v-window-item v-for="item in items" :key="item.id" :value="item.id">
           <div>
-            <h3 class="my-3 mt-5">${{toFixed(truckDetails.rate)}}</h3>
+            <h3 class="my-3 mt-5">${{toFixed(truckDetails.rate, 2)}}</h3>
             <span class="d-flex justify-space-between">
               <p class="my-3">for 3- 5 days transit</p>
               <v-btn
@@ -48,7 +48,7 @@
               </div> -->
               <v-divider></v-divider>
               <div class="py-5 d-flex justify-space-between align-center">
-                <span class="font-weight-black">Total </span><span class="font-weight-black">${{toFixed(truckDetails.rate)}}</span>
+                <span class="font-weight-black">Total </span><span class="font-weight-black">${{toFixed(truckDetails.rate, 2)}}</span>
               </div>
             </div>
           </div>
