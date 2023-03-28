@@ -65,7 +65,7 @@ import PickupDetails from "./components/PickupDetails.vue";
 import { toRaw } from "vue";
 import { calculateDistance } from "@/utils";
 import _cloneDeep from "lodash/cloneDeep";
-
+import GoogleMapMixin from "@/mixings/googleMapMixin";
 export default {
   name: "Index",
   components: {
@@ -75,6 +75,7 @@ export default {
     PaymentDetails,
     PickupDetails,
   },
+  mixins: [GoogleMapMixin],
   computed: {
     ...mapState("truck", ["truckDetails"]),
     headerText() {
@@ -108,7 +109,7 @@ export default {
       info: {},
     };
   },
-  
+
   methods: {
     updateDetails(payload) {
       // console.log("final-d-p==", payload);
@@ -136,8 +137,8 @@ export default {
       }
     },
     navigateBackward() {
-      if(this.currentStep===1){
-        this.$router.push('reserve')
+      if (this.currentStep === 1) {
+        this.$router.push("reserve");
       }
       if (this.currentStep > 1) {
         this.currentStep--;
@@ -181,7 +182,7 @@ export default {
         window.location.href = `http://127.0.0.1:8000/login?access_token='${accessToken}'`;
       }
     },
-    reserveApi() {
+    async reserveApi() {
       const truckDetails = toRaw(this.truckDetails);
       const pickUpDetails = this.createPayload(
         this.pickVal,
@@ -193,12 +194,29 @@ export default {
         this.info.delivery,
         "Receiver"
       );
-      const miles = calculateDistance(
-        this.pickVal.latitude,
-        this.pickVal.longitude,
-        this.deliveryVal.latitude,
-        this.deliveryVal.longitude
-      );
+
+      // const miles = calculateDistance(
+      //   this.pickVal.latitude,
+      //   this.pickVal.longitude,
+      //   this.deliveryVal.latitude,
+      //   this.deliveryVal.longitude
+      // );
+
+      const routes = [
+        {
+          destination: {
+            lat: this.deliveryVal.latitude,
+            lng: this.deliveryVal.longitude,
+          },
+          origin: { lat: this.pickVal.latitude, lng: this.pickVal.longitude },
+        },
+      ];
+      const totalDistanceInMeter =
+        await this.getGoogleDistanceBetweenMultipleRoutes(routes);
+
+      // convert: meter to miles
+      const miles = (totalDistanceInMeter / 1609.34).toFixed(2);
+
       const payload = {
         companyId: truckDetails.id,
         deliveryType: truckDetails.deliveryType,
@@ -230,7 +248,9 @@ export default {
           this.$notify({
             type: "error",
             title: "Error",
-            text: (((error || {}).response || {}).data || {}).message || "Something went wrong",
+            text:
+              (((error || {}).response || {}).data || {}).message ||
+              "Something went wrong",
           });
         });
     },

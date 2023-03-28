@@ -1,17 +1,17 @@
 <template>
-  <div class="truck-list container" >
+  <div class="truck-list container">
     <div class="truck-header">
       <!-- <p class="font-bold">Trucks we found {{ this.truckList.data.length }} results</p> -->
       <!-- <span class="total-result">{{ this.truckList.data.length }} results</span> -->
       <div class="container mx-auto">
         <p class="font-bold text-center">
-        <b>{{ truckList.data.length }}</b> carriers found for route
-        <b>{{ origin.city }}</b
-        >, <b>{{ origin.state }}</b> to <b>{{ destination.city }}</b
-        >, <b>{{ destination.state }}</b
-        >, pickup dates from <b>{{ startDate }}</b> to <b>{{ endDate }}</b
-        >, <b>{{ distance }}</b> miles.
-      </p>
+          <b>{{ truckList.data.length }}</b> carriers found for route
+          <b>{{ origin.city }}</b
+          >, <b>{{ origin.state }}</b> to <b>{{ destination.city }}</b
+          >, <b>{{ destination.state }}</b
+          >, pickup dates from <b>{{ startDate }}</b> to <b>{{ endDate }}</b
+          >, <b>{{ distance }}</b> miles.
+        </p>
       </div>
     </div>
     <div class="truck-list-table p-5">
@@ -82,8 +82,8 @@
                 >
               </div>
             </td>
-            <td
-               class="float-right"><v-btn
+            <td class="float-right"
+              ><v-btn
                 color="primary"
                 class="text-capitalize"
                 @click="goToReserve(field)"
@@ -100,20 +100,25 @@
 
 <script>
 import StarRating from "vue-star-rating";
-import { calculateDistance, toFixed, getFirstLetter } from "@/helpers/helper";
+import { toFixed, getFirstLetter } from "@/helpers/helper";
 import { mapGetters } from "vuex";
+import GoogleMapMixin from "../../../mixings/googleMapMixin";
 export default {
   name: "TruckList",
   components: {
     StarRating,
   },
-  mounted(){
-     window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+  mixins: [GoogleMapMixin],
+  mounted() {
+    window.scrollTo(
+      0,
+      document.body.scrollHeight || document.documentElement.scrollHeight
+    );
   },
   props: {
     availableTrucks: {
-      type:Object,
-      default: ()=>{},
+      type: Object,
+      default: () => {},
     },
     destination: {
       type: Object,
@@ -124,23 +129,20 @@ export default {
     date: {
       type: String,
     },
+    distance: {
+      type: String
+    }
   },
   watch: {
     availableTrucks: {
-      immediate: true,
-      handler(val) {
+      async handler(val) {
         this.truckList.data = val.availableTrucks;
-        this.distance = calculateDistance(
-          this.origin.lat,
-          this.origin.lng,
-          this.destination.lat,
-          this.destination.lng
-        );
         this.startDate = this.date.split("to")[0];
         this.endDate = this.date.split("to")[1]
           ? this.date.split("to")[1]
           : this.date.split("to")[0];
       },
+      immediate: true
     },
   },
   data() {
@@ -154,14 +156,10 @@ export default {
           { name: "Rate", column: "rate" },
         ],
         data: [],
-        distance: "",
         startDate: null,
         endDate: null,
       },
     };
-  },
-  mounted() {
-    console.log(this.isLoggedIn);
   },
   computed: {
     ...mapGetters("auth", ["user", "isLoggedIn"]),
@@ -185,10 +183,14 @@ export default {
     goToReserve(truckDetails) {
       const token = localStorage.getItem("access_token");
       if (token) {
-        const {company,maxWeight,rate} = truckDetails
+        const { company, maxWeight, rate } = truckDetails;
         const payload = {
-          ...company,maxWeight,rate,date:this.date,distance:this.distance
-        }
+          ...company,
+          maxWeight,
+          rate,
+          date: this.date,
+          distance: this.distance,
+        };
         this.$store.dispatch("truck/setTruckDetails", payload);
         this.$router.push("reserve");
       } else {
@@ -227,7 +229,7 @@ export default {
   }
   .truck-list-table {
     width: 100%;
-    padding:0 30px;
+    padding: 0 30px;
     table {
       border-spacing: 0px;
       width: 100%;
