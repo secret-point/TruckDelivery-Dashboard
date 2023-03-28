@@ -141,12 +141,12 @@ export default {
           // window.reload();
         })
         .catch((error) => {
-          // console.log(error)
+          console.error(error);
           if (!error) return;
           this.$notify({
             type: "error",
             title: "Error",
-            text: error.response.data.message,
+            text: (((error || {}).response || {}).data || {}).message || "Something went wrong",
           });
         });
     },

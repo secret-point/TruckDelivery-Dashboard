@@ -7,5 +7,10 @@ export default {
     const {deliveryType,estimatedPrice} = payload
     state.truckDetails = {...state.truckDetails,deliveryType,estimatedPrice}
 
+  },
+
+  UPDATE_DATE(state, payload){
+    const {name, value} = payload.target
+    state.truckDetails = {...state.truckDetails,[name]:value}
   }
 }

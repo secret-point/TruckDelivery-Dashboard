@@ -3,9 +3,9 @@
     <!-- Header -->
     <div class="summary-header">
       <div class="w-full">
-        <h3>SPOT EDGE TRUCKING</h3>
-        <h4>MC-1153133</h4>
-        <v-btn class="m-10px-auto" variant="outlined" color="primary" size="large"> $ 3210 </v-btn>
+        <h3>{{truckDetails.name}}</h3>
+        <!-- <h4>MC-1153133</h4> -->
+        <v-btn class="m-10px-auto" variant="outlined" color="primary" size="large"> ${{(truckDetails.rate).toFixed(2)}} </v-btn>
       </div>
     </div>
 
@@ -14,15 +14,15 @@
       <div class="w-full">
         <div class="flex gap-10px m-5px-auto">
           <span class="label">Pick Up Date</span>
-          <span class="value">Dec 9, 08:08 pm</span>
+          <span class="value">{{truckDetails.pickUpDate?getPretty(truckDetails.pickUpDate):truckDetails.date}}</span>
         </div>
-        <div class="flex gap-10px m-5px-auto">
+        <div v-if="truckDetails.deliveryDate" class="flex gap-10px m-5px-auto">
           <span class="label">Delivery</span>
-          <span class="value">Dec 12, 02:26 pm</span>
+          <span class="value">{{getPretty(truckDetails.deliveryDate)}}</span>
         </div>
         <div class="flex gap-10px m-5px-auto">
           <span class="label">Max Weight</span>
-          <span class="value">Sample</span>
+          <span class="value">{{truckDetails.maxWeight}}</span>
         </div>
         <div class="flex gap-10px m-5px-auto">
           <span class="label">Truck Type</span>
@@ -31,25 +31,25 @@
       </div>
 
       <div class="w-full mt-10px">
-        <div class="flex justify-between m-5px-auto">
+        <!-- <div class="flex justify-between m-5px-auto">
           <span class="fee-label">Cleaning fee</span>
           <span class="fee-value">$195.00</span>
-        </div>
-        <v-divider />
+        </div> -->
+        <!-- <v-divider /> -->
         <div class="flex justify-between m-5px-auto">
           <span class="fee-label">Service fee</span>
-          <span class="fee-value">$596.47</span>
+          <span class="fee-value">${{serviceCharge}}</span>
         </div>
-        <v-divider />
-        <div class="flex justify-between m-5px-auto">
+        <!-- <v-divider /> -->
+        <!-- <div class="flex justify-between m-5px-auto">
           <span class="fee-label">Occupancy taxes and fees</span>
           <span class="fee-value">$230.75</span>
-        </div>
+        </div> -->
         <v-divider />
 
         <div class="flex justify-between m-10px-auto">
           <span class="text-lg font-semibold">Total before taxes</span>
-          <span class="text-lg font-semibold">$5,296.47</span>
+          <span class="text-lg font-semibold">${{totalSum}}</span>
         </div>
       </div>
     </div>
@@ -59,10 +59,29 @@
 <script>
 export default {
   name: 'ReservationSummary',
-  components: {},
+  props:{
+    truckDetails:{
+      type:Object,
+      default:()=>{}
+    }
+  },
   data() {
     return {
-      rating: 5
+      rating: 5,
+      serviceCharge:0
+    }
+  },
+   computed:{
+    totalSum(){
+      return (Number(this.truckDetails.estimatedPrice) + this.serviceCharge).toFixed(2);
+    }
+  },
+
+  methods: {
+    getPretty(date){
+      const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      const d = new Date(date)
+      return `${months[d.getMonth()]} ${d.getDate()}`
     }
   }
 }

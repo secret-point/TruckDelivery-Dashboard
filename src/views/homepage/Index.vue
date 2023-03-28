@@ -976,6 +976,7 @@
     </div>
 
     <trucks-list
+      v-if="searchData?.availableTrucks?.length"
       :availableTrucks="searchData"
       :origin="originPlace?.place"
       :destination="destinationPlace?.place"
@@ -1000,7 +1001,7 @@ export default {
       originPlace: null,
       destinationPlace: null,
       date: "",
-      searchData: [],
+      searchData: null,
       validationAlert: false,
       originState: "",
       destinationState: "",
@@ -1132,16 +1133,15 @@ export default {
           destination.lat,
           destination.lng
         );
+        const [ startDate, endDate ] = (this.date || '').split(" to ");
         const payload = {
           origin: {
             city: origin.city,
             state: origin.state,
             latitude: origin.lat,
             longitude: origin.lng,
-            startDate: this.date.split("to")[0],
-            endDate: this.date.split("to")[1]
-              ? this.date.split("to")[1]
-              : this.date.split("to")[0],
+            startDate: startDate,
+            endDate: endDate ? endDate : startDate,
           },
           destination: {
             city: destination.city,
@@ -1155,12 +1155,20 @@ export default {
           .post("truckpedia/available-trucks/search", payload)
           .then(({ data }) => {
             this.searchData = data.payload;
+            this.$notify({
+            type: "success",
+            title: "Success",
+            text: `${data.payload.availableTrucks.length} carriers found`,
+          });
+            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
           })
           .catch((error) => {
+            this.searchData = null
+            console.error(error);
             this.$notify({
               type: "error",
               title: "Error",
-              text: error.response.data.message,
+              text: (((error || {}).response || {}).data || {}).message || "Something went wrong",
             });
           });
       }

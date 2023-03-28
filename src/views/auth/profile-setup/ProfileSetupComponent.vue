@@ -229,10 +229,11 @@ export default {
         value: timezone[0],
       }));
     } catch (error) {
+      console.error(error);
       this.$vs.notify({
         color: "danger",
         title: "Error",
-        text: error.response.data.message,
+        text: (((error || {}).response || {}).data || {}).message || "Something went wrong",
       });
     }
   },
@@ -290,12 +291,12 @@ export default {
           this.$router.push({ name: "home" });
         })
         .catch((error) => {
-          // console.log(error)
+          console.error(error);
           if (!error) return;
           this.$notify({
             type: "error",
             title: "Error",
-            text:  error.response.data.message,
+            text:  (((error || {}).response || {}).data || {}).message || "Something went wrong",
           });
         });
     },
