@@ -30,7 +30,7 @@
       <div class="mt-20px w-full max-width-60-percent">
         <label class="text-sm">Requested loading date <span class="text-red font-weight-bold">*</span></label>
         <flat-pickr
-          @blur="v$.info.pickUp.date.$touch"
+          @blur="validate$.info.pickUp.date.$touch"
           name="pickUpDate"
           class="custom-input"
           v-model="info.pickUp.date"
@@ -38,7 +38,7 @@
           @input="updateDate($event)"
         />
         <span
-          v-if="v$.info.pickUp.date.$error"
+          v-if="validate$.info.pickUp.date.$error"
           class="text-red text-caption font-weight-bold mr-5"
           >*required</span
         >
@@ -117,7 +117,7 @@
         <div class="mt-20px w-full max-width-60-percent">
           <label class="text-sm">Requested unloading date <span class="text-red font-weight-bold">*</span></label>
           <flat-pickr
-            @blur="v$.info.delivery.date.$touch"
+            @blur="validate$.info.delivery.date.$touch"
             name="deliveryDate"
             class="custom-input"
             v-model="info.delivery.date"
@@ -125,7 +125,7 @@
             @input="updateDate($event)"
           />
           <span
-            v-if="v$.info.delivery.date.$error"
+            v-if="validate$.info.delivery.date.$error"
             class="text-red text-caption font-weight-bold mr-5"
             >*required</span
           >
@@ -210,7 +210,7 @@ import { required } from "@vuelidate/validators";
 export default {
   setup() {
     return {
-      v$: useVuelidate(),
+      validate$: useVuelidate(),
     };
   },
   validations() {

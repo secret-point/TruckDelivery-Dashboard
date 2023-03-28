@@ -123,7 +123,7 @@ export default {
 
     async navigateForward() {
       const currentComponent = _cloneDeep(this.$refs.current);
-      const isFormCorrect = await currentComponent.v$.$validate();
+      const isFormCorrect = await currentComponent.validate$.$validate();
       if (!isFormCorrect) {
         this.$notify({
           type: "error",
