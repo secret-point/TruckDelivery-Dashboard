@@ -112,6 +112,9 @@ export default {
     }
   },
   methods: {
+    toFixed(val, decimal){
+     return toFixed(val, decimal)
+    },
     async goToReserveInfo(){
       // const isFormCorrect = await this.v$.$validate()
       //  if (!isFormCorrect){

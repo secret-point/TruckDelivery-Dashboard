@@ -34,7 +34,7 @@
        </div>
       </v-col>
       <v-col cols="5">
-        <p class="text-end"><v-btn variant="outlined" color="primary" size="x-large">{{(truckDetails.rate).toFixed(2)}}</v-btn></p>
+        <p class="text-end"><v-btn variant="outlined" color="primary" size="x-large">{{toFixed(truckDetails.rate, 2)}}</v-btn></p>
         <p class="my-1 text-end">
           <span class="text-body-2 text-grey">Total miles</span
           ><span class="ml-4 text-h6">{{truckDetails.distance}}</span>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { getFirstLetter } from "@/helpers/helper";
+import { getFirstLetter, toFixed } from "@/helpers/helper";
 
 export default {
   name: 'Intro',
@@ -71,7 +71,10 @@ export default {
   methods:{
     getFirstLetter(value) {
       return getFirstLetter(value);
-    }
+    },
+    toFixed(val, decimal){
+     return toFixed(val, decimal)
+    },
   }
 }
 </script>

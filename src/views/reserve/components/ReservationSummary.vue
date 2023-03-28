@@ -23,7 +23,7 @@
           <h3>{{ truckDetails.name }}</h3>
         </div>
         <!-- <h4>MC-1153133</h4> -->
-        <v-btn class="m-10px-auto" variant="outlined" color="primary" size="large"> ${{(truckDetails.rate).toFixed(2)}} </v-btn>
+        <v-btn class="m-10px-auto" variant="outlined" color="primary" size="large"> ${{toFixed(truckDetails.rate, 2)}} </v-btn>
       </div>
     </div>
 
@@ -76,6 +76,7 @@
 
 <script>
 import { getFirstLetter } from "@/helpers/helper";
+import { toFixed } from '../../../helpers/helper';
 
 export default {
   name: 'ReservationSummary',
@@ -98,6 +99,9 @@ export default {
   },
 
   methods: {
+    toFixed(val, decimal){
+     return toFixed(val, decimal)
+    },
     getPretty(date){
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const d = new Date(date)

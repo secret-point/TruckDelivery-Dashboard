@@ -25,6 +25,7 @@ export const calculateDistance = (lat1, lng1, lat2, lng2) => {
 
 
 export const toFixed = (x, d) => {
+  if(typeof x !== 'number') return;
   if (!d) return x.toFixed(d); // don't go wrong if no decimal
   return Number(x)
     .toFixed(d)
