@@ -10,7 +10,8 @@
         <!-- <li class="color-primary">How it works</li> -->
         <li style="color: #9e9e9e" @click="goToLogin" v-if="!checkAccessToken">Login</li>
         <li v-if="!checkAccessToken">
-          <v-btn color="primary" @click="goToRegister">Signup </v-btn>
+          <!-- <v-btn color="primary" @click="goToRegister">Signup </v-btn> -->
+          <v-btn color="primary" @click="goToEarlyAccessForm">Signup </v-btn>
           <!-- <vs-button color="#1877F2" type="filled">Signup</vs-button> -->
         </li>
         <li v-if="checkAccessToken">
@@ -48,6 +49,11 @@ export default {
     },
     goToRegister() {
       this.$router.push('register')
+    },
+    goToEarlyAccessForm() {
+      if (window) {
+        window.open('https://share.hsforms.com/1XSoJJaoGRE-g-iR7Fco-egcr74g', '_blank');
+      }
     },
     goToDashboard() {
       const accessToken = localStorage.getItem("access_token");
