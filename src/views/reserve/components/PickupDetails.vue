@@ -6,16 +6,22 @@
           <div class="flex flex-col w-full">
             <h3 class="">What is the pick-up address?</h3>
             <div class="mt-20px w-full">
-              <label class="text-sm">Company or Individual name</label>
+              <label class="text-sm">Company or Individual name <span class="text-red font-weight-bold">*</span></label>
               <input
                 name="name"
                 type="text"
                 v-model="pickVal.company"
                 class="custom-input"
               />
+              <span
+                  v-if="v$.pickVal.company.$error"
+                  class="text-red text-caption font-weight-bold mr-5"
+                  >*required</span
+                >
+  
             </div>
               <div class="mt-10px w-full">
-                <label class="text-sm">Address</label>
+                <label class="text-sm">Address <span class="text-red font-weight-bold">*</span></label>
                 <GMapAutocomplete
                   id="map"
                   :autoHighlight="true"
@@ -43,7 +49,7 @@
                 <!-- <input class="custom-input" /> -->
               </div>
             <div class="mt-10px w-full">
-              <label class="text-sm">Address <span class="text-red font-weight-bold">*</span></label>
+              <!-- <label class="text-sm">Address <span class="text-red font-weight-bold">*</span></label>
               <GMapAutocomplete
                 placeholder=""
                 name="map-pickup"
@@ -56,8 +62,8 @@
               <span
                 v-if="v$.pickVal.address.$error"
                 class="text-red text-caption font-weight-bold mr-5"
-                >*required</span
-              >
+                >*required</span -->
+              <!-- > -->
 
               <!-- <vue-google-autocomplete
                 id="map-pickup"
@@ -193,6 +199,7 @@ export default {
         zipCode: { required },
         longitude: { required },
         latitude: { required },
+        company: { required },
       },
     };
   },

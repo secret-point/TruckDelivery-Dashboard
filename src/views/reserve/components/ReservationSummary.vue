@@ -3,9 +3,27 @@
     <!-- Header -->
     <div class="summary-header">
       <div class="w-full">
-        <h3>{{truckDetails.name}}</h3>
+        <div class="flex">
+          <img
+            v-if="truckDetails.logoUrl"
+            class="mr-4"
+            :src="truckDetails.logoUrl"
+            width="35"
+            height="35"
+            alt="logo"
+          />
+          <v-avatar
+            v-else
+            class="logo mr-4 color-white"
+            rounded="0"
+            color="#1877f1"
+          >
+            {{ getFirstLetter(truckDetails.name) }}
+          </v-avatar>
+          <h3>{{ truckDetails.name }}</h3>
+        </div>
         <!-- <h4>MC-1153133</h4> -->
-        <v-btn class="m-10px-auto" variant="outlined" color="primary" size="large"> ${{(truckDetails.rate).toFixed(2)}} </v-btn>
+        <v-btn class="m-10px-auto" variant="outlined" color="primary" size="large"> ${{toFixed(truckDetails.rate, 2)}} </v-btn>
       </div>
     </div>
 
@@ -14,11 +32,11 @@
       <div class="w-full">
         <div class="flex gap-10px m-5px-auto">
           <span class="label">Pick Up Date</span>
-          <span class="value">{{truckDetails.pickUpDate?getPretty(truckDetails.pickUpDate):truckDetails.date}}</span>
+          <span class="value">{{truckDetails.pickUpDate}}</span>
         </div>
         <div v-if="truckDetails.deliveryDate" class="flex gap-10px m-5px-auto">
           <span class="label">Delivery</span>
-          <span class="value">{{getPretty(truckDetails.deliveryDate)}}</span>
+          <span class="value">{{truckDetails.deliveryDate}}</span>
         </div>
         <div class="flex gap-10px m-5px-auto">
           <span class="label">Max Weight</span>
@@ -48,8 +66,8 @@
         <v-divider />
 
         <div class="flex justify-between m-10px-auto">
-          <span class="text-lg font-semibold">Total before taxes</span>
-          <span class="text-lg font-semibold">${{totalSum}}</span>
+          <span class="text-lg font-semibold">Total</span>
+          <span class="text-lg font-semibold">${{toFixed(truckDetails.rate, 2)}}</span>
         </div>
       </div>
     </div>
@@ -57,6 +75,9 @@
 </template>
 
 <script>
+import { getFirstLetter } from "@/helpers/helper";
+import { toFixed } from '../../../helpers/helper';
+
 export default {
   name: 'ReservationSummary',
   props:{
@@ -78,10 +99,16 @@ export default {
   },
 
   methods: {
+    toFixed(val, decimal){
+     return toFixed(val, decimal)
+    },
     getPretty(date){
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const d = new Date(date)
       return `${months[d.getMonth()]} ${d.getDate()}`
+    },
+    getFirstLetter(value) {
+      return getFirstLetter(value);
     }
   }
 }
@@ -133,5 +160,14 @@ export default {
   font-size: 16px;
   font-weight: 500;
   color: #000;
+}
+
+.logo {
+  width: 35px;
+  height: 35px;
+}
+
+.color-white {
+  color: #fff;
 }
 </style>

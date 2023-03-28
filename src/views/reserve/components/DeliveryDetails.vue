@@ -8,12 +8,17 @@
               Great! Now tell us a little bit more about the delivery location
             </h3>
             <div class="mt-20px w-full">
-              <label class="text-sm">Company or Individual name</label>
+              <label class="text-sm">Company or Individual name <span class="text-red font-weight-bold">*</span></label>
               <input
                 type="text"
                 v-model="deliveryVal.company"
                 class="custom-input"
               />
+              <span
+                  v-if="v$.deliveryVal.company.$error"
+                  class="text-red text-caption font-weight-bold mr-5"
+                  >*required</span
+                >
             </div>
             <div class="mt-10px w-full">
               <label class="text-sm">Address <span class="text-red font-weight-bold">*</span></label>
@@ -171,6 +176,7 @@ export default {
         zipCode: { required },
         longitude: { required },
         latitude: { required },
+        company: { required },
       },
     };
   },
