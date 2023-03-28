@@ -35,9 +35,9 @@
             </div>
             <p class="my-2">You won’t be charged yet</p> -->
             <div class="my-5">
-              <!-- <div class="py-5 d-flex justify-space-between align-center">
+              <div class="py-5 d-flex justify-space-between align-center">
                 <span>Service fee</span><span>${{serviceCharge}}</span>
-              </div> -->
+              </div>
               <!-- <v-divider></v-divider>
               <div class="py-5 d-flex justify-space-between align-center">
                 <span>Lorem ipsum</span><span>$596.47</span>
