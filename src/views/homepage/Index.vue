@@ -1133,16 +1133,15 @@ export default {
           destination.lat,
           destination.lng
         );
+        const [ startDate, endDate ] = (this.date || '').split(" to ");
         const payload = {
           origin: {
             city: origin.city,
             state: origin.state,
             latitude: origin.lat,
             longitude: origin.lng,
-            startDate: this.date.split("to")[0],
-            endDate: this.date.split("to")[1]
-              ? this.date.split("to")[1]
-              : this.date.split("to")[0],
+            startDate: startDate,
+            endDate: endDate ? endDate : startDate,
           },
           destination: {
             city: destination.city,
