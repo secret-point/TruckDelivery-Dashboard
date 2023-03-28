@@ -66,8 +66,8 @@
         <v-divider />
 
         <div class="flex justify-between m-10px-auto">
-          <span class="text-lg font-semibold">Total before taxes</span>
-          <span class="text-lg font-semibold">${{totalSum}}</span>
+          <span class="text-lg font-semibold">Total</span>
+          <span class="text-lg font-semibold">${{(truckDetails.rate).toFixed(2)}}</span>
         </div>
       </div>
     </div>

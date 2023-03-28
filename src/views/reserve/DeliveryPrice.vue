@@ -55,9 +55,9 @@
         </v-window-item>
       </v-window>
     </v-sheet>
-    <v-card  class="my-8">
+    <!-- <v-card  class="my-8">
       <p class="d-flex justify-center align-center text-body-2 py-4"><span class="mr-5 font-weight-black">This is a rere find . Jhon’s place on Truckpedia is usually fully boocked.</span><v-icon icon="mdi-diamond-stone" color="primary" size="x-large"></v-icon></p>
-    </v-card>
+    </v-card> -->
   </section>
 </template>
 

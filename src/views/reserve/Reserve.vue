@@ -6,7 +6,7 @@
           <v-col cols="5">
             <article>
              <intro :truckDetails="truckDetails"/>
-             <Details />
+             <!-- <Details /> -->
              <offers />
             </article>
           </v-col>
