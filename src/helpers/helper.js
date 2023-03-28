@@ -50,3 +50,8 @@ export const getAddressFromGoogleApi = (city) => {
     }
   });
 }
+
+export const getFirstLetter = (string) => {
+  if (typeof string !== "string") string = string.toString();
+  return string.charAt(0).toUpperCase();
+}

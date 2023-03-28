@@ -3,7 +3,25 @@
     <!-- Header -->
     <div class="summary-header">
       <div class="w-full">
-        <h3>{{truckDetails.name}}</h3>
+        <div class="flex">
+          <img
+            v-if="truckDetails.logoUrl"
+            class="mr-4"
+            :src="truckDetails.logoUrl"
+            width="35"
+            height="35"
+            alt="logo"
+          />
+          <v-avatar
+            v-else
+            class="logo mr-4 color-white"
+            rounded="0"
+            color="#1877f1"
+          >
+            {{ getFirstLetter(truckDetails.name) }}
+          </v-avatar>
+          <h3>{{ truckDetails.name }}</h3>
+        </div>
         <!-- <h4>MC-1153133</h4> -->
         <v-btn class="m-10px-auto" variant="outlined" color="primary" size="large"> ${{(truckDetails.rate).toFixed(2)}} </v-btn>
       </div>
@@ -57,6 +75,8 @@
 </template>
 
 <script>
+import { getFirstLetter } from "@/helpers/helper";
+
 export default {
   name: 'ReservationSummary',
   props:{
@@ -82,6 +102,9 @@ export default {
       const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       const d = new Date(date)
       return `${months[d.getMonth()]} ${d.getDate()}`
+    },
+    getFirstLetter(value) {
+      return getFirstLetter(value);
     }
   }
 }
@@ -133,5 +156,14 @@ export default {
   font-size: 16px;
   font-weight: 500;
   color: #000;
+}
+
+.logo {
+  width: 35px;
+  height: 35px;
+}
+
+.color-white {
+  color: #fff;
 }
 </style>

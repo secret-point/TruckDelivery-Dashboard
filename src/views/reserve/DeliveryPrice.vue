@@ -1,6 +1,6 @@
 <template>
   <section>
-    <v-sheet class="pa-6" border rounded color="grey-lighten-3" height="450" width="100%">
+    <v-sheet class="pa-6" border rounded color="grey-lighten-3" height="" width="100%">
       <v-tabs fixed-tabs color="primary" v-model="tab">
         <v-tab value="flexible" key="1"> Flexible Delivery Date Price </v-tab>
         <v-tab value="guarantee" key="2"> Guarantee Delivery Date Price </v-tab>
@@ -8,26 +8,36 @@
       <v-window v-model="tab" class="text-body-1 px-2">
         <v-window-item v-for="item in items" :key="item.id" :value="item.id">
           <div>
-            <h3 class="my-3 mt-5">${{(truckDetails.rate).toFixed(2)}}</h3>
-            <p class="my-3">for 3- 5 days transit</p>
-            <p class="my-2">Estimated Price <span class="text-red font-weight-bold">*</span></p>
+            <h3 class="my-3 mt-5">${{toFixed(truckDetails.rate)}}</h3>
+            <span class="d-flex justify-space-between">
+              <p class="my-3">for 3- 5 days transit</p>
+              <v-btn
+                variant="flat"
+                color="primary"
+                size="large"
+                @click="goToReserveInfo"
+              >
+                Next
+              </v-btn>
+            </span>
+            <!-- <p class="my-2">Estimated Price <span class="text-red font-weight-bold">*</span></p>
             <div class="my-2 d-flex justify-space-between align-start">
-              <!-- <v-text-field
+              <v-text-field
             label="Outlined"
             single-line
             outlined
-          ></v-text-field> -->
+          ></v-text-field>
               <div>
                 <input @blur="v$.estimatedPrice.$touch" v-model.number="estimatedPrice" type="number" height="48" width="472" placeholder="$" class="mr-5"/>
                 <span v-if="v$.estimatedPrice.$error" class="text-red text-caption font-weight-bold">*required</span>
               </div>
               <v-btn variant="flat" color="primary" size="large" @click="goToReserveInfo">Reserve</v-btn>
             </div>
-            <p class="my-2">You won’t be charged yet</p>
+            <p class="my-2">You won’t be charged yet</p> -->
             <div class="my-5">
-              <div class="py-5 d-flex justify-space-between align-center">
+              <!-- <div class="py-5 d-flex justify-space-between align-center">
                 <span>Service fee</span><span>${{serviceCharge}}</span>
-              </div>
+              </div> -->
               <!-- <v-divider></v-divider>
               <div class="py-5 d-flex justify-space-between align-center">
                 <span>Lorem ipsum</span><span>$596.47</span>
@@ -38,7 +48,7 @@
               </div> -->
               <v-divider></v-divider>
               <div class="py-5 d-flex justify-space-between align-center">
-                <span class="font-weight-black">Total before taxes</span><span class="font-weight-black">${{totalSum}}</span>
+                <span class="font-weight-black">Total </span><span class="font-weight-black">${{toFixed(truckDetails.rate)}}</span>
               </div>
             </div>
           </div>
@@ -54,6 +64,8 @@
 <script>
 import { useVuelidate } from '@vuelidate/core'
 import { required} from '@vuelidate/validators'
+import { toFixed } from "@/helpers/helper";
+
 export default {
    setup () {
     return {
@@ -101,19 +113,28 @@ export default {
   },
   methods: {
     async goToReserveInfo(){
-      const isFormCorrect = await this.v$.$validate()
-       if (!isFormCorrect){
-        this.$notify({
-            type: "error",
-            title: "Error",
-            text: "*Fields required",
-      });
-      return
-       }
-      const payload = {estimatedPrice:this.estimatedPrice,deliveryType:this.tab}
+      // const isFormCorrect = await this.v$.$validate()
+      //  if (!isFormCorrect){
+      //   this.$notify({
+      //       type: "error",
+      //       title: "Error",
+      //       text: "*Fields required",
+      // });
+      // return
+      //  }
+      const payload = {
+        estimatedPrice: this.toFixed(this.truckDetails?.rate),
+        deliveryType: this.tab,
+      };
       this.$store.dispatch('truck/setDeliveryTypeAndEstimation',payload)
       this.$router.push('reserve-info')
-    }
+    },
+    toFixed(value) {
+      if (typeof value === "number") {
+        return toFixed(value, 2);
+      }
+      return value;
+    },
   }
 }
 </script>

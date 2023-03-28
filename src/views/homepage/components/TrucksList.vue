@@ -43,6 +43,14 @@
                     alt="logo"
                     class="logo ml-4"
                   />
+                  <v-avatar
+                    v-else
+                    class="logo ml-4 color-white"
+                    rounded="0"
+                    color="#1877f1"
+                  >
+                    {{ getFirstLetter(field[col.column].name) }}
+                  </v-avatar>
                   <div class="flex flex-column ml-3 items-center">
                     <p
                       style="position: relative; bottom: -6px"
@@ -92,7 +100,7 @@
 
 <script>
 import StarRating from "vue-star-rating";
-import { calculateDistance, toFixed } from "@/helpers/helper";
+import { calculateDistance, toFixed, getFirstLetter } from "@/helpers/helper";
 import { mapGetters } from "vuex";
 export default {
   name: "TruckList",
@@ -187,6 +195,9 @@ export default {
         this.$router.push({ name: "login" });
       }
     },
+    getFirstLetter(value) {
+      return getFirstLetter(value);
+    },
   },
 };
 </script>
@@ -252,5 +263,11 @@ export default {
       }
     }
   }
+}
+
+// Utility Classes
+
+.color-white {
+  color: #fff;
 }
 </style>

@@ -4,7 +4,23 @@
     <v-row class="justify-space-between align-center mb-3">
       <v-col cols="7">
        <div class="d-flex align-start">
-        <div class="col-3"><img :src="truckDetails.logoUrl" width="30" height="30" alt="logo"/></div>
+        <div class="col-3">
+          <img
+            v-if="truckDetails.logoUrl"
+            :src="truckDetails.logoUrl"
+            width="35"
+            height="35"
+            alt="logo"
+          />
+          <v-avatar
+            v-else
+            class="logo color-white"
+            rounded="0"
+            color="#1877f1"
+          >
+            {{ getFirstLetter(truckDetails.name) }}
+          </v-avatar>
+        </div>
         <div class="col-9 pl-4">
             <p>{{truckDetails.name}}</p>
             <p class="d-flex justify-center mt-5">
@@ -42,6 +58,8 @@
 </template>
 
 <script>
+import { getFirstLetter } from "@/helpers/helper";
+
 export default {
   name: 'Intro',
   props:{
@@ -49,9 +67,23 @@ export default {
       type:Object,
       default:()=>{}
     }
+  },
+  methods:{
+    getFirstLetter(value) {
+      return getFirstLetter(value);
+    }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+// Utility classes
+.logo {
+  width: 35px;
+  height: 35px;
+}
+
+.color-white {
+  color: #fff;
+}
 </style>
