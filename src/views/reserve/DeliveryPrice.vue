@@ -28,8 +28,8 @@
             outlined
           ></v-text-field>
               <div>
-                <input @blur="validate$.estimatedPrice.$touch" v-model.number="estimatedPrice" type="number" height="48" width="472" placeholder="$" class="mr-5"/>
-                <span v-if="validate$.estimatedPrice.$error" class="text-red text-caption font-weight-bold">*required</span>
+                <input @blur="validate.estimatedPrice.$touch" v-model.number="estimatedPrice" type="number" height="48" width="472" placeholder="$" class="mr-5"/>
+                <span v-if="validate.estimatedPrice.$error" class="text-red text-caption font-weight-bold">*required</span>
               </div>
               <v-btn variant="flat" color="primary" size="large" @click="goToReserveInfo">Reserve</v-btn>
             </div>
@@ -69,7 +69,7 @@ import { toFixed } from "@/helpers/helper";
 export default {
    setup () {
     return {
-      validate$: useVuelidate()
+      validate: useVuelidate()
     }
   },
   validations () {
@@ -116,7 +116,7 @@ export default {
      return toFixed(val, decimal)
     },
     async goToReserveInfo(){
-      // const isFormCorrect = await this.validate$.$validate()
+      // const isFormCorrect = await this.validate.$validate()
       //  if (!isFormCorrect){
       //   this.$notify({
       //       type: "error",

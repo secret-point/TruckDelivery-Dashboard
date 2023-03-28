@@ -15,7 +15,7 @@
                 class="custom-input"
               />
               <span
-                  v-if="validate$.deliveryVal.company.$error"
+                  v-if="validate.deliveryVal.company.$error"
                   class="text-red text-caption font-weight-bold mr-5"
                   >*required</span
                 >
@@ -33,7 +33,7 @@
               >
               </GMapAutocomplete>
               <span
-                v-if="validate$.deliveryVal.address.$error"
+                v-if="validate.deliveryVal.address.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -58,7 +58,7 @@
                 class="custom-input"
               />
               <span
-                v-if="validate$.deliveryVal.city.$error"
+                v-if="validate.deliveryVal.city.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -72,7 +72,7 @@
                 class="custom-input"
               />
               <span
-                v-if="validate$.deliveryVal.state.$error"
+                v-if="validate.deliveryVal.state.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -86,7 +86,7 @@
                 class="custom-input"
               />
               <span
-                v-if="validate$.deliveryVal.zipCode.$error"
+                v-if="validate.deliveryVal.zipCode.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -164,7 +164,7 @@ import $ from 'jquery';
 export default {
   setup() {
     return {
-      validate$: useVuelidate(),
+      validate: useVuelidate(),
     };
   },
   validations() {

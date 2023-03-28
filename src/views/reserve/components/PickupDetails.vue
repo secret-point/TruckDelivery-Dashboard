@@ -14,7 +14,7 @@
                 class="custom-input"
               />
               <span
-                  v-if="validate$.pickVal.company.$error"
+                  v-if="validate.pickVal.company.$error"
                   class="text-red text-caption font-weight-bold mr-5"
                   >*required</span
                 >
@@ -34,7 +34,7 @@
                 </GMapAutocomplete>
                 <!-- :value="pickVal.address" -->
                 <span
-                  v-if="validate$.pickVal.address.$error"
+                  v-if="validate.pickVal.address.$error"
                   class="text-red text-caption font-weight-bold mr-5"
                   >*required</span
                 >
@@ -60,7 +60,7 @@
               >
               </GMapAutocomplete>
               <span
-                v-if="validate$.pickVal.address.$error"
+                v-if="validate.pickVal.address.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span -->
               <!-- > -->
@@ -81,7 +81,7 @@
                 class="custom-input"
               />
               <span
-                v-if="validate$.pickVal.city.$error"
+                v-if="validate.pickVal.city.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -95,7 +95,7 @@
                 class="custom-input"
               />
               <span
-                v-if="validate$.pickVal.state.$error"
+                v-if="validate.pickVal.state.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -109,7 +109,7 @@
                 class="custom-input"
               />
               <span
-                v-if="validate$.pickVal.zipCode.$error"
+                v-if="validate.pickVal.zipCode.$error"
                 class="text-red text-caption font-weight-bold mr-5"
                 >*required</span
               >
@@ -187,7 +187,7 @@ import $ from 'jquery';
 export default {
   setup() {
     return {
-      validate$: useVuelidate(),
+      validate: useVuelidate(),
     };
   },
   validations() {
