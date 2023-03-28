@@ -960,6 +960,21 @@
       </svg>
     </div>
 
+    <div class="d-flex justify-center mx-auto">
+      <p>
+        <span style="color: #3bc1f8; font-size: 18px; font-weight: 600">
+          Available in Los Angeles. Coming to more regions soon!
+        </span>
+      </p>
+    </div>
+    <div class="d-flex justify-center mx-auto mt-3">
+      <p>
+        <v-btn color="primary" @click="goToEarlyAccessForm"
+          >Get Early Access</v-btn
+        >
+      </p>
+    </div>
+
     <trucks-list
       :availableTrucks="searchData"
       :origin="originPlace?.place"
@@ -967,19 +982,6 @@
       :date="date"
     ></trucks-list>
     <notifications position="bottom right" />
-    <div class="d-flex justify-center mx-auto">
-      <p>
-        <span style="color: #3bc1f8; font-size: 18px; font-weight: 600;">  
-          Available in Los Angeles, More regions coming soon!
-        </span>
-      </p>
-
-    </div>
-    <div class="d-flex justify-center mx-auto mt-3">
-      <p>
-        <v-btn color="primary" @click="goToEarlyAccessForm">Get Early Access</v-btn>
-      </p>
-    </div>
   </div>
 </template>
 
@@ -1165,7 +1167,10 @@ export default {
     },
     goToEarlyAccessForm() {
       if (window) {
-        window.open('https://share.hsforms.com/1XSoJJaoGRE-g-iR7Fco-egcr74g', '_blank');
+        window.open(
+          "https://share.hsforms.com/1XSoJJaoGRE-g-iR7Fco-egcr74g",
+          "_blank"
+        );
       }
     },
   },
