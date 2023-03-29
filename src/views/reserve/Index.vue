@@ -187,12 +187,12 @@ export default {
       const pickUpDetails = this.createPayload(
         this.pickVal,
         this.info.pickUp,
-        "Shipper"
+        this.pickVal.company
       );
       const deliveryDetails = this.createPayload(
         this.deliveryVal,
         this.info.delivery,
-        "Receiver"
+        this.deliveryVal.company
       );
 
       // const miles = calculateDistance(
