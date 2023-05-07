@@ -43,7 +43,7 @@
             Previous
           </v-btn>
           <v-btn
-            :disabled="currentStep == 4"
+            :disabled="currentStep == 3"
             color="primary"
             @click.stop="navigateForward"
           >
@@ -83,7 +83,7 @@ export default {
         1: "Additional information",
         2: "Pickup details",
         3: "Delivery details",
-        4: "Payment details",
+        //4: "Payment details",
       };
 
       return labels[this.currentStep] ?? "";
@@ -101,7 +101,7 @@ export default {
         1: "AdditionalInformation",
         2: "PickupDetails",
         3: "DeliveryDetails",
-        4: "PaymentDetails",
+        // 4: "PaymentDetails",
       },
       currentStep: 1,
       pickVal: {},

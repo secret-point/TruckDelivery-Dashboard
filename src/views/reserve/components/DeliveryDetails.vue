@@ -150,6 +150,11 @@
         </div>
       </v-col>
     </v-row>
+    <!-- Temp solution put here to hide payment tab, which is not working. -->
+    <div class="mt-20px w-full flex flex-col">
+      <v-btn class="w-full" color="primary" @click="submit">Submit</v-btn>
+      <!-- <v-btn class="mt-10px self-end" color="primary" variant="text" @click="snackbar = true"> Cancel </v-btn>-->
+    </div>
   </div>
 </template>
 
@@ -230,6 +235,12 @@ export default {
     //     this.deliveryVal.latitude = latitude
     //     this.deliveryVal.longitude = longitude
     // },
+    submit(){
+      this.$emit('submit')
+    },
+    cancelReserve(){
+    this.$router.push({name: 'reserve'})
+    },
     setAddress(place) {
       if (!place) return;
       let address = place.formatted_address.split(", ").slice(0, -3).join(", ");
