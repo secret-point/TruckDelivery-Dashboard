@@ -16,7 +16,7 @@
                 variant="underlined"
               ></v-text-field>
             </v-col>
-            <v-col cols="6">
+            <!-- <v-col cols="6">
               <v-text-field
                 v-model="usdotNumber"
                 clearable
@@ -26,7 +26,7 @@
                 label="USDOT Number"
                 variant="underlined"
               ></v-text-field>
-            </v-col>
+            </v-col>-->
             <v-col cols="6">
               <v-text-field
                 v-model="email"
@@ -262,7 +262,7 @@ export default {
     async submit() {
       const payload = {
         business_name: this.businessName,
-        usdot_number: this.usdotNumber,
+        // usdot_number: this.usdotNumber,
         email: this.email,
         load_unique_id_started_from: this.loadUniqueIdStartedFrom,
         address: this.address,
@@ -274,7 +274,7 @@ export default {
         timezone: this.timeZone,
       };
       if (this.role != "carrier") {
-        if (this.companyType === "ba") {
+        if (this.companyType === "broker") { // TODO: should change this, company type should be broker or shipper, not ba.
           payload.companyType = "broker";
         } else {
           payload.companyType = "shipper";

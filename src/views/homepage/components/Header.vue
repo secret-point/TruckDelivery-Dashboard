@@ -37,7 +37,7 @@ export default {
       return false
     },
     showDashboard() {
-      const allowedRoles = ['ba', 'sa', 'broker', 'shipper'];
+      const allowedRoles = ['ba', 'sa', 'admin', 'broker', 'shipper'];
       const userRole = localStorage.getItem('user_role');
 
       return userRole && allowedRoles.includes(userRole)

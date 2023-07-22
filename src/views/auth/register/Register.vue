@@ -79,7 +79,7 @@ export default {
       firstName: "",
       lastName: "",
       password: "",
-      roles: config.roles,
+      roles: config.allowedRegisterRoles,
       role: "",
       rules: {
         required: (value) => !!value || "Required.",
@@ -93,10 +93,6 @@ export default {
       },
     };
   },
-  //  mounted(){
-  //   console.log(config)
-  //   this.roles = config.roles;
-  //  },
   methods: {
     submit() {
       const payload = {
@@ -114,8 +110,6 @@ export default {
           text: "Please select user role.",
         });
         return;
-      } else if (this.role != "carrier") {
-        payload.role = this.role;
       }
       this.$store
         .dispatch("auth/registerUserJWT", payload)
