@@ -1013,7 +1013,7 @@ export default {
         originColor: "#1877F2",
       },
       truckTypeIconsName: [
-        { title: "Van", icon: "van" },
+        { title: "53' Dry Van", icon: "van" },
         { title: "Reefer", icon: "reefer" },
         { title: "Flatbed", icon: "flatbed" },
         { title: "Step Deck", icon: "step_deck" },
