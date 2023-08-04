@@ -43,7 +43,7 @@
             Previous
           </v-btn>
           <v-btn
-            :disabled="currentStep == 3"
+            v-if="currentStep !== 3"
             color="primary"
             @click.stop="navigateForward"
           >
@@ -123,7 +123,9 @@ export default {
     },
 
     async navigateForward() {
-      const isFormCorrect = await this.$refs[this.currentComponent].validate.$validate();
+      const isFormCorrect = await this.$refs[
+        this.currentComponent
+      ].validate.$validate();
       if (!isFormCorrect) {
         this.$notify({
           type: "error",
