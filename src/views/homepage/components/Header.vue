@@ -6,8 +6,8 @@
     </div> -->
     <img src="@/assets/images/logo.svg" @click="$router.push('/')" />
     <div>
-      <ul class="d-flex align-center" style="list-style-type: none">
-        <!-- <li class="color-primary">How it works</li> -->
+      <ul class="d-flex align-center flex-wrap justify-end " style="list-style-type: none">
+        <li @click="goToHowItWorks">How it works</li>
         <li style="color: #9e9e9e" @click="goToLogin" v-if="!checkAccessToken">Login</li>
         <li v-if="!checkAccessToken">
           <!-- <v-btn color="primary" @click="goToRegister">Signup </v-btn> -->
@@ -62,6 +62,9 @@ export default {
       } else {
         window.location.href = `http://127.0.0.1:8000/login?access_token='${accessToken}'`;
       }
+    },
+    goToHowItWorks() {
+      this.$router.push('how-it-works')
     },
     logout(){
       this.$store

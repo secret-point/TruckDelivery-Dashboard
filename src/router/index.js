@@ -43,6 +43,11 @@ const router = createRouter({
       name: "reserve-info",
       component: () => import("../views/reserve/Index.vue"),
     },
+    {
+      path: "/how-it-works",
+      name: "how-it-works",
+      component: () => import("../views/howItWorks/Index.vue"),
+    },
   ],
 });
 
