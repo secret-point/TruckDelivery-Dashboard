@@ -23,6 +23,13 @@ const router = createRouter({
       component: () => import("../views/auth/register/Register.vue"),
     },
     {
+      path: "/forgot-password",
+      name: "forgot-password",
+      component: () =>
+        import("../views/auth/forgotPassword/ForgotPassword.vue"),
+    },
+
+    {
       path: "/setup-profile",
       name: "setup-profile",
       component: () =>
@@ -63,7 +70,6 @@ router.beforeEach(async (to, from, next) => {
         store.getters["auth/isLoggedIn"] === 1 &&
         localStorage.getItem("access_token") !== null
       ) {
-        console.log("access_token")
         await store.dispatch("auth/getLoggedInUserProfile");
       }
     }

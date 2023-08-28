@@ -25,6 +25,13 @@
             hint="Enter your password to access this website"
             counter
           ></v-text-field>
+          <div
+            class="w-100 text-end mb-10"
+            @click="$router.push({ name: 'forgot-password' })"
+          >
+            <a href="javascript:void(0)"> Forgot Password? </a>
+          </div>
+
           <v-btn color="primary" type="submit" class="w-100" rounded="lg"
             >Login
           </v-btn>

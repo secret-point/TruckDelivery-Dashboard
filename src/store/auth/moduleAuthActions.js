@@ -64,4 +64,9 @@ export default {
     const response = await axios.get('auth/user')
     commit('FETCH_USER', response.data.payload)
   },
+  
+  async forgotPassword({ commit }, payload) {
+    const response = await axios.post("auth/forget-password", payload);
+    return response.data.payload;
+  },
 };
