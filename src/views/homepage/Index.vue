@@ -1164,6 +1164,7 @@ export default {
           .post("truckpedia/available-trucks/search", payload)
           .then(({ data }) => {
             this.searchData = data.payload;
+            this.searchData.availableTrucks.sort((a, b)=> a.rate - b.rate);
             this.$notify({
               type: "success",
               title: "Success",
