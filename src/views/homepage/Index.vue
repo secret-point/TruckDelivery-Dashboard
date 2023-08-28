@@ -970,7 +970,7 @@
     <div class="d-flex justify-center mx-auto mt-3">
       <p>
         <v-btn color="primary" @click="goToEarlyAccessForm"
-          >Get Early Access</v-btn
+          >Join the waitlist</v-btn
         >
       </p>
     </div>
