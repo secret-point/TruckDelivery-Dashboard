@@ -61,7 +61,7 @@ const router = createRouter({
       component: () => import('../views/truckingDirectory/Index.vue'),
     },
     {
-      path: '/truckingDirectory/view-detail',
+      path: '/truckingDirectory/viewDetail',
       name: 'truckingDirectoryViewDetail',
       component: () => import('../views/truckingDirectory/ViewDetail.vue'),
     },
