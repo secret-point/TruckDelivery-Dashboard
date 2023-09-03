@@ -6,9 +6,15 @@
     </div> -->
     <img src="@/assets/images/logo.svg" @click="$router.push('/')" />
     <div>
-      <ul class="d-flex align-center flex-wrap justify-end " style="list-style-type: none">
+      <ul
+        class="d-flex align-center flex-wrap justify-end"
+        style="list-style-type: none"
+      >
+        <li @click="goToTruckingDirectory">Trucking Directory</li>
         <li @click="goToHowItWorks">How it works</li>
-        <li style="color: #9e9e9e" @click="goToLogin" v-if="!checkAccessToken">Login</li>
+        <li style="color: #9e9e9e" @click="goToLogin" v-if="!checkAccessToken">
+          Login
+        </li>
         <li v-if="!checkAccessToken">
           <!-- <v-btn color="primary" @click="goToRegister">Signup </v-btn> -->
           <v-btn color="primary" @click="goToEarlyAccessForm">Signup </v-btn>
@@ -18,7 +24,9 @@
           <v-btn color="primary" @click.stop="goToDashboard"> Dashboard </v-btn>
         </li>
         <li v-if="checkAccessToken">
-          <v-btn color="error" class="ml-3" variant="text" @click.stop="logout"> Logout </v-btn>
+          <v-btn color="error" class="ml-3" variant="text" @click.stop="logout">
+            Logout
+          </v-btn>
         </li>
       </ul>
     </div>
@@ -32,47 +40,51 @@ export default {
     checkAccessToken() {
       const token = localStorage.getItem('access_token');
       if (token) {
-        return true
+        return true;
       }
-      return false
+      return false;
     },
     showDashboard() {
       const allowedRoles = ['ba', 'sa', 'admin', 'broker', 'shipper'];
       const userRole = localStorage.getItem('user_role');
 
-      return userRole && allowedRoles.includes(userRole)
+      return userRole && allowedRoles.includes(userRole);
     },
   },
   methods: {
     goToLogin() {
-      this.$router.push('login')
+      this.$router.push('login');
     },
     goToRegister() {
-      this.$router.push('register')
+      this.$router.push('register');
     },
     goToEarlyAccessForm() {
       if (window) {
-        window.open('https://share.hsforms.com/1XSoJJaoGRE-g-iR7Fco-egcr74g', '_blank');
+        window.open(
+          'https://share.hsforms.com/1XSoJJaoGRE-g-iR7Fco-egcr74g',
+          '_blank'
+        );
       }
     },
     goToDashboard() {
-      const accessToken = localStorage.getItem("access_token");
-      if (!process.env.NODE_ENV || process.env.NODE_ENV !== "development") {
+      const accessToken = localStorage.getItem('access_token');
+      if (!process.env.NODE_ENV || process.env.NODE_ENV !== 'development') {
         window.location.href = `https://dashboard.truckpedia.io/login?access_token='${accessToken}'`;
       } else {
         window.location.href = `http://127.0.0.1:8000/login?access_token='${accessToken}'`;
       }
     },
     goToHowItWorks() {
-      this.$router.push('how-it-works')
+      this.$router.push('how-it-works');
     },
-    logout(){
-      this.$store
-        .dispatch('auth/logout')
+    goToTruckingDirectory() {
+      this.$router.push('truckingDirectory');
     },
-
-  }
-}
+    logout() {
+      this.$store.dispatch('auth/logout');
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -101,5 +113,9 @@ export default {
       cursor: pointer;
     }
   }
+}
+
+.color-gray {
+  color: #9e9e9e;
 }
 </style>
