@@ -28,6 +28,7 @@
             :is="currentComponent"
             @submit="reserveApi"
             @updateDetails="updateDetails"
+            @showContactUsMessage="showContactUsMessage"
           />
         </keep-alive>
 
@@ -43,7 +44,7 @@
             Previous
           </v-btn>
           <v-btn
-            v-if="currentStep !== 3"
+            v-if="currentStep !== 3 && !hideNextButtonOver100k"
             color="primary"
             @click.stop="navigateForward"
           >
@@ -107,10 +108,14 @@ export default {
       pickVal: {},
       deliveryVal: {},
       info: {},
+      hideNextButtonOver100k: false
     };
   },
 
   methods: {
+    showContactUsMessage(data){
+     this.hideNextButtonOver100k = data;
+    },
     updateDetails(payload) {
       // console.log("final-d-p==", payload);
       if (payload.type === "deliver") {

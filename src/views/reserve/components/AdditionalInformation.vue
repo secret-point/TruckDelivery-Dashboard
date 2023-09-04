@@ -10,9 +10,13 @@
         </ValidationProvider> -->
         <input
           name="info"
+          type="number"
           v-model="info.shipment"
           class="custom-input"
+          @input="checkShipmentValue"
         />
+        <p v-if="showContactUsMessage" class="text-red text-xs bold">Please contact us for shipment values over 100K.</p>
+
       </div>
       <div class="mt-10px w-full max-width-60-percent">
         <label class="text-sm">Item Description</label>
@@ -254,6 +258,7 @@ export default {
           stopTime: "",
         },
       },
+      showContactUsMessage: false
     };
   },
   watch: {
@@ -269,6 +274,15 @@ export default {
     },
   },
   methods:{
+    checkShipmentValue() {
+      const inputValue = parseFloat(this.info.shipment);
+      if (!isNaN(inputValue) && inputValue >= 100000) {
+        this.showContactUsMessage = true;
+      } else {
+        this.showContactUsMessage = false;
+      }
+      this.$emit("showContactUsMessage", this.showContactUsMessage);
+    },
     updateDate(event){
       this.$store.dispatch("truck/updateDate", event);
     }
