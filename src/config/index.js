@@ -10,7 +10,7 @@ const ProdConfig = {
   SERVICE_URL: 'https://dashboard.ezpapel.ai/api/',
   MIX_GOOGLE_MAP_API_KEY: 'AIzaSyBSWgph_L-xkYyn9R--oUNQ7ze2cIBrXds',
   IS_PROD: true,
-  NODE_SERVER_URL: 'https://api23.ezpapel.ai/api/',
+  NODE_SERVER_URL: 'https://api23.ezpapel.com/api/',
 };
 
 /* Decide config values based upon build type: Debug/Release */
